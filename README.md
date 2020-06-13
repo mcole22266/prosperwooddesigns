@@ -1,5 +1,7 @@
 # Website for Prosper Wood Designs
 
+---
+
 ## Developer Information
 
 - Project Owner & Developer
