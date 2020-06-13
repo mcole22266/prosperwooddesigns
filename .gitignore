@@ -1,3 +1,11 @@
+# Michael Cole
+# .gitignore
+#
+# Removes unecessary files from git's eyes
+# ----------------------------------------
+
+
+# ----- Automated by Github -----
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
