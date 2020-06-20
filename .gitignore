@@ -3,7 +3,7 @@
 #
 # Removes unecessary files from git's eyes
 # ----------------------------------------
-.jpeg
+*.jpeg
 
 
 # ----- Automated by Github -----
