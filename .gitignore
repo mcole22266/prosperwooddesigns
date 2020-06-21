@@ -3,8 +3,10 @@
 #
 # Removes unecessary files from git's eyes
 # ----------------------------------------
-*.jpeg
 
+# My Custom ignores
+*.jpeg
+.vscode
 
 # ----- Automated by Github -----
 # Byte-compiled / optimized / DLL files

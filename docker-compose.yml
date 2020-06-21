@@ -1,0 +1,21 @@
+# docker-compose.yml
+# Michael Cole
+# 
+# -Development- Docker Compose file
+# ----------------------------------
+
+version: '3'
+
+services:
+
+  app:
+    container_name: app
+    build: 
+      context: ./prosperwooddesigns
+      dockerfile: app.dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./prosperwooddesigns:/prosperwooddesigns"
+    env_file:
+      - ./prosperwooddesigns.env
