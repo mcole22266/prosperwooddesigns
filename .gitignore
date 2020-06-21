@@ -3,6 +3,8 @@
 #
 # Removes unecessary files from git's eyes
 # ----------------------------------------
+
+# My Custom ignores
 *.jpeg
 
 

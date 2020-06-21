@@ -1,3 +1,9 @@
+# wsgi.py
+# Michael Cole
+#
+# Execution of create_app following App Factory Pattern
+# -----------------------------------------------------
+
 from ./prosperwooddesigns import create_app
 
 app = create_app()

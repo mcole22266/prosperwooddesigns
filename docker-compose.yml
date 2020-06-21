@@ -1,8 +1,15 @@
+# docker-compose.yml
+# Michael Cole
+# 
+# -Development- Docker Compose file
+# ----------------------------------
+
 version: '3'
 
 services:
 
   app:
+    container_name: app
     build: 
       context: ./prosperwooddesigns
       dockerfile: app.dockerfile

@@ -1,1 +1,7 @@
-flask
+# requirements.txt
+# Michael Cole
+#
+# dependencies for Python container
+# ---------------------------------
+
+flask==1.1.2
