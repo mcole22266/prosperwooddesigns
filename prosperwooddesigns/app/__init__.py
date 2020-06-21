@@ -10,6 +10,7 @@ from .routes import Routes
 
 routes = Routes()
 
+
 def create_app():
     '''
     Creates a complete Flask app
@@ -18,6 +19,7 @@ def create_app():
         Flask App
     '''
     app = Flask(__name__, instance_relative_config=False)
+    app.config.from_object('config.ConfigDev')
 
     with app.app_context():
 

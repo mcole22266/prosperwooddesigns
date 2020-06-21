@@ -4,11 +4,11 @@
 # Location of all app routing
 # ---------------------------
 
-import flask 
 
 class Routes:
     '''
-    Routes object initializes a Flask app object in order to define all available routes
+    Routes object initializes a Flask app object in order to define all
+    available routes
 
     Use:
         routes = Routes()
