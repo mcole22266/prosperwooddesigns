@@ -8,5 +8,7 @@ services:
       dockerfile: app.dockerfile
     ports:
       - "5000:5000"
+    volumes:
+      - "./prosperwooddesigns:/prosperwooddesigns"
     env_file:
       - ./prosperwooddesigns.env
