@@ -1,9 +1,7 @@
 FROM python:3.7.5-slim
+LABEL maintainer="Michael Cole <mcole042891.prof.dev@gmail.com>"
 
 WORKDIR /prosperwooddesigns
-
-ENV FLASK_APP app.py
-ENV FLASK_RUN_HOST 0.0.0.0 
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
