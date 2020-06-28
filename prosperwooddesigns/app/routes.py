@@ -28,7 +28,7 @@ class Routes:
             Routes the user to the Landing Page of the website
             '''
             return render_template('index.html',
-                                   title='Index Page')
+                                   title='Home')
 
         @app.route('/about')
         def about():
@@ -36,7 +36,7 @@ class Routes:
             Routes the user to the About Page of the website
             '''
             return render_template('about.html',
-                                   title='About Page')
+                                   title='About')
 
         @app.route('/designs')
         def designs():
@@ -44,7 +44,7 @@ class Routes:
             Routes the user to the Designs Page of the website
             '''
             return render_template('designs.html',
-                                   title='Design Page')
+                                   title='Designs')
 
         @app.route('/order')
         def order():
@@ -52,7 +52,7 @@ class Routes:
             Routes the user to the Order Form of the website
             '''
             return render_template('order.html',
-                                   title='Order Form Page')
+                                   title='Order Form')
 
         @app.route('/admin')
         def admin():
@@ -60,4 +60,4 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             return render_template('admin.html',
-                                   title='Admin Page')
+                                   title='Admin')
