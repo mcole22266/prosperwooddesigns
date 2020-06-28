@@ -4,6 +4,8 @@
 # Location of all app routing
 # ---------------------------
 
+from flask import render_template
+
 
 class Routes:
     '''
@@ -25,7 +27,7 @@ class Routes:
             '''
             Routes the user to the Landing Page of the website
             '''
-            return 'Hello World'
+            return render_template('index.html')
 
         @app.route('/about')
         def about():

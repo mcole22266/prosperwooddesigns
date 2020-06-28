@@ -18,7 +18,9 @@ def create_app():
     Returns:
         Flask App
     '''
-    app = Flask(__name__, instance_relative_config=False)
+    app = Flask(__name__, instance_relative_config=False,
+                template_folder='./templates',
+                static_folder='./static')
     app.config.from_object('config.ConfigDev')
 
     with app.app_context():
