@@ -7,3 +7,8 @@ Custom CSS to overwrite any bootstrap CSS */
     height: 5rem;
     width: 5rem;
 }
+
+/* Background color is temporary during design */
+body {
+    background-color: gray;
+}

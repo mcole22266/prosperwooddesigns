@@ -3,12 +3,12 @@ Michael Cole
 
 Dark version of the navbar to be used on pages where the navbar is not opaque -->
 
-<nav class="navbar navbar-dark bg-dark navbar-expand-md">
+<nav class="navbar navbar-dark {% if title!='Home' and title!='About' %}bg-dark{% endif %} navbar-expand-md">
 
     <!-- Brand Logo - aligned-left -->
     <a href="/" class="navbar-brand">
         <img src="../static/images/logo_white.png" alt="Prosper Wood Designs Logo"
-             class="navbar-logo">
+             class="navbar-logo" {% if title=='Home' or title=='About' %}style="opacity: 0;"{% endif %}>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
