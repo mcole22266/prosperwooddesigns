@@ -1,0 +1,14 @@
+/* custom.css
+Michael Cole
+
+Custom CSS to overwrite any bootstrap CSS */
+
+.navbar-logo {
+    height: 5rem;
+    width: 5rem;
+}
+
+/* Background color is temporary during design */
+body {
+    background-color: gray;
+}
