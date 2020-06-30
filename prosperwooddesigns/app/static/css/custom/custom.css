@@ -8,6 +8,25 @@ Custom CSS to overwrite any bootstrap CSS */
     width: 5rem;
 }
 
+.business-card-logo {
+    width: 80%;
+    align-self: center;
+}
+
+.business-card {
+    margin: auto;
+    width: 18rem;
+    border-width: 2px;
+}
+
+.business-card-container {
+    background: linear-gradient(to bottom, gray 60%, #343a40 40%);
+}
+
+.business-card-button {
+    float: right;
+}
+
 /* Background color is temporary during design */
 body {
     background-color: gray;
