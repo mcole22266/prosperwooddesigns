@@ -10,10 +10,35 @@ Content for the landing page -->
 
     {% include './navbar.html' %}
 
-    <div class="container">
+    <div>
         <h1>Landing Page</h1>
     </div>
 
 </div>
+
+<div class="container page-content">
+
+    <div class="row justify-content-around align-items-center text-center">
+        <div class="col-md-4">
+            <img src="../static/images/cornhole_football00.jpeg" alt="" style="width: 15rem;">
+            <p>image title</p>
+        </div>
+        <div class="col-md-4 offset-md-4">
+            <p>image description</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-around align-items-center text-center">
+        <div class="col-md-4">
+            <p>image description</p>
+        </div>
+        <div class="col-md-4 offset-md-4">
+            <img src="../static/images/cornhole_football00.jpeg" alt="" style="width: 15rem;">
+            <p>image title</p>
+        </div>
+    </div>
+
+</div>
+
 
 {% endblock body %}
