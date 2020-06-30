@@ -8,6 +8,14 @@ Custom CSS to overwrite any bootstrap CSS */
     width: 5rem;
 }
 
+.fullscreen-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('../../images/landingpage.jpg');
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+
 .business-card-logo {
     width: 80%;
     align-self: center;
