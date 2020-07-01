@@ -16,6 +16,20 @@ Custom CSS to overwrite any bootstrap CSS */
     background-size: cover;
 }
 
+.landing-logo {
+    width: 60%;
+    height: auto;
+}
+
+.landing-content h4 {
+    color: white;
+}
+
+.carousel {
+    width: 60%;
+    height: auto;
+}
+
 .business-card-logo {
     width: 80%;
     align-self: center;
@@ -28,7 +42,7 @@ Custom CSS to overwrite any bootstrap CSS */
 }
 
 .business-card-container {
-    background: linear-gradient(to bottom, gray 60%, #343a40 40%);
+    background: linear-gradient(to bottom, #cccccc 60%, #343a40 40%);
 }
 
 .business-card-button {
@@ -37,5 +51,5 @@ Custom CSS to overwrite any bootstrap CSS */
 
 /* Background color is temporary during design */
 body {
-    background-color: gray;
+    background-color: #cccccc;
 }
