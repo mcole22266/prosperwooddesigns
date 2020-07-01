@@ -1,0 +1,55 @@
+/* custom.css
+Michael Cole
+
+Custom CSS to overwrite any bootstrap CSS */
+
+.navbar-logo {
+    height: 5rem;
+    width: 5rem;
+}
+
+.fullscreen-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('../../images/landingpage.jpg');
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+
+.landing-logo {
+    width: 60%;
+    height: auto;
+}
+
+.landing-content h4 {
+    color: white;
+}
+
+.carousel {
+    width: 60%;
+    height: auto;
+}
+
+.business-card-logo {
+    width: 80%;
+    align-self: center;
+}
+
+.business-card {
+    margin: auto;
+    width: 18rem;
+    border-width: 2px;
+}
+
+.business-card-container {
+    background: linear-gradient(to bottom, #cccccc 60%, #343a40 40%);
+}
+
+.business-card-button {
+    float: right;
+}
+
+/* Background color is temporary during design */
+body {
+    background-color: #cccccc;
+}

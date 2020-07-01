@@ -1,0 +1,15 @@
+<!-- layout.html
+Michael Cole
+
+Contains structure for general layout of pages -->
+
+{% include './meta.html' %}
+
+{% if title != 'Home' and title != 'About' %}
+    {% include './navbar.html' %}
+{% endif %}
+{% block body %}{% endblock %}
+{% include './footer.html' %}
+
+{% include './styles.html' %}
+{% include './scripts.html' %}
