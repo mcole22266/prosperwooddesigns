@@ -21,8 +21,9 @@ Custom CSS to overwrite any bootstrap CSS */
     height: auto;
 }
 
-.landing-content h4 {
+.landing-content {
     color: white;
+    vertical-align: center;
 }
 
 .carousel {
