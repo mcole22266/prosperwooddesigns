@@ -6,8 +6,14 @@ Content for the landing page -->
 
 {% block body %}
 
-    <div class="container">
-        <h1>Order Form</h1>
+    <div class="container page-content">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <h1>Order Form</h1>
+
+                {% include 'forms/OrderForm.html' %}
+            </div>
+        </div>
     </div>
 
 {% endblock body %}
