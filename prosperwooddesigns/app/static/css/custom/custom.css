@@ -41,6 +41,10 @@ Custom CSS to overwrite any bootstrap CSS */
     height: auto;
 }
 
+.highlighted-designs-deck {
+    margin-bottom: 2rem;
+}
+
 .business-card-logo {
     min-height: 10rem;
     max-height: 15rem;
