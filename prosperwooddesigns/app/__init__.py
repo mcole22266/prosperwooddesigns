@@ -6,9 +6,12 @@
 
 from flask import Flask
 
+from flask_wtf.csrf import CSRFProtect
+
 from .routes import Routes
 
 routes = Routes()
+csrf = CSRFProtect()
 
 
 def create_app():
@@ -26,5 +29,6 @@ def create_app():
     with app.app_context():
 
         routes.init(app)
+        csrf.init_app(app)
 
         return app
