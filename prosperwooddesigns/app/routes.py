@@ -59,6 +59,19 @@ class Routes:
                                    title='Order Form',
                                    orderform=orderform)
 
+        @app.route('/contact')
+        def contact():
+            '''
+            Routes the user to the Contact Form of the website
+            '''
+            from .forms import ContactForm
+            contactform = ContactForm()
+            if contactform.validate_on_submit():
+                return redirect('contact')
+            return render_template('contact.html',
+                                   title='Contact Form',
+                                   contactform=contactform)
+
         @app.route('/admin')
         def admin():
             '''
