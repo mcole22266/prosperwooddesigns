@@ -4,7 +4,7 @@
 # Location of all app routing
 # ---------------------------
 
-from flask import render_template
+from flask import redirect, render_template
 
 
 class Routes:
@@ -51,8 +51,13 @@ class Routes:
             '''
             Routes the user to the Order Form of the website
             '''
+            from .forms import OrderForm
+            orderform = OrderForm()
+            if orderform.validate_on_submit():
+                return redirect('order')
             return render_template('order.html',
-                                   title='Order Form')
+                                   title='Order Form',
+                                   orderform=orderform)
 
         @app.route('/admin')
         def admin():
