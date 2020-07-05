@@ -41,6 +41,10 @@ Custom CSS to overwrite any bootstrap CSS */
     height: auto;
 }
 
+.highlighted-designs-deck {
+    margin-bottom: 2rem;
+}
+
 .business-card-logo {
     min-height: 10rem;
     max-height: 15rem;
@@ -69,7 +73,7 @@ Custom CSS to overwrite any bootstrap CSS */
 }
 
 .content-h3 {
-    margin-bottom: 2rem
+    margin-bottom: 2rem;
 }
 
 .content-p {
@@ -117,4 +121,5 @@ Custom CSS to overwrite any bootstrap CSS */
 
 body {
     background-color: #cccccc;
+    font-family: 'Titillium Web', sans-serif;
 }
