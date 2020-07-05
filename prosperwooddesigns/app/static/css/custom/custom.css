@@ -32,13 +32,17 @@ Custom CSS to overwrite any bootstrap CSS */
 }
 
 .business-card-logo {
-    width: 80%;
+    min-height: 10rem;
+    max-height: 15rem;
+    width: auto;
     align-self: center;
 }
 
 .business-card {
     margin: auto;
-    width: 18rem;
+    min-height: 25rem;
+    width: auto;
+    max-width: 40rem;
     border-width: 2px;
 }
 
