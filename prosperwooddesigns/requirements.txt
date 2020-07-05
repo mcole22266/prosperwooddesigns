@@ -1,0 +1,8 @@
+# requirements.txt
+# Michael Cole
+#
+# dependencies for Python container
+# ---------------------------------
+
+flask==1.1.2
+flask-wtf==0.14.3

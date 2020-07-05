@@ -1,0 +1,20 @@
+<!-- contact.html
+Michael Cole
+
+The Contact Page for users to send an automated email to the owner -->
+
+{% extends 'layout.html' %}
+
+{% block body %}
+
+    <div class="container page-content form-content">
+        <div class="row align-items-center">
+            <div class="col-md-12">
+                <h1 id="contactus">Contact Us</h1>
+
+                {% include 'forms/ContactForm.html' %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

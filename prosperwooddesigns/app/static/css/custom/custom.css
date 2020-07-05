@@ -1,0 +1,125 @@
+/* custom.css
+Michael Cole
+
+Custom CSS to overwrite any bootstrap CSS */
+
+.navbar-logo {
+    height: 5rem;
+    width: 5rem;
+}
+
+.fullscreen-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('../../images/landingpage.jpg');
+    height: 100vh;
+    background-position: center;
+    background-size: cover;
+}
+
+.landing-logo {
+    width: 60%;
+    height: auto;
+}
+
+.landing-content {
+    color: white;
+    vertical-align: center;
+}
+
+.landing-tag {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+}
+
+.page-content {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.carousel {
+    width: 60%;
+    height: auto;
+}
+
+.highlighted-designs-deck {
+    margin-bottom: 2rem;
+}
+
+.business-card-logo {
+    min-height: 10rem;
+    max-height: 15rem;
+    width: auto;
+    align-self: center;
+}
+
+.business-card {
+    margin: auto;
+    min-height: 25rem;
+    width: auto;
+    max-width: 40rem;
+    border-width: 2px;
+}
+
+.business-card-container {
+    background: linear-gradient(to bottom, #cccccc 60%, #343a40 40%);
+}
+
+.business-card-button {
+    float: right;
+}
+
+.content-h1 {
+    margin-bottom: 4rem;
+}
+
+.content-h3 {
+    margin-bottom: 2rem;
+}
+
+.content-p {
+    margin-bottom: 2rem;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+.form-content {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.gallery-container {
+    background-color: black;
+    border-bottom: 0.5rem solid black;
+}
+
+.gallery-row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+.gallery-column {
+    flex: 25%;
+    max-width: 25%;
+    padding: 0 4px;
+}
+
+.gallery-column img {
+    margin-top: 8px;
+    vertical-align: middle;
+    width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+    .gallery-column {
+        flex: 100%;
+        max-width: 100%;
+    }
+}
+
+body {
+    background-color: #cccccc;
+    font-family: 'Titillium Web', sans-serif;
+}
