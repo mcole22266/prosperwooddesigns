@@ -33,8 +33,29 @@ class OrderForm(FlaskForm):
         DataRequired()
     ])
 
-    description = TextAreaField("Tell me what you're looking for!", validators=[
+    description = TextAreaField("Tell me what you're looking for!",
+                                validators=[DataRequired()]
+                                )
+
+    submit = SubmitField('Request')
+
+
+class ContactForm(FlaskForm):
+    '''
+    Contact Form for users to communicate with the owner without
+    requesting a design
+    '''
+
+    name = StringField('Name', validators=[
         DataRequired()
     ])
 
-    submit = SubmitField('Request')
+    email = StringField('Email', validators=[
+        DataRequired()
+    ])
+
+    content = TextAreaField('Content', validators=[
+        DataRequired()
+    ])
+
+    submit = SubmitField('Send')
