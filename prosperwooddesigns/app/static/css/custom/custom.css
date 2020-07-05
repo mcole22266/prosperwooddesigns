@@ -26,6 +26,16 @@ Custom CSS to overwrite any bootstrap CSS */
     vertical-align: center;
 }
 
+.landing-tag {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+}
+
+.page-content {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
 .carousel {
     width: 60%;
     height: auto;
@@ -52,6 +62,10 @@ Custom CSS to overwrite any bootstrap CSS */
 
 .business-card-button {
     float: right;
+}
+
+.highlighted-designs-deck {
+    margin-bottom: 3rem;
 }
 
 .gallery-row {
