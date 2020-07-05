@@ -64,8 +64,30 @@ Custom CSS to overwrite any bootstrap CSS */
     float: right;
 }
 
-.highlighted-designs-deck {
-    margin-bottom: 3rem;
+.content-h1 {
+    margin-bottom: 4rem;
+}
+
+.content-h3 {
+    margin-bottom: 2rem
+}
+
+.content-p {
+    margin-bottom: 2rem;
+}
+
+.btn-link:hover {
+    text-decoration: none;
+}
+
+.form-content {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.gallery-container {
+    background-color: black;
+    border-bottom: 0.5rem solid black;
 }
 
 .gallery-row {
