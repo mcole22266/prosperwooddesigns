@@ -8,7 +8,9 @@ Contains structure for general layout of pages -->
 {% if title != 'Home' and title != 'About' %}
     {% include './navbar.html' %}
 {% endif %}
+
 {% block body %}{% endblock %}
+
 {% include './footer.html' %}
 
 {% include './styles.html' %}
