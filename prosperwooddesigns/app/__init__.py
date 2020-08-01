@@ -4,6 +4,7 @@
 # App Factory Pattern implementation of create_app
 # ------------------------------------------------
 
+import os
 from flask import Flask
 
 from flask_wtf.csrf import CSRFProtect
@@ -28,10 +29,14 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False,
                 template_folder='./templates',
                 static_folder='./static')
-    app.config.from_object('config.ConfigDev')
-
-    logger.log('Importing remote image files from S3')
-    s3Conn.downloadImages()
+    if os.environ['FLASK_ENV'] == 'development':
+        app.config.from_object('config.ConfigDev')
+    else:
+        # TODO: Change below config to ConfigProd
+        app.config.from_object('config.ConfigDev')
+        # Only download images from S3 if NOT in dev mode
+        logger.log('Importing remote image files from S3')
+        s3Conn.downloadImages()
 
     with app.app_context():
 
