@@ -30,13 +30,14 @@ class Routes:
             return render_template('index.html',
                                    title='Home')
 
-        @app.route('/about')
-        def about():
-            '''
-            Routes the user to the About Page of the website
-            '''
-            return render_template('about.html',
-                                   title='About')
+        # CURRENTLY TABLED PENDING CLIENT'S THOUGHTS
+        # @app.route('/about')
+        # def about():
+        #     '''
+        #     Routes the user to the About Page of the website
+        #     '''
+        #     return render_template('about.html',
+        #                            title='About')
 
         @app.route('/designs')
         def designs():
