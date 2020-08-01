@@ -17,3 +17,7 @@ class ConfigDev:
     FLASK_APP = environ['FLASK_APP']
     FLASK_RUN_HOST = environ['FLASK_RUN_HOST']
     SECRET_KEY = urandom(16)
+
+    # AWS Settings
+    AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']

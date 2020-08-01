@@ -19,3 +19,4 @@ services:
       - "./prosperwooddesigns:/prosperwooddesigns"
     env_file:
       - ./prosperwooddesigns.env
+      - ./prosperwooddesigns.secrets.env
