@@ -7,6 +7,7 @@
 # My Custom ignores
 *.jpeg
 .vscode
+*secrets.env
 
 # ----- Automated by Github -----
 # Byte-compiled / optimized / DLL files
