@@ -47,18 +47,18 @@ class Routes:
             return render_template('designs.html',
                                    title='Designs')
 
-        @app.route('/order')
-        def order():
+        @app.route('/request')
+        def request():
             '''
-            Routes the user to the Order Form of the website
+            Routes the user to the Request Form of the website
             '''
-            from .forms import OrderForm
-            orderform = OrderForm()
-            if orderform.validate_on_submit():
-                return redirect('order')
-            return render_template('order.html',
-                                   title='Order Form',
-                                   orderform=orderform)
+            from .forms import RequestForm
+            requestform = RequestForm()
+            if requestform.validate_on_submit():
+                return redirect('request')
+            return render_template('request.html',
+                                   title='Request Form',
+                                   requestform=requestform)
 
         @app.route('/contact')
         def contact():
