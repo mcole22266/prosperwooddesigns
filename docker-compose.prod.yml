@@ -1,7 +1,7 @@
-# docker-compose.yml
+# docker-compose.prod.yml
 # Michael Cole
 # 
-# -Development- Docker Compose file
+# -Production- Docker Compose file
 # ----------------------------------
 
 version: '3'
@@ -13,12 +13,11 @@ services:
     build: 
       context: ./prosperwooddesigns
       dockerfile: app.dockerfile
+    command: gunicorn --bind 0.0.0.0:5000 wsgi:app
     ports:
       - "5000:5000"
-    volumes:
-      - "./prosperwooddesigns:/prosperwooddesigns"
     env_file:
       - ./prosperwooddesigns.env
       - ./prosperwooddesigns.secrets.env
     environment:
-      - FLASK_ENV=development
+      - FLASK_ENV=production
