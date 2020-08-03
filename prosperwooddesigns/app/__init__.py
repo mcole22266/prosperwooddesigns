@@ -4,7 +4,6 @@
 # App Factory Pattern implementation of create_app
 # ------------------------------------------------
 
-import os
 from flask import Flask
 
 from flask_wtf.csrf import CSRFProtect
@@ -29,12 +28,19 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False,
                 template_folder='./templates',
                 static_folder='./static')
-    if os.environ['FLASK_ENV'] == 'development':
+    # configure app with base vars
+    app.config.from_object('config.ConfigBase')
+
+    if app.config['FLASK_ENV'] == 'development':
+        # config app with dev config
         app.config.from_object('config.ConfigDev')
-    else:
-        # TODO: Change below config to ConfigProd
-        app.config.from_object('config.ConfigDev')
-        # Only download images from S3 if NOT in dev mode
+    elif app.config['FLASK_ENV'] == 'production':
+        # config app with prod config
+        app.config.from_object('config.ConfigProd')
+
+    if app.config['AWS_DOWNLOAD_IMAGES']:
+        # by default, will only download images on startup
+        # if in production
         logger.log('Importing remote image files from S3')
         s3Conn.downloadImages()
 

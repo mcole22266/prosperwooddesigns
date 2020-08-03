@@ -5,7 +5,9 @@
 # ----------------------------------------
 
 # My Custom ignores
+*.jpg
 *.jpeg
+*.png
 .vscode
 *secrets.env
 

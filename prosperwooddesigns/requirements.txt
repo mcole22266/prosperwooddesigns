@@ -9,4 +9,4 @@ boto3==1.14.33      # AWS package
 flask==1.1.2        # base flask package
 flask-wtf==0.14.3   # flask forms for simplifying forms
 
-gunicorn==20.0.4  # wsgi server for production
+gunicorn==20.0.4    # wsgi server for production
