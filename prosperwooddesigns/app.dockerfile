@@ -17,8 +17,9 @@ RUN ./awscli-bundle/install
 RUN rm awscli-bundle.zip
 RUN rm -rf awscli-bundle
 
-# set up working directory
+# set up working directory and images folder
 WORKDIR /prosperwooddesigns
+RUN TOUCH /prosperwooddesigns/app/static/images
 
 # install all python packages
 COPY requirements.txt requirements.txt
