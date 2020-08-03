@@ -1,10 +1,10 @@
 # wsgi.py
 # Michael Cole
 #
-# Execution of create_app following App Factory Pattern
+# Production WSGI Server to be used by Gunicorn
 # -----------------------------------------------------
 
-from .prosperwooddesigns import create_app
+from app import create_app
 
 app = create_app()
 
