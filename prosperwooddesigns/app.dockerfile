@@ -17,14 +17,14 @@ RUN ./awscli-bundle/install
 RUN rm awscli-bundle.zip
 RUN rm -rf awscli-bundle
 
-# set up working directory and images folder
+# set up working directory
 WORKDIR /prosperwooddesigns
-RUN mkdir /prosperwooddesigns/app/static/images
 
 # install all python packages
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-# copy all files and run app
+# copy all files, make image directory, and run app
 COPY . .
+RUN mkdir /prosperwooddesigns/app/static/images
 CMD ["flask", "run"]
