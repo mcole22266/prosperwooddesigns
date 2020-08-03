@@ -4,6 +4,9 @@
 # Removes unecessary files from git's eyes
 # ----------------------------------------
 
+# My Custom ignores
+*.jpeg
+.vscode
 
 # ----- Automated by Github -----
 # Byte-compiled / optimized / DLL files
