@@ -31,6 +31,10 @@ Custom CSS to overwrite any bootstrap CSS */
     padding-bottom: 3rem;
 }
 
+.mission-statement p {
+    font-size: larger;
+}
+
 .page-content {
     padding-top: 3rem;
     padding-bottom: 3rem;

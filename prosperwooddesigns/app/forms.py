@@ -10,25 +10,25 @@ from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
 
-class OrderForm(FlaskForm):
+class RequestForm(FlaskForm):
     '''
-    An order form for users to request a custom design.
+    A request form for users to request a custom design.
     '''
 
-    email = EmailField('Email', validators=[
+    email = EmailField('Your Email', validators=[
         DataRequired()
     ])
 
-    phone = StringField('Phone Number', validators=[
+    phone = StringField('Your Phone Number', validators=[
         DataRequired()
     ])
 
-    name = StringField('Name', validators=[
+    name = StringField('Your Name', validators=[
         DataRequired()
     ])
 
-    contact_method = SelectField('Preferred Contact Method', choices=[
-        (None, 'No Preference'), ('email', 'Email'), ('phone', 'Phone')
+    contact_method = SelectField('Your Preferred Contact Method', choices=[
+        ('phone', 'Phone'), ('email', 'Email'), (None, 'No Preference')
     ], validators=[
         DataRequired()
     ])
@@ -46,15 +46,15 @@ class ContactForm(FlaskForm):
     requesting a design
     '''
 
-    name = StringField('Name', validators=[
+    name = StringField('Your Name', validators=[
         DataRequired()
     ])
 
-    email = StringField('Email', validators=[
+    email = StringField('Your Email', validators=[
         DataRequired()
     ])
 
-    content = TextAreaField('Content', validators=[
+    content = TextAreaField('Question', validators=[
         DataRequired()
     ])
 
