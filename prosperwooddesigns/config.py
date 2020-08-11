@@ -21,12 +21,13 @@ class ConfigBase:
     # Postgres Config
     POSTGRES_USER = environ['POSTGRES_USER']
     POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
+    POSTGRES_DB = environ['POSTGRES_DB']
 
     # Flask SQLAlchemy Config
     SQLALCHEMY_TRACK_MODIFICATIONS = environ['SQLALCHEMY_TRACK_MODIFICATIONS']
     SQLALCHEMY_DATABASE_URI = (
         f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}'
-        '@db:5432/{POSTGRES_DB}'
+        f'@db:5432/{POSTGRES_DB}'
         )
 
     # AWS Config
@@ -43,7 +44,7 @@ class ConfigDev:
     '''
 
     # SQLAlchemy Config
-    SQLALCHEMY_ECHO = environ['SQLALCHEMY_ECHO_DEV']
+    SQLALCHEMY_ECHO = False
 
     # AWS Config
     AWS_DOWNLOAD_IMAGES = False
@@ -55,7 +56,7 @@ class ConfigProd:
     '''
 
     # SQLAlchemy Config
-    SQLALCHEMY_ECHO = environ['SQLALCHEMY_ECHO_PROD']
+    SQLALCHEMY_ECHO = False
 
     # AWS Config
     AWS_DOWNLOAD_IMAGES = True
