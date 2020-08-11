@@ -21,10 +21,11 @@ RUN rm -rf awscli-bundle
 WORKDIR /prosperwooddesigns
 
 # install all python packages
+RUN pip install --upgrade pip
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 # copy all files, make image directory, and run app
 COPY . .
-RUN mkdir /prosperwooddesigns/app/static/images
+RUN mkdir -p /prosperwooddesigns/app/static/images
 CMD ["flask", "run"]

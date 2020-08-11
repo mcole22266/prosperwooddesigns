@@ -5,14 +5,15 @@
 # ------------------------------------------------
 
 from flask import Flask
-
 from flask_wtf.csrf import CSRFProtect
+from flask_sqlalchemy import SQLAlchemy
 
 from .routes import Routes
 from .extensions import Logger, S3Connecter
 
-routes = Routes()
 csrf = CSRFProtect()
+db = SQLAlchemy()
+routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
 
@@ -43,6 +44,9 @@ def create_app():
         # if in production
         logger.log('Importing remote image files from S3')
         s3Conn.downloadImages()
+
+    logger.log('Initializing DB')
+    db.init_app(app)
 
     with app.app_context():
 

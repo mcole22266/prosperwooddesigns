@@ -22,3 +22,17 @@ services:
       - ./prosperwooddesigns.secrets.env
     environment:
       - FLASK_ENV=development
+    depends_on: 
+      - postgres
+
+  postgres:
+    container_name: db
+    image: postgres:13-alpine
+    env_file:
+      - ./prosperwooddesigns.env
+      - ./prosperwooddesigns.secrets.env
+    volumes:
+      - data_dev:/var/lib/postgresql/data/
+
+volumes:
+  data_dev:
