@@ -6,13 +6,12 @@
 
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-from flask_sqlalchemy import SQLAlchemy
 
 from .routes import Routes
+from .models import db
 from .extensions import Logger, S3Connecter
 
 csrf = CSRFProtect()
-db = SQLAlchemy()
 routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
@@ -54,5 +53,9 @@ def create_app():
         routes.init(app)
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
+        logger.log('Creating all tables in db')
+        db.create_all()
+        db.session.commit()
 
+        logger.log('App created')
         return app
