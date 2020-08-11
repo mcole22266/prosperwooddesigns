@@ -13,6 +13,7 @@ services:
     build: 
       context: ./prosperwooddesigns
       dockerfile: app.dockerfile
+    restart: always
     command: gunicorn --bind 0.0.0.0:5000 wsgi:app
     expose:
       - 5000
@@ -21,13 +22,30 @@ services:
       - ./prosperwooddesigns.secrets.env
     environment:
       - FLASK_ENV=production
+    depends_on: 
+      - postgres
+
+  postgres:
+    container_name: db
+    image: postgres:13-alpine
+    restart: always
+    env_file:
+      - ./prosperwooddesigns.env
+      - ./prosperwooddesigns.secrets.env
+    volumes:
+      - data_prod:/var/lib/postgresql/data/
 
   nginx:
     container_name: server
     build:
       context: ./nginx
       dockerfile: nginx.dockerfile
+    restart: always
     ports:
       - "80:80"
     depends_on: 
       - flask
+      - postgres
+
+volumes:
+  data_prod:

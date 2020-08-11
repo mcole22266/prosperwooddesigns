@@ -12,13 +12,24 @@ class ConfigBase:
     Base Configuration
     '''
 
-    # Flask App Settings
+    # Flask App Config
     FLASK_ENV = environ['FLASK_ENV']
     FLASK_APP = environ['FLASK_APP']
     FLASK_RUN_HOST = environ['FLASK_RUN_HOST']
     SECRET_KEY = urandom(16)
 
-    # AWS Settings
+    # Postgres Config
+    POSTGRES_USER = environ['POSTGRES_USER']
+    POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
+
+    # Flask SQLAlchemy Config
+    SQLALCHEMY_TRACK_MODIFICATIONS = environ['SQLALCHEMY_TRACK_MODIFICATIONS']
+    SQLALCHEMY_DATABASE_URI = (
+        f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}'
+        '@db:5432/{POSTGRES_DB}'
+        )
+
+    # AWS Config
     AWS_ACCESS_KEY_ID = environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = environ['AWS_SECRET_ACCESS_KEY']
     AWS_PROJECT_BUCKET = environ['AWS_PROJECT_BUCKET']
@@ -31,7 +42,10 @@ class ConfigDev:
     Development Configuration
     '''
 
-    # AWS Settings
+    # SQLAlchemy Config
+    SQLALCHEMY_ECHO = environ['SQLALCHEMY_ECHO_DEV']
+
+    # AWS Config
     AWS_DOWNLOAD_IMAGES = False
 
 
@@ -40,5 +54,8 @@ class ConfigProd:
     Production Configuration
     '''
 
-    # AWS Settings
+    # SQLAlchemy Config
+    SQLALCHEMY_ECHO = environ['SQLALCHEMY_ECHO_PROD']
+
+    # AWS Config
     AWS_DOWNLOAD_IMAGES = True
