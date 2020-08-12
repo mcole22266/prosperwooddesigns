@@ -6,6 +6,8 @@
 
 import sys
 import os
+from datetime import datetime
+
 import boto3
 
 
@@ -75,3 +77,140 @@ class S3Connecter:
                     f'{self.LocalImagePath}/{filename}')
                 logger.log(f'**Downloaded {filename} from S3**')
         logger.log('Done')
+
+
+class MockData:
+    '''
+    Loads database with mock data for developing and testing
+    '''
+    from faker import Faker
+
+    fake = Faker()
+
+    def fakeDate(
+        self,
+        startdate=datetime.fromisoformat('2020-01-01'),
+        enddate=datetime.now()
+    ):
+        '''
+        Generate fake date for use in created_date
+        '''
+
+        return self.fake.date_between(startdate, enddate)
+
+    def fakeDescription(
+        self,
+        num_paragraphs_min=2,
+        num_paragraphs_max=5
+    ):
+        description = ''
+        paragraphs = self.fake.paragraphs(self.fake.random_int(
+            num_paragraphs_min, num_paragraphs_max
+            )
+        )
+        for paragraph in paragraphs:
+            description += f'{paragraph} '
+        description = description[:-1]
+        return description
+
+    def loadAdmin(self, db, num_rows=3):
+        '''
+        Load Admin table with fake data
+        '''
+        from .models import Admin
+
+        for i in range(num_rows):
+            username = self.fake.user_name()
+            password = self.fake.password()
+            firstname = self.fake.first_name()
+            lastname = self.fake.last_name()
+            created_date = self.fakeDate()
+
+            admin = Admin(
+                username, password, firstname,
+                lastname, created_date
+                )
+            db.session.add(admin)
+        db.session.commit()
+
+    def loadRequest(self, db, num_rows=8):
+        '''
+        Load Request table with fake data
+        '''
+        from .models import Request
+
+        for i in range(num_rows):
+            emailaddress = self.fake.email()
+            phonenumber = self.fake.phone_number()
+            name = self.fake.name()
+            contactmethod = self.fake.random_element([
+                'phone', 'email', 'no preference'
+            ])
+            description = self.fakeDescription()
+            status = self.fake.random_element([
+                'unread', 'read', 'in progress', 'ready to deliver', 'complete'
+            ])
+            is_deleted = self.fake.boolean()
+            created_date = self.fakeDate()
+
+            request = Request(
+                emailaddress, phonenumber, name, contactmethod,
+                description, status, is_deleted, created_date
+            )
+            db.session.add(request)
+        db.session.commit()
+
+    def loadImage(self, db, num_rows=20):
+        '''
+        Load Image table with fake data
+        '''
+        from .models import Image
+
+        for i in range(num_rows):
+            name = self.fake.word()
+            description = self.fakeDescription()
+            filename = self.fake.file_path()
+            created_date = self.fakeDate()
+
+            image = Image(
+                name, description, filename, created_date
+            )
+            db.session.add(image)
+        db.session.commit()
+
+    def loadLayout(self, db, num_rows=30):
+        '''
+        Load Layout table with fake data
+        '''
+        from .models import Layout
+
+        for i in range(num_rows):
+            endpoint = self.fake.uri_path()
+            content_name = self.fake.word()
+            content = self.fakeDescription(2, 3)
+            is_image = self.fake.boolean()
+            created_date = self.fakeDate()
+
+            layout = Layout(
+                endpoint, content_name, content, is_image, created_date
+            )
+            db.session.add(layout)
+        db.session.commit()
+
+    def loadContact(self, db, num_rows=20):
+        '''
+        Load Contact table with fake data
+        '''
+        from .models import Contact
+
+        for i in range(num_rows):
+            emailaddress = self.fake.email()
+            name = self.fake.name()
+            content = self.fakeDescription()
+            created_date = self.fakeDate()
+
+            contact = Contact(
+                emailaddress, name, content, created_date
+            )
+            db.session.add(contact)
+        db.session.commit()
