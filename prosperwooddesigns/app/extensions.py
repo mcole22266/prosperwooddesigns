@@ -6,6 +6,8 @@
 
 import sys
 import os
+from datetime import datetime
+
 import boto3
 
 
@@ -75,3 +77,33 @@ class S3Connecter:
                     f'{self.LocalImagePath}/{filename}')
                 logger.log(f'**Downloaded {filename} from S3**')
         logger.log('Done')
+
+
+class MockData:
+    '''
+    Loads database with mock data for developing and testing
+    '''
+    from faker import Faker
+
+    fake = Faker()
+
+    def loadAdmin(self, db, num_rows=3):
+        '''
+        Load Admin table with fake data
+        '''
+        from .models import Admin
+
+        for i in range(num_rows):
+            username = self.fake.user_name()
+            password = self.fake.password()
+            firstname = self.fake.first_name()
+            lastname = self.fake.last_name()
+            startdate = datetime.fromisoformat('2020-01-01')
+            enddate = datetime.now()
+            created_date = self.fake.date_between(startdate, enddate)
+            admin = Admin(
+                username, password, firstname,
+                lastname, created_date
+                )
+            db.session.add(admin)
+        db.session.commit()

@@ -12,3 +12,5 @@ flask_sqlalchemy==2.4.4     # flask sqlalchemy for simplifying database use
 psycopg2-binary==2.8.5      # connector for postgres
 
 gunicorn==20.0.4            # wsgi server for production
+
+faker==4.1.1                # used to generate fake data during development

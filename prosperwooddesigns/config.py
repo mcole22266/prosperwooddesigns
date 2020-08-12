@@ -43,6 +43,9 @@ class ConfigDev:
     Development Configuration
     '''
 
+    # Config
+    GENERATE_FAKE_DATA = True
+
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False
 
@@ -54,6 +57,9 @@ class ConfigProd:
     '''
     Production Configuration
     '''
+
+    # Config
+    GENERATE_FAKE_DATA = False
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False

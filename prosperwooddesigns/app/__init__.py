@@ -9,12 +9,13 @@ from flask_wtf.csrf import CSRFProtect
 
 from .routes import Routes
 from .models import db
-from .extensions import Logger, S3Connecter
+from .extensions import Logger, S3Connecter, MockData
 
 csrf = CSRFProtect()
 routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
+mockData = MockData()
 
 
 def create_app():
@@ -56,6 +57,12 @@ def create_app():
         logger.log('Creating all tables in db')
         db.create_all()
         db.session.commit()
+
+        if app.config['GENERATE_FAKE_DATA']:
+            # by default, fake data will only be generated
+            # if in development
+            logger.log('Generating fake data')
+            mockData.loadAdmin(db)
 
         logger.log('App created')
         return app

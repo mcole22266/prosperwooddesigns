@@ -4,6 +4,8 @@
 # Database models for consumption by SQLAlchemy
 # ---------------------------------------------
 
+from datetime import datetime
+
 from flask_sqlalchemy import SQLAlchemy
 from .extensions import Logger
 
@@ -45,6 +47,16 @@ class Admin(db.Model):
         unique=False,
         nullable=False
     )
+
+    def __init__(
+        self, username, password, firstname,
+        lastname, created_date=datetime.now()
+    ):
+        self.username = username
+        self.password = password
+        self.firstname = firstname
+        self.lastname = lastname
+        self.created_date = created_date
 
     def __repr__(self):
         return f'Admin: @{self.username} ({self.firstname} {self.lastname})'
