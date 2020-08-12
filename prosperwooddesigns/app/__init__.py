@@ -63,6 +63,10 @@ def create_app():
             # if in development
             logger.log('Generating fake data')
             mockData.loadAdmin(db)
+            mockData.loadRequest(db)
+            mockData.loadImage(db)
+            mockData.loadLayout(db)
+            mockData.loadContact(db)
 
         logger.log('App created')
         return app

@@ -112,6 +112,19 @@ class Request(db.Model):
         nullable=False
     )
 
+    def __init__(
+        self, emailaddress, phonenumber, name, contactmethod,
+        description, status, is_deleted=False, created_date=datetime.now()
+    ):
+        self.emailaddress = emailaddress
+        self.phonenumber = phonenumber
+        self.name = name
+        self.contactmethod = contactmethod
+        self.description = description
+        self.status = status
+        self.is_deleted = is_deleted
+        self.created_date = created_date
+
     def __repr__(self):
         return f'Request: {self.name} - {self.emailaddress} ({self.status})'
 
@@ -145,6 +158,14 @@ class Image(db.Model):
         unique=False,
         nullable=False
     )
+
+    def __init__(
+        self, name, description, filename, created_date=datetime.now()
+    ):
+        self.name = name
+        self.description = description
+        self.filename = filename
+        self.created_date = created_date
 
     def __repr__(self):
         return f'Image: {self.name}'
@@ -185,11 +206,21 @@ class Layout(db.Model):
         nullable=False
     )
 
+    def __init__(
+        self, endpoint, content_name, content,
+        is_image, created_date=datetime.now()
+    ):
+        self.endpoint = endpoint
+        self.content_name = content_name
+        self.content = content
+        self.is_image = is_image
+        self.created_date = created_date
+
     def __repr__(self):
         return f'Layout: {self.endpoint} - {self.content_name}'
 
 
-class Contact (db.Model):
+class Contact(db.Model):
     '''
     Data model for Contact
     '''
@@ -218,6 +249,15 @@ class Contact (db.Model):
         unique=False,
         nullable=False
     )
+
+    def __init__(
+        self, emailaddress, name, content,
+        created_date=datetime.now()
+    ):
+        self.emailaddress = emailaddress
+        self.name = name
+        self.content = content
+        self.created_date = created_date
 
     def __repr__(self):
         return f'Contact: {self.name} - {self.emailaddress}'
