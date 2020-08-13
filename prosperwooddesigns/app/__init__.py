@@ -60,13 +60,17 @@ def create_app():
 
         if app.config['GENERATE_FAKE_DATA']:
             # by default, fake data will only be generated
-            # if in development
-            logger.log('Generating fake data')
-            mockData.loadAdmin(db)
-            mockData.loadRequest(db)
-            mockData.loadImage(db)
-            mockData.loadLayout(db)
-            mockData.loadContact(db)
+            # if in development and no data currently exists
+            logger.log('Checking if fake data is present')
+            if not mockData.hasData(db):
+                logger.log('Generating fake data')
+                mockData.loadAdmin(db)
+                mockData.loadRequest(db)
+                mockData.loadImage(db)
+                mockData.loadLayout(db)
+                mockData.loadContact(db)
+            else:
+                logger.log('Fake data already present')
 
         logger.log('App created')
         return app
