@@ -21,7 +21,7 @@ Content for the Contact Table -->
             <td>{{ contact.id }}</td>
             <td>{{ contact.emailaddress }}</td>
             <td>{{ contact.name }}</td>
-            <td>{{ contact.content }}</td>
+            <td>{{ contact.content[:50] }} {% if contact.content|length > 50 %}...{% endif %}</td>
             <td>{{ contact.created_date }}</td>
         </tr>
     {% endfor %}

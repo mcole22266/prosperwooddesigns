@@ -22,7 +22,7 @@ Content for the Layout Table -->
             <td>{{ layout.id }}</td>
             <td>{{ layout.endpoint }}</td>
             <td>{{ layout.content_name }}</td>
-            <td>{{ layout.content }}</td>
+            <td>{{ layout.content[:50] }} {% if layout.content|length > 50 %}...{% endif %}</td>
             <td>{{ layout.is_image }}</td>
             <td>{{ layout.created_date }}</td>
         </tr>

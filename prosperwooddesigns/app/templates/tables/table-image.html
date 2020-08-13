@@ -20,7 +20,7 @@ Content for the Image Table -->
         <tr>
             <td>{{ image.id }}</td>
             <td>{{ image.name }}</td>
-            <td>{{ image.description }}</td>
+            <td>{{ image.description[:50] }} {% if image.description|length > 50 %}...{% endif %}</td>
             <td>{{ image.filename }}</td>
             <td>{{ image.created_date }}</td>
         </tr>
