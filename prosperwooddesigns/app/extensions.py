@@ -29,6 +29,28 @@ class Logger:
             print(f'>> {string}', file=loc, flush=True)
 
 
+class DbConnector:
+    def getAdmins(self):
+        from .models import Admin
+        return Admin.query.all()
+
+    def getRequests(self):
+        from .models import Request
+        return Request.query.all()
+
+    def getImages(self):
+        from .models import Image
+        return Image.query.all()
+
+    def getLayouts(self):
+        from .models import Layout
+        return Layout.query.all()
+
+    def getContacts(self):
+        from .models import Contact
+        return Contact.query.all()
+
+
 class S3Connecter:
     '''
     S3 Connector to be used specifically for interacting with
@@ -112,6 +134,20 @@ class MockData:
             description += f'{paragraph} '
         description = description[:-1]
         return description
+
+    def hasData(self, db):
+        '''
+        Check if database is empty
+        '''
+
+        dbConnector = DbConnector()
+        admins = dbConnector.getAdmins()
+        requests = dbConnector.getRequests()
+        images = dbConnector.getImages()
+
+        if len(admins) > 5 or len(requests) > 5 or len(images) > 5:
+            return True
+        return False
 
     def loadAdmin(self, db, num_rows=3):
         '''
