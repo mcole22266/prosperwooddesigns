@@ -90,12 +90,20 @@ class Routes:
             '''
             Routes the user to the Data Page of the website
             '''
-            from .dbConnector import AdminConnector
+            from .extensions import DbConnector
 
-            adminConnector = AdminConnector()
+            dbConnector = DbConnector()
 
-            admins = adminConnector.get()
+            admins = dbConnector.getAdmins()
+            requests = dbConnector.getRequests()
+            images = dbConnector.getImages()
+            layouts = dbConnector.getLayouts()
+            contacts = dbConnector.getContacts()
 
             return render_template('data.html',
                                    title='Data',
-                                   admins=admins)
+                                   admins=admins,
+                                   requests=requests,
+                                   images=images,
+                                   layouts=layouts,
+                                   contacts=contacts)
