@@ -214,3 +214,26 @@ class MockData:
             )
             db.session.add(contact)
         db.session.commit()
+
+
+class DbConnector:
+
+    def getAdmins(self):
+        from .models import Admin
+        return Admin.query.all()
+
+    def getRequests(self):
+        from .models import Request
+        return Request.query.all()
+
+    def getImages(self):
+        from .models import Image
+        return Image.query.all()
+
+    def getLayouts(self):
+        from .models import Layout
+        return Layout.query.all()
+
+    def getContacts(self):
+        from .models import Contact
+        return Contact.query.all()
