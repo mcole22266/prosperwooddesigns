@@ -1,0 +1,36 @@
+<!-- table-request.html
+Michael Cole
+
+Content for the Request Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>emailaddress</th>
+        <th>phonenumber</th>
+        <th>name</th>
+        <th>contactmethod</th>
+        <th>description</th>
+        <th>status</th>
+        <th>is_deleted</th>
+        <th>created_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for request in requests %}
+        <tr>
+            <td>{{ request.id }}</td>
+            <td>{{ request.emailaddress }}</td>
+            <td>{{ request.phonenumber }}</td>
+            <td>{{ request.name }}</td>
+            <td>{{ request.contactmethod }}</td>
+            <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
+            <td>{{ request.status }}</td>
+            <td>{{ request.is_deleted }}</td>
+            <td>{{ request.created_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

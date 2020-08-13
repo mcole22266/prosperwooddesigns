@@ -5,16 +5,17 @@
 # ------------------------------------------------
 
 from flask import Flask
-
 from flask_wtf.csrf import CSRFProtect
 
 from .routes import Routes
-from .extensions import Logger, S3Connecter
+from .models import db
+from .extensions import Logger, S3Connecter, MockData
 
-routes = Routes()
 csrf = CSRFProtect()
+routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
+mockData = MockData()
 
 
 def create_app():
@@ -44,11 +45,32 @@ def create_app():
         logger.log('Importing remote image files from S3')
         s3Conn.downloadImages()
 
+    logger.log('Initializing DB')
+    db.init_app(app)
+
     with app.app_context():
 
         logger.log('Importing routes')
         routes.init(app)
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
+        logger.log('Creating all tables in db')
+        db.create_all()
+        db.session.commit()
 
+        if app.config['GENERATE_FAKE_DATA']:
+            # by default, fake data will only be generated
+            # if in development and no data currently exists
+            logger.log('Checking if fake data is present')
+            if not mockData.hasData(db):
+                logger.log('Generating fake data')
+                mockData.loadAdmin(db)
+                mockData.loadRequest(db)
+                mockData.loadImage(db)
+                mockData.loadLayout(db)
+                mockData.loadContact(db)
+            else:
+                logger.log('Fake data already present')
+
+        logger.log('App created')
         return app

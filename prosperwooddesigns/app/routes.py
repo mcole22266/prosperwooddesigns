@@ -6,6 +6,10 @@
 
 from flask import redirect, render_template
 
+from .extensions import Logger
+
+logger = Logger()
+
 
 class Routes:
     '''
@@ -80,3 +84,26 @@ class Routes:
             '''
             return render_template('admin.html',
                                    title='Admin')
+
+        @app.route('/data')
+        def data():
+            '''
+            Routes the user to the Data Page of the website
+            '''
+            from .extensions import DbConnector
+
+            dbConnector = DbConnector()
+
+            admins = dbConnector.getAdmins()
+            requests = dbConnector.getRequests()
+            images = dbConnector.getImages()
+            layouts = dbConnector.getLayouts()
+            contacts = dbConnector.getContacts()
+
+            return render_template('data.html',
+                                   title='Data',
+                                   admins=admins,
+                                   requests=requests,
+                                   images=images,
+                                   layouts=layouts,
+                                   contacts=contacts)

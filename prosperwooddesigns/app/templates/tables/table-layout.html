@@ -1,0 +1,32 @@
+<!-- table-layout.html
+Michael Cole
+
+Content for the Layout Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>endpoint</th>
+        <th>content_name</th>
+        <th>content</th>
+        <th>is_image</th>
+        <th>created_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for layout in layouts %}
+        <tr>
+            <td>{{ layout.id }}</td>
+            <td>{{ layout.endpoint }}</td>
+            <td>{{ layout.content_name }}</td>
+            <td>{{ layout.content[:50] }} {% if layout.content|length > 50 %}...{% endif %}</td>
+            <td>{{ layout.is_image }}</td>
+            <td>{{ layout.created_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
