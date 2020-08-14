@@ -140,7 +140,7 @@ class Routes:
             logout_user()
             return redirect(url_for('index'))
 
-        @app.route('/data')
+        @app.route('/admin/data')
         def data():
             '''
             Routes the user to the Data Page of the website
