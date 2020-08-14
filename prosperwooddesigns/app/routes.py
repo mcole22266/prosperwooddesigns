@@ -5,7 +5,7 @@
 # ---------------------------
 
 from flask import redirect, render_template, url_for, request
-from flask_login import login_required, login_user
+from flask_login import login_required, login_user, logout_user
 
 from .extensions import Logger, DbConnector
 
@@ -130,6 +130,15 @@ class Routes:
             return render_template('admin-create.html',
                                    title='Admin - Create',
                                    admincreateform=admincreateform)
+
+        @app.route('/admin/logout')
+        @login_required
+        def admin_logout():
+            '''
+            Logs a logged-in admin out and redirects to home-page
+            '''
+            logout_user()
+            return redirect(url_for('index'))
 
         @app.route('/data')
         def data():
