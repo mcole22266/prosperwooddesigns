@@ -9,6 +9,7 @@ boto3==1.14.33              # AWS package
 flask==1.1.2                # base flask package
 flask-wtf==0.14.3           # flask forms for simplifying forms
 flask_sqlalchemy==2.4.4     # flask sqlalchemy for simplifying database use
+flask_login==0.5.0          # flask login for simplifying user log-in management
 psycopg2-binary==2.8.5      # connector for postgres
 
 gunicorn==20.0.4            # wsgi server for production
