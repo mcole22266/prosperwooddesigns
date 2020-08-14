@@ -22,6 +22,10 @@ class ConfigBase:
     POSTGRES_USER = environ['POSTGRES_USER']
     POSTGRES_PASSWORD = environ['POSTGRES_PASSWORD']
     POSTGRES_DB = environ['POSTGRES_DB']
+    DB_TEST_ADMIN_USERNAME = environ['DB_TEST_ADMIN_USERNAME']
+    DB_TEST_ADMIN_PASSWORD = environ['DB_TEST_ADMIN_PASSWORD']
+    DB_TEST_ADMIN_FIRSTNAME = environ['DB_TEST_ADMIN_FIRSTNAME']
+    DB_TEST_ADMIN_LASTNAME = environ['DB_TEST_ADMIN_LASTNAME']
 
     # Flask SQLAlchemy Config
     SQLALCHEMY_TRACK_MODIFICATIONS = environ['SQLALCHEMY_TRACK_MODIFICATIONS']
@@ -45,6 +49,7 @@ class ConfigDev:
 
     # Config
     GENERATE_FAKE_DATA = True
+    DB_CREATE_ADMIN_USER = True
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False
@@ -60,6 +65,7 @@ class ConfigProd:
 
     # Config
     GENERATE_FAKE_DATA = False
+    DB_CREATE_ADMIN_USER = False
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False

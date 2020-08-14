@@ -9,12 +9,13 @@ from flask_wtf.csrf import CSRFProtect
 
 from .routes import Routes
 from .models import db
-from .extensions import Logger, S3Connecter, MockData
+from .extensions import Logger, S3Connecter, MockData, DbConnector
 
 csrf = CSRFProtect()
 routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
+dbConn = DbConnector()
 mockData = MockData()
 
 
@@ -71,6 +72,20 @@ def create_app():
                 mockData.loadContact(db)
             else:
                 logger.log('Fake data already present')
+
+        if app.config['DB_CREATE_ADMIN_USER']:
+            # by default, will create generic admin user
+            # if in development mode
+            username = app.config['DB_TEST_ADMIN_USERNAME']
+            password = app.config['DB_TEST_ADMIN_PASSWORD']
+            firstname = app.config['DB_TEST_ADMIN_FIRSTNAME']
+            lastname = app.config['DB_TEST_ADMIN_LASTNAME']
+            logger.log('Checking if generic admin user already exists')
+            if dbConn.getAdmin(username):
+                logger.log('Generic admin user exists')
+            else:
+                logger.log('Creating generic admin user')
+                dbConn.setAdmin(username, password, firstname, lastname)
 
         logger.log('App created')
         return app

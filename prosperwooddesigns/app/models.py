@@ -43,7 +43,7 @@ class Admin(db.Model):
         nullable=False
     )
     created_date = db.Column(
-        db.DateTime,
+        db.Date,
         unique=False,
         nullable=False
     )
@@ -107,7 +107,7 @@ class Request(db.Model):
         nullable=False
     )
     created_date = db.Column(
-        db.DateTime,
+        db.Date,
         unique=False,
         nullable=False
     )
@@ -154,7 +154,7 @@ class Image(db.Model):
         nullable=False
     )
     created_date = db.Column(
-        db.DateTime,
+        db.Date,
         unique=False,
         nullable=False
     )
@@ -201,7 +201,7 @@ class Layout(db.Model):
         nullable=False
     )
     created_date = db.Column(
-        db.DateTime,
+        db.Date,
         unique=False,
         nullable=False
     )
@@ -245,7 +245,7 @@ class Contact(db.Model):
         nullable=True
     )
     created_date = db.Column(
-        db.DateTime,
+        db.Date,
         unique=False,
         nullable=False
     )

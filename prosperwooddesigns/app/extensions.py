@@ -30,9 +30,25 @@ class Logger:
 
 
 class DbConnector:
+
+    def __init__(self):
+        from .models import db
+        self.db = db
+
     def getAdmins(self):
         from .models import Admin
         return Admin.query.all()
+
+    def getAdmin(self, username):
+        from .models import Admin
+        return Admin.query.filter_by(username=username).first()
+
+    def setAdmin(self, username, password, firstname, lastname, commit=True):
+        from .models import Admin
+        admin = Admin(username, password, firstname, lastname)
+        self.db.session.add(admin)
+        if commit:
+            self.db.session.commit()
 
     def getRequests(self):
         from .models import Request
