@@ -6,11 +6,19 @@
 
 from datetime import datetime
 
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+
 from .extensions import Logger
 
-db = SQLAlchemy()
 logger = Logger()
+db = SQLAlchemy()
+loginManager = LoginManager()
+
+
+@loginManager.user_loader
+def load_user(admin_id):
+    return Admin.query.filter_by(id=admin_id).first()
 
 
 class Admin(db.Model):
@@ -60,6 +68,18 @@ class Admin(db.Model):
 
     def __repr__(self):
         return f'Admin: @{self.username} ({self.firstname} {self.lastname})'
+
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
 
 
 class Request(db.Model):

@@ -34,14 +34,18 @@ class DbConnector:
     def __init__(self):
         from .models import db
         self.db = db
+        self.logger = Logger()
 
     def getAdmins(self):
         from .models import Admin
         return Admin.query.all()
 
-    def getAdmin(self, username):
+    def getAdmin(self, username=False, id=False):
         from .models import Admin
-        return Admin.query.filter_by(username=username).first()
+        if username:
+            return Admin.query.filter_by(username=username).first()
+        if id:
+            return Admin.query.filter_by(id=id).first()
 
     def setAdmin(self, username, password, firstname, lastname, commit=True):
         from .models import Admin
@@ -49,6 +53,8 @@ class DbConnector:
         self.db.session.add(admin)
         if commit:
             self.db.session.commit()
+        self.logger.log(f'Created admin - {admin}')
+        return admin
 
     def getRequests(self):
         from .models import Request

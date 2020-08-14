@@ -8,7 +8,7 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 
 from .routes import Routes
-from .models import db
+from .models import loginManager, db
 from .extensions import Logger, S3Connecter, MockData, DbConnector
 
 csrf = CSRFProtect()
@@ -58,6 +58,9 @@ def create_app():
         logger.log('Creating all tables in db')
         db.create_all()
         db.session.commit()
+        logger.log('Initializing login manager')
+        loginManager.init_app(app)
+        loginManager.login_view = 'admin_login'
 
         if app.config['GENERATE_FAKE_DATA']:
             # by default, fake data will only be generated
@@ -81,7 +84,7 @@ def create_app():
             firstname = app.config['DB_TEST_ADMIN_FIRSTNAME']
             lastname = app.config['DB_TEST_ADMIN_LASTNAME']
             logger.log('Checking if generic admin user already exists')
-            if dbConn.getAdmin(username):
+            if dbConn.getAdmin(username=username):
                 logger.log('Generic admin user exists')
             else:
                 logger.log('Creating generic admin user')
