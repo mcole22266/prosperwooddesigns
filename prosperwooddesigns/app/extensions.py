@@ -60,17 +60,78 @@ class DbConnector:
         from .models import Request
         return Request.query.all()
 
+    def getRequest(self, id=False):
+        from .models import Request
+        if id:
+            return Request.query.filter_by(id=id).first()
+
+    def setRequest(self, emailaddress, phonenumber, name, contactmethod,
+                   description, status, is_deleted, created_date, commit=True):
+        from .models import Request
+        request = Request(emailaddress, phonenumber, name, contactmethod,
+                          description, status, is_deleted, created_date)
+        self.db.session.add(request)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Request - {request}')
+        return request
+
     def getImages(self):
         from .models import Image
         return Image.query.all()
+
+    def getImage(self, id=False):
+        from .models import Image
+        if id:
+            return Image.query.filter_by(id=id).first()
+
+    def setImage(self, name, description, filename, created_date,
+                 commit=True):
+        from .models import Image
+        image = Image(name, description, filename, created_date)
+        self.db.session.add(image)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Image - {image}')
+        return image
 
     def getLayouts(self):
         from .models import Layout
         return Layout.query.all()
 
+    def getLayout(self, id=False):
+        from .models import Layout
+        if id:
+            return Layout.query.filter_by(id=id).first()
+
+    def setLayout(self, endpoint, content_name, content, is_image,
+                  created_date, commit=True):
+        from .models import Layout
+        layout = Layout(endpoint, content_name, content, is_image, created_date)
+        self.db.session.add(layout)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Layout - {layout}')
+        return layout
+
     def getContacts(self):
         from .models import Contact
         return Contact.query.all()
+
+    def getContact(self, id=False):
+        from .models import Contact
+        if id:
+            return Contact.query.filter_by(id=id).first()
+
+    def setContact(self, emailaddress, name, content, created_date,
+                   commit=True):
+        from .models import Contact
+        contact = Contact(emailaddress, name, content, created_date)
+        self.db.session.add(contact)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Contact - {contact}')
+        return contact
 
 
 class S3Connecter:
