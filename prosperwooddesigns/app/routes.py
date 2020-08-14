@@ -85,6 +85,32 @@ class Routes:
             return render_template('admin.html',
                                    title='Admin')
 
+        @app.route('/admin/log-in', methods=['GET', 'POST'])
+        def admin_login():
+            '''
+            Routes the user to the Admin Log-In Page of the website
+            '''
+            from .forms import AdminLogInForm
+
+            adminloginform = AdminLogInForm()
+
+            return render_template('admin-login.html',
+                                   title='Admin - Log-In',
+                                   adminloginform=adminloginform)
+
+        @app.route('/admin/create', methods=['GET', 'POST'])
+        def admin_create():
+            '''
+            Routes the user to the Admin Create Page of the website
+            '''
+            from .forms import AdminCreateForm
+
+            admincreateform = AdminCreateForm()
+
+            return render_template('admin-create.html',
+                                   title='Admin - Create',
+                                   admincreateform=admincreateform)
+
         @app.route('/data')
         def data():
             '''

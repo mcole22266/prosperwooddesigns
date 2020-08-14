@@ -5,7 +5,7 @@
 # ------------------------------------------------------------
 
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField, SubmitField, TextAreaField
+from wtforms import SelectField, StringField, SubmitField, TextAreaField, PasswordField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired
 
@@ -59,3 +59,51 @@ class ContactForm(FlaskForm):
     ])
 
     submit = SubmitField('Send')
+
+
+class AdminLogInForm(FlaskForm):
+    '''
+    Admin Log-In Form for an admin to log-in to the site
+    '''
+
+    username = StringField('Username', validators=[
+        DataRequired()
+    ])
+
+    password = PasswordField('Password', validators=[
+        DataRequired()
+    ])
+
+    submit = SubmitField('Log-In')
+
+
+class AdminCreateForm(FlaskForm):
+    '''
+    Admin Create Form for an admin to create an admin account in the site
+    '''
+
+    firstname = StringField('First Name', validators=[
+        DataRequired()
+    ])
+
+    lastname = StringField('Last Name', validators=[
+        DataRequired()
+    ])
+
+    username = StringField('Username', validators=[
+        DataRequired()
+    ])
+
+    password = PasswordField('Password', validators=[
+        DataRequired()
+    ])
+
+    password_retype = PasswordField('Retype Password', validators=[
+        DataRequired()
+    ])
+
+    secret_code = PasswordField('Secret Code', validators=[
+        DataRequired()
+    ])
+
+    submit = SubmitField('Create Account')
