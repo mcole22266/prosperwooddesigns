@@ -1,0 +1,30 @@
+<!-- AdminLogInForm.html
+Michael Cole
+
+The Admin Log-In Form to be used by an admin to log-in
+a request -->
+
+<form method="POST">
+    {{ adminloginform.csrf_token }}
+    <div class="form-row">
+        <div class="form-group col-md">
+            {{ adminloginform.username.label }}
+            {{ adminloginform.username(class_="form-control") }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md">
+            {{ adminloginform.password.label }}
+            {{ adminloginform.password(class_="form-control") }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-6">
+            <a href="/admin/create">Don't have an admin account?</a>
+        </div>
+        <div class="col-md-6">
+            {{ adminloginform.submit(class_="btn btn-primary float-right") }}
+        </div>
+    </div>
+
+</form>

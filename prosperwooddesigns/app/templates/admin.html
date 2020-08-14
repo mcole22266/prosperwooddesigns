@@ -2,11 +2,13 @@
 Michael Cole
 
 Content for the landing page -->
+{% extends 'layout.html' %}
 
 {% block body %}
 
     <div class="container">
-        <h1>Admin Page</h1>
+        <h1>{{ greeting }}, {{ current_user.firstname }}</h1>
+        <h3>Welcome to your Admin Dashboard</h3>
     </div>
 
 {% endblock body %}
