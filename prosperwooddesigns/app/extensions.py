@@ -47,9 +47,11 @@ class DbConnector:
         if id:
             return Admin.query.filter_by(id=id).first()
 
-    def setAdmin(self, username, password, firstname, lastname, commit=True):
+    def setAdmin(self, username, password, firstname, lastname,
+                 created_date=datetime.now(), commit=True):
         from .models import Admin
-        admin = Admin(username, password, firstname, lastname)
+        admin = Admin(username, password, firstname, lastname,
+                      created_date=created_date)
         self.db.session.add(admin)
         if commit:
             self.db.session.commit()
@@ -66,7 +68,8 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status, is_deleted, created_date, commit=True):
+                   description, status, is_deleted,
+                   created_date=datetime.now(), commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
                           description, status, is_deleted, created_date)
@@ -85,7 +88,8 @@ class DbConnector:
         if id:
             return Image.query.filter_by(id=id).first()
 
-    def setImage(self, name, description, filename, created_date,
+    def setImage(self, name, description, filename,
+                 created_date=datetime.now(),
                  commit=True):
         from .models import Image
         image = Image(name, description, filename, created_date)
@@ -107,7 +111,8 @@ class DbConnector:
     def setLayout(self, endpoint, content_name, content, is_image,
                   created_date, commit=True):
         from .models import Layout
-        layout = Layout(endpoint, content_name, content, is_image, created_date)
+        layout = Layout(endpoint, content_name, content, is_image,
+                        created_date=datetime.now(), commit=True)
         self.db.session.add(layout)
         if commit:
             self.db.session.commit()
@@ -123,7 +128,8 @@ class DbConnector:
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content, created_date,
+    def setContact(self, emailaddress, name, content,
+                   created_date=datetime.now(),
                    commit=True):
         from .models import Contact
         contact = Contact(emailaddress, name, content, created_date)
@@ -224,9 +230,9 @@ class MockData:
         Check if database is empty
         '''
 
-        admins = self.dbConnector.getAdmins()
-        requests = self.dbConnector.getRequests()
-        images = self.dbConnector.getImages()
+        admins = self.dbConn.getAdmins()
+        requests = self.dbConn.getRequests()
+        images = self.dbConn.getImages()
 
         if len(admins) > 5 or len(requests) > 5 or len(images) > 5:
             return True
@@ -329,7 +335,7 @@ class Helper:
         utc_now = pytz.utc.localize(datetime.utcnow())
         ct_now = utc_now.astimezone(pytz.timezone('America/Chicago'))
         hour = ct_now.time().hour
-        
+
         if hour >= 4 and hour <= 11:
             return 'Good Morning'
         elif hour >= 12 and hour <= 16:
