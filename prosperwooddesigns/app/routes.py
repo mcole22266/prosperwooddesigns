@@ -96,6 +96,13 @@ class Routes:
             from .forms import AdminLogInForm
 
             adminloginform = AdminLogInForm()
+            if adminloginform.validate_on_submit():
+                username = request.form['username']
+                password = request.form['password']
+                admin = dbConn.getAdmin(username=username)
+                login_user(admin)
+                next = request.args.get('next')
+                return redirect(next or url_for('admin'))
 
             return render_template('admin-login.html',
                                    title='Admin - Log-In',
