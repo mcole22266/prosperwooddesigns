@@ -7,10 +7,11 @@
 from flask import redirect, render_template, url_for, request
 from flask_login import login_required, login_user, logout_user
 
-from .extensions import Logger, DbConnector
+from .extensions import Logger, DbConnector, Helper
 
 logger = Logger()
 dbConn = DbConnector()
+helper = Helper()
 
 
 class Routes:
@@ -85,8 +86,11 @@ class Routes:
             '''
             Routes the user to the Admin Page of the website
             '''
+            greeting = helper.getGreeting()
+
             return render_template('admin.html',
-                                   title='Admin')
+                                   title='Admin',
+                                   greeting=greeting)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -140,7 +144,7 @@ class Routes:
             logout_user()
             return redirect(url_for('index'))
 
-        @app.route('/data')
+        @app.route('/admin/data')
         def data():
             '''
             Routes the user to the Data Page of the website

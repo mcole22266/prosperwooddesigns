@@ -47,9 +47,11 @@ class DbConnector:
         if id:
             return Admin.query.filter_by(id=id).first()
 
-    def setAdmin(self, username, password, firstname, lastname, commit=True):
+    def setAdmin(self, username, password, firstname, lastname,
+                 created_date=datetime.now(), commit=True):
         from .models import Admin
-        admin = Admin(username, password, firstname, lastname)
+        admin = Admin(username, password, firstname, lastname,
+                      created_date=created_date)
         self.db.session.add(admin)
         if commit:
             self.db.session.commit()
@@ -60,17 +62,82 @@ class DbConnector:
         from .models import Request
         return Request.query.all()
 
+    def getRequest(self, id=False):
+        from .models import Request
+        if id:
+            return Request.query.filter_by(id=id).first()
+
+    def setRequest(self, emailaddress, phonenumber, name, contactmethod,
+                   description, status, is_deleted,
+                   created_date=datetime.now(), commit=True):
+        from .models import Request
+        request = Request(emailaddress, phonenumber, name, contactmethod,
+                          description, status, is_deleted, created_date)
+        self.db.session.add(request)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Request - {request}')
+        return request
+
     def getImages(self):
         from .models import Image
         return Image.query.all()
+
+    def getImage(self, id=False):
+        from .models import Image
+        if id:
+            return Image.query.filter_by(id=id).first()
+
+    def setImage(self, name, description, filename,
+                 created_date=datetime.now(),
+                 commit=True):
+        from .models import Image
+        image = Image(name, description, filename, created_date)
+        self.db.session.add(image)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Image - {image}')
+        return image
 
     def getLayouts(self):
         from .models import Layout
         return Layout.query.all()
 
+    def getLayout(self, id=False):
+        from .models import Layout
+        if id:
+            return Layout.query.filter_by(id=id).first()
+
+    def setLayout(self, endpoint, content_name, content, is_image,
+                  created_date, commit=True):
+        from .models import Layout
+        layout = Layout(endpoint, content_name, content, is_image,
+                        created_date=datetime.now(), commit=True)
+        self.db.session.add(layout)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Layout - {layout}')
+        return layout
+
     def getContacts(self):
         from .models import Contact
         return Contact.query.all()
+
+    def getContact(self, id=False):
+        from .models import Contact
+        if id:
+            return Contact.query.filter_by(id=id).first()
+
+    def setContact(self, emailaddress, name, content,
+                   created_date=datetime.now(),
+                   commit=True):
+        from .models import Contact
+        contact = Contact(emailaddress, name, content, created_date)
+        self.db.session.add(contact)
+        if commit:
+            self.db.session.commit()
+        self.logger.log(f'Created Contact - {contact}')
+        return contact
 
 
 class S3Connecter:
@@ -130,6 +197,7 @@ class MockData:
     from faker import Faker
 
     fake = Faker()
+    dbConn = DbConnector()
 
     def fakeDate(
         self,
@@ -162,10 +230,9 @@ class MockData:
         Check if database is empty
         '''
 
-        dbConnector = DbConnector()
-        admins = dbConnector.getAdmins()
-        requests = dbConnector.getRequests()
-        images = dbConnector.getImages()
+        admins = self.dbConn.getAdmins()
+        requests = self.dbConn.getRequests()
+        images = self.dbConn.getImages()
 
         if len(admins) > 5 or len(requests) > 5 or len(images) > 5:
             return True
@@ -175,7 +242,6 @@ class MockData:
         '''
         Load Admin table with fake data
         '''
-        from .models import Admin
 
         for i in range(num_rows):
             username = self.fake.user_name()
@@ -184,18 +250,14 @@ class MockData:
             lastname = self.fake.last_name()
             created_date = self.fakeDate()
 
-            admin = Admin(
-                username, password, firstname,
-                lastname, created_date
-                )
-            db.session.add(admin)
+            self.dbConn.setAdmin(username, password, firstname, lastname,
+                                 created_date, commit=False)
         db.session.commit()
 
     def loadRequest(self, db, num_rows=8):
         '''
         Load Request table with fake data
         '''
-        from .models import Request
 
         for i in range(num_rows):
             emailaddress = self.fake.email()
@@ -211,18 +273,15 @@ class MockData:
             is_deleted = self.fake.boolean()
             created_date = self.fakeDate()
 
-            request = Request(
-                emailaddress, phonenumber, name, contactmethod,
-                description, status, is_deleted, created_date
-            )
-            db.session.add(request)
+            self.dbConn.setRequest(emailaddress, phonenumber, name,
+                                   contactmethod, description, status,
+                                   is_deleted, created_date, commit=False)
         db.session.commit()
 
     def loadImage(self, db, num_rows=20):
         '''
         Load Image table with fake data
         '''
-        from .models import Image
 
         for i in range(num_rows):
             name = self.fake.word()
@@ -230,17 +289,14 @@ class MockData:
             filename = self.fake.file_path()
             created_date = self.fakeDate()
 
-            image = Image(
-                name, description, filename, created_date
-            )
-            db.session.add(image)
+            self.dbConn.setImage(name, description, filename,
+                                 created_date, commit=False)
         db.session.commit()
 
     def loadLayout(self, db, num_rows=30):
         '''
         Load Layout table with fake data
         '''
-        from .models import Layout
 
         for i in range(num_rows):
             endpoint = self.fake.uri_path()
@@ -249,17 +305,15 @@ class MockData:
             is_image = self.fake.boolean()
             created_date = self.fakeDate()
 
-            layout = Layout(
-                endpoint, content_name, content, is_image, created_date
-            )
-            db.session.add(layout)
+            self.dbConn.setLayout(endpoint, content_name, content,
+                                  is_image, created_date,
+                                  commit=False)
         db.session.commit()
 
     def loadContact(self, db, num_rows=20):
         '''
         Load Contact table with fake data
         '''
-        from .models import Contact
 
         for i in range(num_rows):
             emailaddress = self.fake.email()
@@ -267,8 +321,26 @@ class MockData:
             content = self.fakeDescription()
             created_date = self.fakeDate()
 
-            contact = Contact(
-                emailaddress, name, content, created_date
-            )
-            db.session.add(contact)
+            self.dbConn.setContact(emailaddress, name, content,
+                                   created_date, commit=False)
         db.session.commit()
+
+
+class Helper:
+
+    def getGreeting(self):
+        from datetime import datetime
+        import pytz
+
+        utc_now = pytz.utc.localize(datetime.utcnow())
+        ct_now = utc_now.astimezone(pytz.timezone('America/Chicago'))
+        hour = ct_now.time().hour
+
+        if hour >= 4 and hour <= 11:
+            return 'Good Morning'
+        elif hour >= 12 and hour <= 16:
+            return 'Good Afternoon'
+        elif hour >= 17 and hour <= 23:
+            return 'Good Evening'
+        else:
+            return 'It is very late'
