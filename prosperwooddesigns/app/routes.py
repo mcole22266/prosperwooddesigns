@@ -54,7 +54,7 @@ class Routes:
             return render_template('designs.html',
                                    title='Designs')
 
-        @app.route('/request')
+        @app.route('/requestform')
         def requestform():
             '''
             Routes the user to the Request Form of the website
@@ -62,7 +62,7 @@ class Routes:
             from .forms import RequestForm
             requestform = RequestForm()
             if requestform.validate_on_submit():
-                return redirect('request')
+                return redirect('requestform')
             return render_template('request.html',
                                    title='Request Form',
                                    requestform=requestform)
