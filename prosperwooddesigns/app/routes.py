@@ -67,18 +67,35 @@ class Routes:
                                    title='Request Form',
                                    requestform=requestform)
 
-        @app.route('/contact')
+        @app.route('/contact', methods=['GET', 'POST'])
         def contact():
             '''
             Routes the user to the Contact Form of the website
             '''
             from .forms import ContactForm
+
             contactform = ContactForm()
             if contactform.validate_on_submit():
-                return redirect('contact')
+                name = request.form['name']
+                email = request.form['email']
+                content = request.form['content']
+
+                dbConn.setContact(email, name, content)
+                return redirect(url_for('contact_success'))
+
             return render_template('contact.html',
                                    title='Contact Form',
                                    contactform=contactform)
+
+        @app.route('/contact/success')
+        def contact_success():
+            '''
+            Routes the user to a confirmation page after submitting a
+            contact form
+            '''
+            
+            return render_template('contact_success.html',
+                                   title='Contact Success')
 
         @app.route('/admin')
         @login_required
