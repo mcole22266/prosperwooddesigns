@@ -73,9 +73,16 @@ class Routes:
             Routes the user to the Contact Form of the website
             '''
             from .forms import ContactForm
+
             contactform = ContactForm()
             if contactform.validate_on_submit():
+                name = request.form['name']
+                email = request.form['email']
+                content = request.form['content']
+
+                dbConn.setContact(email, name, content)
                 return redirect(url_for('contact_success'))
+
             return render_template('contact.html',
                                    title='Contact Form',
                                    contactform=contactform)
