@@ -86,7 +86,7 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             request form
             '''
-            
+
             return render_template('request_success.html',
                                    title='Request Success')
 
@@ -116,7 +116,7 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             contact form
             '''
-            
+
             return render_template('contact_success.html',
                                    title='Contact Success')
 
@@ -142,7 +142,7 @@ class Routes:
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
                 username = request.form['username']
-                password = request.form['password']
+                # password = request.form['password']  commented out until used
                 admin = dbConn.getAdmin(username=username)
                 login_user(admin)
                 next = request.args.get('next')
