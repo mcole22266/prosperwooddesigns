@@ -93,12 +93,12 @@ class Request(db.Model):
     )
     emailaddress = db.Column(
         db.String(64),
-        unique=True,
+        unique=False,
         nullable=False
     )
     phonenumber = db.Column(
         db.String(80),
-        unique=True,
+        unique=False,
         nullable=False
     )
     name = db.Column(
@@ -251,7 +251,7 @@ class Contact(db.Model):
     )
     emailaddress = db.Column(
         db.String(64),
-        unique=True,
+        unique=False,
         nullable=False
     )
     name = db.Column(
