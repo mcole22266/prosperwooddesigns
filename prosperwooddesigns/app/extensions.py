@@ -112,7 +112,7 @@ class DbConnector:
                   created_date, commit=True):
         from .models import Layout
         layout = Layout(endpoint, content_name, content, is_image,
-                        created_date=datetime.now(), commit=True)
+                        created_date=datetime.now())
         self.db.session.add(layout)
         if commit:
             self.db.session.commit()
