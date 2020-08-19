@@ -4,7 +4,7 @@ Michael Cole
 Productivity Request table -->
 
 <table id='table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
-    class="table-hover table-sm">
+    class="table-hover table">
     <thead>
         <tr>
             <th>Status</th>
@@ -16,7 +16,13 @@ Productivity Request table -->
     <tbody>
         {% for request in requests %}
             <tr>
-                <td>{{ request.status }}</td>
+                <td class=
+                    {% if request.status == "unread" %}'bg-dark text-light'{% endif %}
+                    {% if request.status == "read" %}'bg-secondary text-light'{% endif %}
+                    {% if request.status == "in progress" %}'bg-warning'{% endif %}
+                    {% if request.status == "ready to deliver" %}'bg-info'{% endif %}
+                    {% if request.status == "complete" %}'bg-success'{% endif %}
+                >{{ request.status }}</td>
                 <td>{{ request.created_date }}</td>
                 <td>{{ request.name }}</td>
                 <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
