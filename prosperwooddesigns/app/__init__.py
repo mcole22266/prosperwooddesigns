@@ -5,11 +5,12 @@
 # ------------------------------------------------
 
 from flask import Flask
+
 from flask_wtf.csrf import CSRFProtect
 
+from .extensions import DbConnector, Logger, MockData, S3Connecter
+from .models import db, loginManager
 from .routes import Routes
-from .models import loginManager, db
-from .extensions import Logger, S3Connecter, MockData, DbConnector
 
 csrf = CSRFProtect()
 routes = Routes()

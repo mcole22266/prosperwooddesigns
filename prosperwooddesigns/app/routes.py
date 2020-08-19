@@ -4,10 +4,11 @@
 # Location of all app routing
 # ---------------------------
 
-from flask import redirect, render_template, url_for, request
+from flask import redirect, render_template, request, url_for
+
 from flask_login import login_required, login_user, logout_user
 
-from .extensions import Logger, DbConnector, Helper
+from .extensions import DbConnector, Helper, Logger
 
 logger = Logger()
 dbConn = DbConnector()
@@ -54,31 +55,70 @@ class Routes:
             return render_template('designs.html',
                                    title='Designs')
 
-        @app.route('/requestform')
+        @app.route('/requestform', methods=['GET', 'POST'])
         def requestform():
             '''
             Routes the user to the Request Form of the website
             '''
             from .forms import RequestForm
+
             requestform = RequestForm()
             if requestform.validate_on_submit():
-                return redirect('requestform')
+                email = request.form['email']
+                phone = request.form['phone']
+                name = request.form['name']
+                contact_method = request.form['contact_method']
+                description = request.form['description']
+
+                dbConn.setRequest(
+                    email, phone, name, contact_method, description
+                )
+
+                return redirect(url_for('request_success'))
+
             return render_template('request.html',
                                    title='Request Form',
                                    requestform=requestform)
 
-        @app.route('/contact')
+        @app.route('/request/success')
+        def request_success():
+            '''
+            Routes the user to a confirmation page after submitting a
+            request form
+            '''
+
+            return render_template('request_success.html',
+                                   title='Request Success')
+
+        @app.route('/contact', methods=['GET', 'POST'])
         def contact():
             '''
             Routes the user to the Contact Form of the website
             '''
             from .forms import ContactForm
+
             contactform = ContactForm()
             if contactform.validate_on_submit():
-                return redirect('contact')
+                name = request.form['name']
+                email = request.form['email']
+                content = request.form['content']
+
+                dbConn.setContact(email, name, content)
+                return redirect(url_for('contact_success'))
+
             return render_template('contact.html',
                                    title='Contact Form',
                                    contactform=contactform)
+
+        @app.route('/contact/success')
+        def contact_success():
+            '''
+            Routes the user to a confirmation page after submitting a
+            contact form
+            '''
+
+            return render_template('contact_success.html',
+                                   title='Contact Success')
 
         @app.route('/admin')
         @login_required
@@ -102,7 +142,7 @@ class Routes:
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
                 username = request.form['username']
-                password = request.form['password']
+                # password = request.form['password']  commented out until used
                 admin = dbConn.getAdmin(username=username)
                 login_user(admin)
                 next = request.args.get('next')
