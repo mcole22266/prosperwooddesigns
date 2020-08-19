@@ -188,6 +188,17 @@ class Routes:
             logout_user()
             return redirect(url_for('index'))
 
+        @app.route('/admin/request/<request_id>', methods=['POST'])
+        @login_required
+        def admin_request_requestid(request_id):
+            '''
+            Updated a request's status based on modal input
+            '''
+            new_status = request.form[f'request-{request_id}']
+            dbConn.updateRequest(id=request_id, status=new_status)
+
+            return redirect(url_for('admin'))
+
         @app.route('/admin/data')
         def data():
             '''
