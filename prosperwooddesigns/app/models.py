@@ -286,4 +286,4 @@ class Contact(db.Model):
         self.created_date = created_date
 
     def __repr__(self):
-        return f'Contact: {self.name} - {self.emailaddress} ({self.status)}'
+        return f'Contact: {self.name} - {self.emailaddress} ({self.status})'

@@ -128,7 +128,7 @@ class DbConnector:
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content, status,
+    def setContact(self, emailaddress, name, content, status='unread',
                    created_date=datetime.now(),
                    commit=True):
         from .models import Contact
