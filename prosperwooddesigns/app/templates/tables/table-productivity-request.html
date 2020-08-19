@@ -1,0 +1,26 @@
+<!-- table-productivity-request.html
+Michael Cole
+
+Productivity Request table -->
+
+<table id='table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
+    class="table-hover table-sm">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in requests %}
+            <tr>
+                <td>{{ request.status }}</td>
+                <td>{{ request.created_date }}</td>
+                <td>{{ request.name }}</td>
+                <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -87,10 +87,12 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             greeting = helper.getGreeting()
+            requests = dbConn.getRequests()
 
             return render_template('admin.html',
                                    title='Admin',
-                                   greeting=greeting)
+                                   greeting=greeting,
+                                   requests=requests)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -102,7 +104,7 @@ class Routes:
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
                 username = request.form['username']
-                password = request.form['password']
+                # password = request.form['password']
                 admin = dbConn.getAdmin(username=username)
                 login_user(admin)
                 next = request.args.get('next')

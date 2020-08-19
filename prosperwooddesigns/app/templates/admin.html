@@ -9,6 +9,8 @@ Content for the landing page -->
     <div class="container">
         <h1>{{ greeting }}, {{ current_user.firstname }}</h1>
         <h3>Welcome to your Admin Dashboard</h3>
+
+        {% include './tables/table-productivity-request.html' %}
     </div>
 
 {% endblock body %}
