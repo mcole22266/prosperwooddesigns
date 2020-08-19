@@ -72,7 +72,7 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status='Unread', is_deleted=False,
+                   description, status='unread', is_deleted=False,
                    created_date=datetime.now(), commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
