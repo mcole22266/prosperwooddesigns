@@ -83,6 +83,16 @@ class DbConnector:
         self.logger.log(f'Created Request - {request}')
         return request
 
+    def updateRequest(self, id, status=False, commit=True):
+        request = self.getRequest(id=id)
+        if status:
+            request.status = status
+            self.logger.log(
+                f'Updated Request {request.id} status to {status}'
+            )
+        if commit:
+            self.db.session.commit()
+
     def getImages(self):
         from .models import Image
         return Image.query.all()
