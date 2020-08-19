@@ -4,8 +4,8 @@
 # Collection of extensions to be used throughout the app
 # ------------------------------------------------------
 
-import sys
 import os
+import sys
 from datetime import datetime
 
 import boto3
@@ -68,7 +68,7 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status, is_deleted,
+                   description, status='Unread', is_deleted=False,
                    created_date=datetime.now(), commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
@@ -264,7 +264,7 @@ class MockData:
             phonenumber = self.fake.phone_number()
             name = self.fake.name()
             contactmethod = self.fake.random_element([
-                'phone', 'email', 'no preference'
+                'phone', 'email', None
             ])
             description = self.fakeDescription()
             status = self.fake.random_element([
