@@ -128,11 +128,11 @@ class DbConnector:
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content,
+    def setContact(self, emailaddress, name, content, status,
                    created_date=datetime.now(),
                    commit=True):
         from .models import Contact
-        contact = Contact(emailaddress, name, content, created_date)
+        contact = Contact(emailaddress, name, content, status, created_date)
         self.db.session.add(contact)
         if commit:
             self.db.session.commit()
@@ -319,9 +319,12 @@ class MockData:
             emailaddress = self.fake.email()
             name = self.fake.name()
             content = self.fakeDescription()
+            status = self.fake.random_element([
+                'unread', 'read',
+            ])
             created_date = self.fakeDate()
 
-            self.dbConn.setContact(emailaddress, name, content,
+            self.dbConn.setContact(emailaddress, name, content, status,
                                    created_date, commit=False)
         db.session.commit()
 

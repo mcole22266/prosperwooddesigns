@@ -88,11 +88,13 @@ class Routes:
             '''
             greeting = helper.getGreeting()
             requests = dbConn.getRequests()
+            contacts = dbConn.getContacts()
 
             return render_template('admin.html',
                                    title='Admin',
                                    greeting=greeting,
-                                   requests=requests)
+                                   requests=requests,
+                                   contacts=contacts)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
