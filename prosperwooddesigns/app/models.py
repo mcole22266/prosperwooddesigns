@@ -93,12 +93,12 @@ class Request(db.Model):
     )
     emailaddress = db.Column(
         db.String(64),
-        unique=True,
+        unique=False,
         nullable=False
     )
     phonenumber = db.Column(
         db.String(80),
-        unique=True,
+        unique=False,
         nullable=False
     )
     name = db.Column(
@@ -109,7 +109,7 @@ class Request(db.Model):
     contactmethod = db.Column(
         db.String(80),
         unique=False,
-        nullable=False
+        nullable=True
     )
     description = db.Column(
         db.Text,
@@ -251,7 +251,7 @@ class Contact(db.Model):
     )
     emailaddress = db.Column(
         db.String(64),
-        unique=True,
+        unique=False,
         nullable=False
     )
     name = db.Column(
@@ -264,6 +264,11 @@ class Contact(db.Model):
         unique=False,
         nullable=True
     )
+    status = db.Column(
+        db.String(80),
+        unique=False,
+        nullable=False
+    )
     created_date = db.Column(
         db.Date,
         unique=False,
@@ -271,13 +276,14 @@ class Contact(db.Model):
     )
 
     def __init__(
-        self, emailaddress, name, content,
+        self, emailaddress, name, content, status,
         created_date=datetime.now()
     ):
         self.emailaddress = emailaddress
         self.name = name
         self.content = content
+        self.status = status
         self.created_date = created_date
 
     def __repr__(self):
-        return f'Contact: {self.name} - {self.emailaddress}'
+        return f'Contact: {self.name} - {self.emailaddress} ({self.status})'

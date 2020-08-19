@@ -4,8 +4,8 @@
 # Collection of extensions to be used throughout the app
 # ------------------------------------------------------
 
-import sys
 import os
+import sys
 from datetime import datetime
 
 import boto3
@@ -58,9 +58,13 @@ class DbConnector:
         self.logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self):
+    def getRequests(self, order_date=False):
         from .models import Request
-        return Request.query.all()
+        if order_date:
+            # order by created_date desc
+            return Request.query.order_by(Request.created_date.desc())
+        else:
+            return Request.query.all()
 
     def getRequest(self, id=False):
         from .models import Request
@@ -68,7 +72,7 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status, is_deleted,
+                   description, status='Unread', is_deleted=False,
                    created_date=datetime.now(), commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
@@ -119,20 +123,24 @@ class DbConnector:
         self.logger.log(f'Created Layout - {layout}')
         return layout
 
-    def getContacts(self):
+    def getContacts(self, order_date=False):
         from .models import Contact
-        return Contact.query.all()
+        if order_date:
+            # order by created_date desc
+            return Contact.query.order_by(Contact.created_date.desc())
+        else:
+            return Contact.query.all()
 
     def getContact(self, id=False):
         from .models import Contact
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content,
+    def setContact(self, emailaddress, name, content, status='unread',
                    created_date=datetime.now(),
                    commit=True):
         from .models import Contact
-        contact = Contact(emailaddress, name, content, created_date)
+        contact = Contact(emailaddress, name, content, status, created_date)
         self.db.session.add(contact)
         if commit:
             self.db.session.commit()
@@ -264,7 +272,7 @@ class MockData:
             phonenumber = self.fake.phone_number()
             name = self.fake.name()
             contactmethod = self.fake.random_element([
-                'phone', 'email', 'no preference'
+                'phone', 'email', None
             ])
             description = self.fakeDescription()
             status = self.fake.random_element([
@@ -319,9 +327,12 @@ class MockData:
             emailaddress = self.fake.email()
             name = self.fake.name()
             content = self.fakeDescription()
+            status = self.fake.random_element([
+                'unread', 'read',
+            ])
             created_date = self.fakeDate()
 
-            self.dbConn.setContact(emailaddress, name, content,
+            self.dbConn.setContact(emailaddress, name, content, status,
                                    created_date, commit=False)
         db.session.commit()
 

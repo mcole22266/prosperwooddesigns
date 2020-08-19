@@ -1,0 +1,27 @@
+<!-- table-productivity-contact.html
+Michael Cole
+
+Productivity Contact table -->
+
+<table id='table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
+    class="table-hover table-sm">
+    <thead>
+        <tr>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Content</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for contact in contacts %}
+            <tr>
+                <td>{{ contact.status }}</td>
+                <td>{{ contact.created_date }}</td>
+                <td>{{ contact.name }}</td>
+                <td>{{ contact.content[:50] }} {% if contact.content|length > 50 %}...{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
