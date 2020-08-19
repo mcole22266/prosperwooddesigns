@@ -32,7 +32,7 @@ Productivity Contact table -->
                         <form action="/admin/contact/{{ contact.id }}" method="POST">
                             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="contact-{{ contact.id }}-title">{{ contact.name }}</h4>
+                                <h2 class="modal-title" id="contact-{{ contact.id }}-title">{{ contact.name }}</h2>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                                 </button>
@@ -47,6 +47,10 @@ Productivity Contact table -->
                                         </select>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md"><strong>Email:</strong> {{ contact.emailaddress }}</div>
+                                </div>
+                                <hr>
                                 <p>{{ contact.content }}</p>
                             </div>
                             <div class="modal-footer">
