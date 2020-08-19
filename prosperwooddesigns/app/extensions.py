@@ -58,9 +58,13 @@ class DbConnector:
         self.logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self):
+    def getRequests(self, order_date=False):
         from .models import Request
-        return Request.query.all()
+        if order_date:
+            # order by created_date desc
+            return Request.query.order_by(Request.created_date.desc())
+        else:
+            return Request.query.all()
 
     def getRequest(self, id=False):
         from .models import Request
@@ -68,7 +72,7 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status='Unread', is_deleted=False,
+                   description, status='unread', is_deleted=False,
                    created_date=datetime.now(), commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
@@ -78,6 +82,16 @@ class DbConnector:
             self.db.session.commit()
         self.logger.log(f'Created Request - {request}')
         return request
+
+    def updateRequest(self, id, status=False, commit=True):
+        request = self.getRequest(id=id)
+        if status:
+            request.status = status
+            self.logger.log(
+                f'Updated Request {request.id} status to {status}'
+            )
+        if commit:
+            self.db.session.commit()
 
     def getImages(self):
         from .models import Image
@@ -119,25 +133,39 @@ class DbConnector:
         self.logger.log(f'Created Layout - {layout}')
         return layout
 
-    def getContacts(self):
+    def getContacts(self, order_date=False):
         from .models import Contact
-        return Contact.query.all()
+        if order_date:
+            # order by created_date desc
+            return Contact.query.order_by(Contact.created_date.desc())
+        else:
+            return Contact.query.all()
 
     def getContact(self, id=False):
         from .models import Contact
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content,
+    def setContact(self, emailaddress, name, content, status='unread',
                    created_date=datetime.now(),
                    commit=True):
         from .models import Contact
-        contact = Contact(emailaddress, name, content, created_date)
+        contact = Contact(emailaddress, name, content, status, created_date)
         self.db.session.add(contact)
         if commit:
             self.db.session.commit()
         self.logger.log(f'Created Contact - {contact}')
         return contact
+
+    def updateContact(self, id, status=False, commit=True):
+        contact = self.getContact(id=id)
+        if status:
+            contact.status = status
+            self.logger.log(
+                f'Updated Contact {contact.id} status to {status}'
+            )
+        if commit:
+            self.db.session.commit()
 
 
 class S3Connecter:
@@ -319,9 +347,12 @@ class MockData:
             emailaddress = self.fake.email()
             name = self.fake.name()
             content = self.fakeDescription()
+            status = self.fake.random_element([
+                'unread', 'read',
+            ])
             created_date = self.fakeDate()
 
-            self.dbConn.setContact(emailaddress, name, content,
+            self.dbConn.setContact(emailaddress, name, content, status,
                                    created_date, commit=False)
         db.session.commit()
 

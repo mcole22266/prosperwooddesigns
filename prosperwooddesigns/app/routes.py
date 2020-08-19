@@ -127,10 +127,14 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             greeting = helper.getGreeting()
+            requests = dbConn.getRequests(order_date=True)
+            contacts = dbConn.getContacts(order_date=True)
 
             return render_template('admin.html',
                                    title='Admin',
-                                   greeting=greeting)
+                                   greeting=greeting,
+                                   requests=requests,
+                                   contacts=contacts)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -183,6 +187,28 @@ class Routes:
             '''
             logout_user()
             return redirect(url_for('index'))
+
+        @app.route('/admin/request/<request_id>', methods=['POST'])
+        @login_required
+        def admin_request_requestid(request_id):
+            '''
+            Updated a request's status based on modal input
+            '''
+            new_status = request.form[f'request-{request_id}']
+            dbConn.updateRequest(id=request_id, status=new_status)
+
+            return redirect(url_for('admin'))
+
+        @app.route('/admin/contact/<contact_id>', methods=['POST'])
+        @login_required
+        def admin_contact_contactid(contact_id):
+            '''
+            Updated a contact's status based on modal input
+            '''
+            new_status = request.form[f'contact-{contact_id}']
+            dbConn.updateContact(id=contact_id, status=new_status)
+
+            return redirect(url_for('admin'))
 
         @app.route('/admin/data')
         def data():
