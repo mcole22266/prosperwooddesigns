@@ -127,8 +127,8 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             greeting = helper.getGreeting()
-            requests = dbConn.getRequests()
-            contacts = dbConn.getContacts()
+            requests = dbConn.getRequests(order_date=True)
+            contacts = dbConn.getContacts(order_date=True)
 
             return render_template('admin.html',
                                    title='Admin',
