@@ -157,6 +157,16 @@ class DbConnector:
         self.logger.log(f'Created Contact - {contact}')
         return contact
 
+    def updateContact(self, id, status=False, commit=True):
+        contact = self.getContact(id=id)
+        if status:
+            contact.status = status
+            self.logger.log(
+                f'Updated Contact {contact.id} status to {status}'
+            )
+        if commit:
+            self.db.session.commit()
+
 
 class S3Connecter:
     '''
