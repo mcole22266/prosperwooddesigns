@@ -34,33 +34,6 @@ def username_exists(form, field):
         raise ValidationError("Username already taken")
 
 
-def strong_password(form, field):
-    password = field.data
-    if not len(password) >= 8:
-        raise ValidationError('Password must be at least 8 characters')
-    containsUpper = False
-    containsLower = False
-    containsLetter = False
-    containsNumber = False
-    for char in password:
-        if char.isupper:
-            containsUpper = True
-        if char.islower:
-            containsLower = True
-        if char.isalpha:
-            containsLetter = True
-        if char.isnumeric:
-            containsNumber = True
-    if not containsUpper:
-        raise ValidationError('Must contain at least 1 uppercase letter')
-    if not containsLower:
-        raise ValidationError('Must contain at least 1 lowercase letter')
-    if not containsLetter:
-        raise ValidationError('Must contain at least 1 letter')
-    if not containsNumber:
-        raise ValidationError('Must contain at least 1 number')
-
-
 def incorrect_password(form, field):
     username = form.username.data
     user = dbConn.getAdmin(username=username)
