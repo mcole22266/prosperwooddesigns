@@ -6,7 +6,7 @@
 
 from flask import redirect, render_template, request, url_for
 
-from flask_login import login_required, login_user, logout_user
+from flask_login import login_required, login_user, logout_user, current_user
 
 from .extensions import DbConnector, Helper, Logger
 
@@ -35,6 +35,7 @@ class Routes:
             '''
             Routes the user to the Landing Page of the website
             '''
+            logger.log('Serving index page')
             return render_template('index.html',
                                    title='Home')
 
@@ -52,6 +53,7 @@ class Routes:
             '''
             Routes the user to the Designs Page of the website
             '''
+            logger.log('Serving designs page')
             return render_template('designs.html',
                                    title='Designs')
 
@@ -64,6 +66,8 @@ class Routes:
 
             requestform = RequestForm()
             if requestform.validate_on_submit():
+                logger.log('Request form validated')
+
                 email = request.form['email']
                 phone = request.form['phone']
                 name = request.form['name']
@@ -74,8 +78,10 @@ class Routes:
                     email, phone, name, contact_method, description
                 )
 
+                logger.log('Redirecting to request form success page')
                 return redirect(url_for('request_success'))
 
+            logger.log('Serving request form page')
             return render_template('request.html',
                                    title='Request Form',
                                    requestform=requestform)
@@ -86,7 +92,7 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             request form
             '''
-
+            logger.log('Serving request form success page')
             return render_template('request_success.html',
                                    title='Request Success')
 
@@ -99,13 +105,18 @@ class Routes:
 
             contactform = ContactForm()
             if contactform.validate_on_submit():
+                logger.log('Contact form validated')
+
                 name = request.form['name']
                 email = request.form['email']
                 content = request.form['content']
 
                 dbConn.setContact(email, name, content)
+
+                logger.log('Redirecting to contact form success page')
                 return redirect(url_for('contact_success'))
 
+            logger.log('Serving contact form page')
             return render_template('contact.html',
                                    title='Contact Form',
                                    contactform=contactform)
@@ -116,7 +127,7 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             contact form
             '''
-
+            logger.log('Serving contact form success page')
             return render_template('contact_success.html',
                                    title='Contact Success')
 
@@ -130,6 +141,7 @@ class Routes:
             requests = dbConn.getRequests(order_date=True)
             contacts = dbConn.getContacts(order_date=True)
 
+            logger.log('Serving admin page')
             return render_template('admin.html',
                                    title='Admin',
                                    greeting=greeting,
@@ -145,13 +157,19 @@ class Routes:
 
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
+                logger.log('Admin log-in form validated')
+
                 username = request.form['username']
-                # password = request.form['password']  commented out until used
+                # Currently handled by form -- TODO: Handle password auth
+                # password = request.form['password']
                 admin = dbConn.getAdmin(username=username)
                 login_user(admin)
                 next = request.args.get('next')
+
+                logger.log('Redirecting to next or admin page')
                 return redirect(next or url_for('admin'))
 
+            logger.log('Serving admin log-in page')
             return render_template('admin-login.html',
                                    title='Admin - Log-In',
                                    adminloginform=adminloginform)
@@ -165,16 +183,24 @@ class Routes:
 
             admincreateform = AdminCreateForm()
             if admincreateform.validate_on_submit():
+                logger.log('Admin create form validated')
+
                 firstname = request.form['firstname']
                 lastname = request.form['lastname']
                 username = request.form['username']
                 password = request.form['password']
+
                 admin = dbConn.setAdmin(
                     username, password, firstname, lastname
                 )
+
                 login_user(admin)
+                logger.log(f'{admin.username} logged in')
+
+                logger.log('Redirecting to admin page')
                 return redirect(url_for('admin'))
 
+            logger.log('Serving admin create page')
             return render_template('admin-create.html',
                                    title='Admin - Create',
                                    admincreateform=admincreateform)
@@ -185,7 +211,11 @@ class Routes:
             '''
             Logs a logged-in admin out and redirects to home-page
             '''
+
             logout_user()
+            logger.log(f'{current_user.username} logged-out')
+
+            logger.log('Redirecting to index page')
             return redirect(url_for('index'))
 
         @app.route('/admin/request/<request_id>', methods=['POST'])
@@ -197,6 +227,7 @@ class Routes:
             new_status = request.form[f'request-{request_id}']
             dbConn.updateRequest(id=request_id, status=new_status)
 
+            logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
         @app.route('/admin/contact/<contact_id>', methods=['POST'])
@@ -208,6 +239,7 @@ class Routes:
             new_status = request.form[f'contact-{contact_id}']
             dbConn.updateContact(id=contact_id, status=new_status)
 
+            logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
         @app.route('/admin/data')
@@ -225,6 +257,7 @@ class Routes:
             layouts = dbConnector.getLayouts()
             contacts = dbConnector.getContacts()
 
+            logger.log('Serving admin data page')
             return render_template('data.html',
                                    title='Data',
                                    admins=admins,
