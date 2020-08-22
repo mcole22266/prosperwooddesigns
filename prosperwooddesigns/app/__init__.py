@@ -29,7 +29,6 @@ def create_app():
     Returns:
         Flask App
     '''
-    logger.log('Creating app')
     app = Flask(__name__, instance_relative_config=False,
                 template_folder='./templates',
                 static_folder='./static')
@@ -43,16 +42,16 @@ def create_app():
         # config app with prod config
         app.config.from_object('config.ConfigProd')
 
-    if app.config['AWS_DOWNLOAD_IMAGES']:
-        # by default, will only download images on startup
-        # if in production
-        logger.log('Importing remote image files from S3')
-        s3Conn.downloadImages()
-
-    logger.log('Initializing DB')
+    # logger.log('Initializing DB')
     db.init_app(app)
 
     with app.app_context():
+        logger.log('Creating App')
+
+        if app.config['AWS_DOWNLOAD_IMAGES']:
+            # by default, will only download images on startup
+            # if in production
+            s3Conn.downloadImages()
 
         logger.log('Importing routes')
         routes.init(app)

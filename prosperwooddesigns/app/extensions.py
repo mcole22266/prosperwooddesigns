@@ -8,7 +8,32 @@ import os
 import sys
 from datetime import datetime
 
+from flask import current_app
+
 import boto3
+
+
+class Helper:
+
+    def getGreeting(self):
+        ct_now = self.getTime_tz()
+        hour = ct_now.time().hour
+
+        if hour >= 4 and hour <= 11:
+            return 'Good Morning'
+        elif hour >= 12 and hour <= 16:
+            return 'Good Afternoon'
+        elif hour >= 17 and hour <= 23:
+            return 'Good Evening'
+        else:
+            return 'It is very late'
+
+    def getTime_tz(self, tz='America/Chicago'):
+        from datetime import datetime
+        import pytz
+
+        utc_now = pytz.utc.localize(datetime.now())
+        return utc_now.astimezone(pytz.timezone(tz))
 
 
 class Logger:
@@ -17,16 +42,34 @@ class Logger:
     as log to a file in development
     '''
 
-    def log(self, string, loc='stdout'):
+    helper = Helper()
+
+    def log(self, string):
         '''
         Prints to the console by default. Can pass a filename
         for logs to write to
         '''
-
-        if loc == 'stdout':
+        if current_app.config['LOG_TO_STDOUT']:
             print(f'>> {string}', file=sys.stdout, flush=True)
-        else:
-            print(f'>> {string}', file=loc, flush=True)
+
+        if current_app.config['LOG_TO_FILE']:
+            now = self.helper.getTime_tz()
+            year = str(now.year).rjust(4, '0')
+            month = str(now.month).rjust(2, '0')
+            day = str(now.day).rjust(2, '0')
+            hour = str(now.hour).rjust(2, '0')
+            minute = str(now.minute).rjust(2, '0')
+            second = str(now.second).rjust(2, '0')
+
+            fileprefix = f'/prosperwooddesigns/logs/{year}/{month}'
+            if not os.path.exists(fileprefix):
+                os.makedirs(fileprefix)
+
+            filename = f'{fileprefix}/log_{year}{month}{day}.log'
+            timestamp = f'{hour}:{minute}:{second}'
+
+            with open(filename, 'a+') as f:
+                print(f'>> [{timestamp}] {string}', file=f, flush=True)
 
 
 class DbConnector:
@@ -359,23 +402,3 @@ class MockData:
             self.dbConn.setContact(emailaddress, name, content, status,
                                    created_date, commit=False)
         db.session.commit()
-
-
-class Helper:
-
-    def getGreeting(self):
-        from datetime import datetime
-        import pytz
-
-        utc_now = pytz.utc.localize(datetime.utcnow())
-        ct_now = utc_now.astimezone(pytz.timezone('America/Chicago'))
-        hour = ct_now.time().hour
-
-        if hour >= 4 and hour <= 11:
-            return 'Good Morning'
-        elif hour >= 12 and hour <= 16:
-            return 'Good Afternoon'
-        elif hour >= 17 and hour <= 23:
-            return 'Good Evening'
-        else:
-            return 'It is very late'
