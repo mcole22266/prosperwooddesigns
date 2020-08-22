@@ -41,6 +41,9 @@ class ConfigBase:
     AWS_PROJECT_BUCKET_IMAGE_DIR = environ['AWS_PROJECT_BUCKET_IMAGE_DIR']
     AWS_LOCAL_IMAGE_PATH = environ['AWS_LOCAL_IMAGE_PATH']
 
+    # Other Config
+    ADMIN_FORM_SECRET_CODE = environ['ADMIN_FORM_SECRET_CODE']
+
 
 class ConfigDev:
     '''

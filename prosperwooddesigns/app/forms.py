@@ -43,6 +43,12 @@ def incorrect_password(form, field):
             raise ValidationError("Incorrect password")
 
 
+def secret_code_check(form, field):
+    from os import environ
+    if not field.data == environ['ADMIN_FORM_SECRET_CODE']:
+        raise ValidationError('Incorrect secret code')
+
+
 class RequestForm(FlaskForm):
     '''
     A request form for users to request a custom design.
@@ -162,7 +168,8 @@ class AdminCreateForm(FlaskForm):
     ])
 
     secret_code = PasswordField('Secret Code', validators=[
-        DataRequired()
+        DataRequired(),
+        secret_code_check
     ])
 
     submit = SubmitField('Create Account')
