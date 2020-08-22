@@ -7,8 +7,15 @@
 from flask_wtf import FlaskForm
 from wtforms import (PasswordField, SelectField, StringField, SubmitField,
                      TextAreaField)
-from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired
+from wtforms.validators import (DataRequired, Email, Length, Optional,
+                                ValidationError)
+
+
+def email_or_phone(form, field):
+    if len(form.phone.data) == 0 and len(form.email.data) == 0:
+        raise ValidationError(
+            'Must provide either a phone number or an email address'
+        )
 
 
 class RequestForm(FlaskForm):
@@ -16,16 +23,18 @@ class RequestForm(FlaskForm):
     A request form for users to request a custom design.
     '''
 
-    email = EmailField('Your Email', validators=[
-        DataRequired()
+    email = StringField('Your Email', validators=[
+        email_or_phone,
+        Optional(),
+        Email()
     ])
 
     phone = StringField('Your Phone Number', validators=[
-        DataRequired()
+        email_or_phone
     ])
 
     name = StringField('Your Name', validators=[
-        DataRequired()
+        DataRequired(),
     ])
 
     contact_method = SelectField('Your Preferred Contact Method', choices=[
@@ -35,7 +44,12 @@ class RequestForm(FlaskForm):
     ])
 
     description = TextAreaField("Tell me what you're looking for!",
-                                validators=[DataRequired()]
+                                validators=[
+                                    DataRequired(),
+                                    Length(min=25, max=2500, message=(
+                                        'Must contain at least 25 characters'
+                                    ))
+                                    ]
                                 )
 
     submit = SubmitField('Request')
@@ -52,11 +66,13 @@ class ContactForm(FlaskForm):
     ])
 
     email = StringField('Your Email', validators=[
-        DataRequired()
+        DataRequired(),
+        Email()
     ])
 
     content = TextAreaField('Question', validators=[
-        DataRequired()
+        DataRequired(),
+        Length(min=25, max=2500, message="Must contain at least 25 characters")
     ])
 
     submit = SubmitField('Send')
