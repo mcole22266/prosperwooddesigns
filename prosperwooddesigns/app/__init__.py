@@ -6,6 +6,7 @@
 
 from flask import Flask
 
+from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
 from .extensions import DbConnector, Logger, MockData, S3Connecter
@@ -13,6 +14,7 @@ from .models import db, loginManager
 from .routes import Routes
 
 csrf = CSRFProtect()
+flask_bcrypt = Bcrypt()
 routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
@@ -56,6 +58,8 @@ def create_app():
         routes.init(app)
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
+        logger.log('Initializing encryption')
+        flask_bcrypt.init_app(app)
         logger.log('Creating all tables in db')
         db.create_all()
         db.session.commit()

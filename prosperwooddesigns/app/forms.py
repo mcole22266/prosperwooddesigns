@@ -7,8 +7,12 @@
 from flask_wtf import FlaskForm
 from wtforms import (PasswordField, SelectField, StringField, SubmitField,
                      TextAreaField)
-from wtforms.validators import (DataRequired, Email, Length, Optional,
-                                ValidationError)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional,
+                                Regexp, ValidationError)
+
+from .extensions import DbConnector
+
+dbConn = DbConnector()
 
 
 def email_or_phone(form, field):
@@ -16,6 +20,33 @@ def email_or_phone(form, field):
         raise ValidationError(
             'Must provide either a phone number or an email address'
         )
+
+
+def username_not_found(form, field):
+    user = dbConn.getAdmin(username=field.data)
+    if not user:
+        raise ValidationError("Username doesn't exist")
+
+
+def username_exists(form, field):
+    user = dbConn.getAdmin(username=field.data)
+    if user:
+        raise ValidationError("Username already taken")
+
+
+def incorrect_password(form, field):
+    username = form.username.data
+    user = dbConn.getAdmin(username=username)
+    if user:
+        import flask_bcrypt
+        if not flask_bcrypt.check_password_hash(user.password, field.data):
+            raise ValidationError("Incorrect password")
+
+
+def secret_code_check(form, field):
+    from os import environ
+    if not field.data == environ['ADMIN_FORM_SECRET_CODE']:
+        raise ValidationError('Incorrect secret code')
 
 
 class RequestForm(FlaskForm):
@@ -84,11 +115,13 @@ class AdminLogInForm(FlaskForm):
     '''
 
     username = StringField('Username', validators=[
-        DataRequired()
+        DataRequired(),
+        username_not_found
     ])
 
     password = PasswordField('Password', validators=[
-        DataRequired()
+        DataRequired(),
+        incorrect_password
     ])
 
     submit = SubmitField('Log-In')
@@ -108,19 +141,35 @@ class AdminCreateForm(FlaskForm):
     ])
 
     username = StringField('Username', validators=[
-        DataRequired()
+        DataRequired(),
+        username_exists
     ])
 
     password = PasswordField('Password', validators=[
-        DataRequired()
+        DataRequired(),
+        Regexp(
+            r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})',
+            message=(
+                "Password must contain the following:<br>"
+                "<ul>"
+                "<li>At least 8 characters</li>"
+                "<li>At least 1 lowercase alphabetical character</li>"
+                "<li>At least 1 uppercase alphabetical character</li>"
+                "<li>At least 1 numeric character</li>"
+                "<li>At least 1 special character [!@#$%^&*]</li>"
+                "</ul>")
+        ),
+        Length(min=8, message='Password must contain at least 8 characters'),
     ])
 
     password_retype = PasswordField('Retype Password', validators=[
-        DataRequired()
+        DataRequired(),
+        EqualTo('password', message='Passwords do not match')
     ])
 
     secret_code = PasswordField('Secret Code', validators=[
-        DataRequired()
+        DataRequired(),
+        secret_code_check
     ])
 
     submit = SubmitField('Create Account')
