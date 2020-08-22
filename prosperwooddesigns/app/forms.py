@@ -8,7 +8,11 @@ from flask_wtf import FlaskForm
 from wtforms import (PasswordField, SelectField, StringField, SubmitField,
                      TextAreaField)
 from wtforms.validators import (DataRequired, Email, Length, Optional,
-                                ValidationError)
+                                ValidationError, EqualTo, Regexp)
+
+from .extensions import DbConnector
+
+dbConn = DbConnector()
 
 
 def email_or_phone(form, field):
@@ -16,6 +20,53 @@ def email_or_phone(form, field):
         raise ValidationError(
             'Must provide either a phone number or an email address'
         )
+
+
+def username_not_found(form, field):
+    user = dbConn.getAdmin(username=field.data)
+    if not user:
+        raise ValidationError("Username doesn't exist")
+
+
+def username_exists(form, field):
+    user = dbConn.getAdmin(username=field.data)
+    if user:
+        raise ValidationError("Username already taken")
+
+
+def strong_password(form, field):
+    password = field.data
+    if not len(password) >= 8:
+        raise ValidationError('Password must be at least 8 characters')
+    containsUpper = False
+    containsLower = False
+    containsLetter = False
+    containsNumber = False
+    for char in password:
+        if char.isupper:
+            containsUpper = True
+        if char.islower:
+            containsLower = True
+        if char.isalpha:
+            containsLetter = True
+        if char.isnumeric:
+            containsNumber = True
+    if not containsUpper:
+        raise ValidationError('Must contain at least 1 uppercase letter')
+    if not containsLower:
+        raise ValidationError('Must contain at least 1 lowercase letter')
+    if not containsLetter:
+        raise ValidationError('Must contain at least 1 letter')
+    if not containsNumber:
+        raise ValidationError('Must contain at least 1 number')
+
+
+def incorrect_password(form, field):
+    username = form.username.data
+    user = dbConn.getAdmin(username=username)
+    if user:
+        if not user.password == field.data:
+            raise ValidationError("Incorrect password")
 
 
 class RequestForm(FlaskForm):
@@ -84,11 +135,13 @@ class AdminLogInForm(FlaskForm):
     '''
 
     username = StringField('Username', validators=[
-        DataRequired()
+        DataRequired(),
+        username_not_found
     ])
 
     password = PasswordField('Password', validators=[
-        DataRequired()
+        DataRequired(),
+        incorrect_password
     ])
 
     submit = SubmitField('Log-In')
@@ -108,15 +161,30 @@ class AdminCreateForm(FlaskForm):
     ])
 
     username = StringField('Username', validators=[
-        DataRequired()
+        DataRequired(),
+        username_exists
     ])
 
     password = PasswordField('Password', validators=[
-        DataRequired()
+        DataRequired(),
+        Regexp(
+            r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})',
+            message=(
+                "Password must contain the following:<br>"
+                "<ul>"
+                "<li>At least 8 characters</li>"
+                "<li>At least 1 lowercase alphabetical character</li>"
+                "<li>At least 1 uppercase alphabetical character</li>"
+                "<li>At least 1 numeric character</li>"
+                "<li>At least 1 special character [!@#$%^&*]</li>"
+                "</ul>")
+        ),
+        Length(min=8, message='Password must contain at least 8 characters'),
     ])
 
     password_retype = PasswordField('Retype Password', validators=[
-        DataRequired()
+        DataRequired(),
+        EqualTo('password', message='Passwords do not match')
     ])
 
     secret_code = PasswordField('Secret Code', validators=[

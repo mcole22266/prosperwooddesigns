@@ -29,7 +29,7 @@ a request -->
         <div class="form-group col-md-6">
             {{ admincreateform.password.label }}
             {{ admincreateform.password(class_="form-control") }}
-            <div class="invalid-feedback">{{ admincreateform.password.errors[0] }}</div>
+            <div class="invalid-feedback">{% autoescape false %}{{ admincreateform.password.errors[0] }}{% endautoescape %}</div>
         </div>
         <div class="form-group col-md-6">
             {{ admincreateform.password_retype.label }}
