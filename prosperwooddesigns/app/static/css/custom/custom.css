@@ -114,11 +114,16 @@ Custom CSS to overwrite any bootstrap CSS */
     margin-top: 8px;
     vertical-align: middle;
     width: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 3%;
 }
 
 .gallery-column img:hover {
     transition: all .2s ease-in-out;
     transform: scale(1.2) translateY(-12px);
+    filter: drop-shadow(10px 10px 4px black);
 }
 
 @media screen and (max-width: 600px) {
