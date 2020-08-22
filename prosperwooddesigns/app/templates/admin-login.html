@@ -8,10 +8,14 @@ Content for the Admin Log-In page -->
 
     <div class="container page-content form-content">
         <div class="row align-items-center">
-            <div class="col-md-12">
-                <h1>Admin Log-In</h1>
+            <div class="col-md-12 animatedParent">
+                <h1 id="adminlogin" class="animated fadeInLeftShort">
+                    Admin Log-In
+                </h1>
 
-                {% include 'forms/AdminLogInForm.html' %}
+                <div class="animated fadeIn">
+                    {% include 'forms/AdminLogInForm.html' %}
+                </div>
             </div>
         </div>
     </div>
