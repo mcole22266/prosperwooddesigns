@@ -50,7 +50,11 @@ class DbConnector:
     def setAdmin(self, username, password, firstname, lastname,
                  created_date=datetime.now(), commit=True):
         from .models import Admin
-        admin = Admin(username, password, firstname, lastname,
+        import flask_bcrypt
+
+        encrypted_password = flask_bcrypt.generate_password_hash(
+            password).decode('utf-8')
+        admin = Admin(username, encrypted_password, firstname, lastname,
                       created_date=created_date)
         self.db.session.add(admin)
         if commit:

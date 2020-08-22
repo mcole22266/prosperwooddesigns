@@ -7,8 +7,8 @@
 from flask_wtf import FlaskForm
 from wtforms import (PasswordField, SelectField, StringField, SubmitField,
                      TextAreaField)
-from wtforms.validators import (DataRequired, Email, Length, Optional,
-                                ValidationError, EqualTo, Regexp)
+from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional,
+                                Regexp, ValidationError)
 
 from .extensions import DbConnector
 
@@ -38,7 +38,8 @@ def incorrect_password(form, field):
     username = form.username.data
     user = dbConn.getAdmin(username=username)
     if user:
-        if not user.password == field.data:
+        import flask_bcrypt
+        if not flask_bcrypt.check_password_hash(user.password, field.data):
             raise ValidationError("Incorrect password")
 
 
