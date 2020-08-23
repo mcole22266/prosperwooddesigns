@@ -10,12 +10,14 @@ a request -->
         <div class="form-group col-md">
             {{ adminloginform.username.label }}
             {{ adminloginform.username(class_="form-control") }}
+            <div class="invalid-feedback">{{ adminloginform.username.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md">
             {{ adminloginform.password.label }}
             {{ adminloginform.password(class_="form-control") }}
+            <div class="invalid-feedback">{{ adminloginform.password.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
@@ -23,8 +25,26 @@ a request -->
             <a href="/admin/create">Don't have an admin account?</a>
         </div>
         <div class="col-md-6">
-            {{ adminloginform.submit(class_="btn btn-primary float-right") }}
+            {{ adminloginform.submit(class_="btn btn-primary float-right animated fadeInRightShort") }}
         </div>
     </div>
 
 </form>
+
+<script>
+    function usernameError() {
+        var usernameInput = document.getElementById("username");
+        usernameInput.classList.add("is-invalid");
+    }
+    function passwordError() {
+        var passwordInput = document.getElementById("password");
+        passwordInput.classList.add("is-invalid");
+    }
+</script>
+
+{% if adminloginform.username.errors %}
+    <script>usernameError();</script>
+{% endif %}
+{% if adminloginform.password.errors %}
+    <script>passwordError();</script>
+{% endif %}

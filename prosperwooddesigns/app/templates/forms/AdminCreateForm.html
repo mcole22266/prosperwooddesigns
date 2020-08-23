@@ -10,32 +10,38 @@ a request -->
         <div class="form-group col-md-6">
             {{ admincreateform.firstname.label }}
             {{ admincreateform.firstname(class_="form-control") }}
+            <div class="invalid-feedback">{{ admincreateform.firstname.errors[0] }}</div>
         </div>
         <div class="form-group col-md-6">
             {{ admincreateform.lastname.label }}
             {{ admincreateform.lastname(class_="form-control") }}
+            <div class="invalid-feedback">{{ admincreateform.lastname.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md">
             {{ admincreateform.username.label }}
             {{ admincreateform.username(class_="form-control") }}
+            <div class="invalid-feedback">{{ admincreateform.username.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             {{ admincreateform.password.label }}
             {{ admincreateform.password(class_="form-control") }}
+            <div class="invalid-feedback">{% autoescape false %}{{ admincreateform.password.errors[0] }}{% endautoescape %}</div>
         </div>
         <div class="form-group col-md-6">
             {{ admincreateform.password_retype.label }}
             {{ admincreateform.password_retype(class_="form-control") }}
+            <div class="invalid-feedback">{{ admincreateform.password_retype.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md">
             {{ admincreateform.secret_code.label }}
             {{ admincreateform.secret_code(class_="form-control") }}
+            <div class="invalid-feedback">{{ admincreateform.secret_code.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
@@ -43,8 +49,54 @@ a request -->
             <a href="/admin/log-in">Already have an account?</a>
         </div>
         <div class="col-md-6">
-            {{ admincreateform.submit(class_="btn btn-primary float-right") }}
+            {{ admincreateform.submit(class_="btn btn-primary float-right animated fadeInRightShort") }}
         </div>
     </div>
 
 </form>
+
+<script>
+    function firstnameError() {
+        var firstnameInput = document.getElementById("firstname");
+        firstnameInput.classList.add("is-invalid");
+    }
+    function lastnameError() {
+        var lastnameInput = document.getElementById("lastname");
+        lastnameInput.classList.add("is-invalid");
+    }
+    function usernameError() {
+        var usernameInput = document.getElementById("username");
+        usernameInput.classList.add("is-invalid");
+    }
+    function passwordError() {
+        var passwordInput = document.getElementById("password");
+        passwordInput.classList.add("is-invalid");
+    }
+    function password_retypeError() {
+        var password_retypeInput = document.getElementById("password_retype");
+        password_retypeInput.classList.add("is-invalid");
+    }
+    function secret_codeError() {
+        var secret_codeInput = document.getElementById("secret_code");
+        secret_codeInput.classList.add("is-invalid");
+    }
+</script>
+
+{% if admincreateform.firstname.errors %}
+    <script>firstnameError();</script>
+{% endif %}
+{% if admincreateform.lastname.errors %}
+    <script>lastnameError();</script>
+{% endif %}
+{% if admincreateform.username.errors %}
+    <script>usernameError();</script>
+{% endif %}
+{% if admincreateform.password.errors %}
+    <script>passwordError();</script>
+{% endif %}
+{% if admincreateform.password_retype.errors %}
+    <script>password_retypeError();</script>
+{% endif %}
+{% if admincreateform.secret_code.errors %}
+    <script>secret_codeError();</script>
+{% endif %}

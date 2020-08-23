@@ -41,6 +41,9 @@ class ConfigBase:
     AWS_PROJECT_BUCKET_IMAGE_DIR = environ['AWS_PROJECT_BUCKET_IMAGE_DIR']
     AWS_LOCAL_IMAGE_PATH = environ['AWS_LOCAL_IMAGE_PATH']
 
+    # Other Config
+    ADMIN_FORM_SECRET_CODE = environ['ADMIN_FORM_SECRET_CODE']
+
 
 class ConfigDev:
     '''
@@ -50,6 +53,8 @@ class ConfigDev:
     # Config
     GENERATE_FAKE_DATA = True
     DB_CREATE_ADMIN_USER = True
+    LOG_TO_STDOUT = True
+    LOG_TO_FILE = False
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False
@@ -66,6 +71,8 @@ class ConfigProd:
     # Config
     GENERATE_FAKE_DATA = False
     DB_CREATE_ADMIN_USER = False
+    LOG_TO_STDOUT = False
+    LOG_TO_FILE = True
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False

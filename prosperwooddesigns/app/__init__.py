@@ -6,6 +6,7 @@
 
 from flask import Flask
 
+from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
 from .extensions import DbConnector, Logger, MockData, S3Connecter
@@ -13,6 +14,7 @@ from .models import db, loginManager
 from .routes import Routes
 
 csrf = CSRFProtect()
+flask_bcrypt = Bcrypt()
 routes = Routes()
 logger = Logger()
 s3Conn = S3Connecter()
@@ -27,7 +29,6 @@ def create_app():
     Returns:
         Flask App
     '''
-    logger.log('Creating app')
     app = Flask(__name__, instance_relative_config=False,
                 template_folder='./templates',
                 static_folder='./static')
@@ -41,21 +42,23 @@ def create_app():
         # config app with prod config
         app.config.from_object('config.ConfigProd')
 
-    if app.config['AWS_DOWNLOAD_IMAGES']:
-        # by default, will only download images on startup
-        # if in production
-        logger.log('Importing remote image files from S3')
-        s3Conn.downloadImages()
-
-    logger.log('Initializing DB')
+    # logger.log('Initializing DB')
     db.init_app(app)
 
     with app.app_context():
+        logger.log('Creating App')
+
+        if app.config['AWS_DOWNLOAD_IMAGES']:
+            # by default, will only download images on startup
+            # if in production
+            s3Conn.downloadImages()
 
         logger.log('Importing routes')
         routes.init(app)
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
+        logger.log('Initializing encryption')
+        flask_bcrypt.init_app(app)
         logger.log('Creating all tables in db')
         db.create_all()
         db.session.commit()

@@ -36,7 +36,7 @@ class Admin(db.Model):
         nullable=False
     )
     password = db.Column(
-        db.String(80),
+        db.String(),
         unique=False,
         nullable=False
     )

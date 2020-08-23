@@ -8,10 +8,14 @@ Content for the Admin Create page -->
 
     <div class="container page-content form-content">
         <div class="row align-items-center">
-            <div class="col-md-12">
-                <h1>Admin Create</h1>
+            <div class="col-md-12 animatedParent">
+                <h1 id="admincreate" class="animated fadeInLeftShort">
+                    Admin Create
+                </h1>
 
-                {% include 'forms/AdminCreateForm.html' %}
+                <div class="animated fadeIn">
+                    {% include 'forms/AdminCreateForm.html' %}
+                </div>
             </div>
         </div>
     </div>
