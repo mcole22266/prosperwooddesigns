@@ -4,28 +4,56 @@ Michael Cole
 The Contact Form to be used by customer to contact the owner without submitting
 a request -->
 
-<form>
+<form method="POST">
     {{ contactform.csrf_token }}
     <div class="form-row">
         <div class="form-group col-md-6">
             {{ contactform.name.label }}
             {{ contactform.name(class_="form-control") }}
+            <div class="invalid-feedback">{{ contactform.name.errors[0] }}</div>
         </div>
         <div class="form-group col-md-6">
             {{ contactform.email.label }}
             {{ contactform.email(class_="form-control") }}
+            <div class="invalid-feedback">{{ contactform.email.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
             {{ contactform.content.label }}
             {{ contactform.content(class_="form-control", rows=8) }}
+            <div class="invalid-feedback">{{ contactform.content.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="col-md-12">
-            {{ contactform.submit(class_="btn btn-primary float-right") }}
+            {{ contactform.submit(class_="btn btn-primary float-right animated fadeInRightShort") }}
         </div>
     </div>
 
 </form>
+
+<script>
+    function nameError() {
+        var nameInput = document.getElementById("name");
+        nameInput.classList.add("is-invalid");
+    }
+    function emailError() {
+        var emailInput = document.getElementById("email");
+        emailInput.classList.add("is-invalid");
+    }
+    function contentError() {
+        var contentInput = document.getElementById("content");
+        contentInput.classList.add("is-invalid");
+    }
+</script>
+
+{% if contactform.name.errors %}
+    <script>nameError();</script>
+{% endif %}
+{% if contactform.email.errors %}
+    <script>emailError();</script>
+{% endif %}
+{% if contactform.content.errors %}
+    <script>contentError();</script>
+{% endif %}

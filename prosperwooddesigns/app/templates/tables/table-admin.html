@@ -1,0 +1,26 @@
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>password</th>
+        <th>firstname</th>
+        <th>lastname</th>
+        <th>created_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for admin in admins %}
+        <tr>
+            <td>{{ admin.id }}</td>
+            <td>{{ admin.username }}</td>
+            <!-- <td>{{ admin.password }}</td> -->  <!-- Uncomment to show encrypted password -->
+            <td>RESTRICTED</td>                     <!-- comment if above is uncommented-->
+            <td>{{ admin.firstname }}</td>
+            <td>{{ admin.lastname }}</td>
+            <td>{{ admin.created_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}

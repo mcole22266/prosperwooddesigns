@@ -5,11 +5,10 @@
 # ----------------------------------------
 
 # My Custom ignores
-*.jpg
-*.jpeg
-*.png
+**/static/images
 .vscode
 *secrets.env
+logs/
 
 # ----- Automated by Github -----
 # Byte-compiled / optimized / DLL files

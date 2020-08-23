@@ -8,10 +8,14 @@ Content for the landing page -->
 
     <div class="container page-content form-content">
         <div class="row align-items-center">
-            <div class="col-md-12">
-                <h1>Request Form</h1>
+            <div class="col-md-12 animatedParent">
+                <h1 id="requestform" class="animated fadeInLeftShort">
+                    Request Form
+                </h1>
 
-                {% include 'forms/RequestForm.html' %}
+                <div class="animated fadeIn">
+                    {% include 'forms/RequestForm.html' %}
+                </div>
             </div>
         </div>
     </div>
