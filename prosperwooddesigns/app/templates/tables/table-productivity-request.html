@@ -16,13 +16,37 @@ Productivity Request table -->
     <tbody>
         {% for request in requests %}
             <tr data-toggle="modal" data-target="#request-{{ request.id }}">
-                <td class=
+                <!-- <td class=
                     {% if request.status == "unread" %}'bg-dark text-light'{% endif %}
                     {% if request.status == "read" %}'bg-secondary text-light'{% endif %}
                     {% if request.status == "in progress" %}'bg-warning'{% endif %}
                     {% if request.status == "ready to deliver" %}'bg-info'{% endif %}
                     {% if request.status == "complete" %}'bg-success'{% endif %}
-                >{{ request.status }}</td>
+                >{{ request.status }}</td> -->
+                <td class="text-center">
+                    {% if request.status == 'unread' %}
+                        <span style="font-size: 25px; color: rgb(0, 0, 0); position: center;">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    {% elif request.status == 'read' %}
+                        <span style="font-size: 25px; color: rgb(143, 143, 143); position: center;">
+                            <i class="fas fa-envelope-open"></i>
+                        </span>
+                    {% elif  request.status == 'in progress' %}
+                        <span style="font-size: 25px; color: rgb(189, 124, 81); position: center;">
+                            <i class="fas fa-tools"></i>
+                        </span>
+                    {% elif request.status == 'ready to deliver' %}
+                        <span style="font-size: 25px; color: rgb(46, 59, 177); position: center;">
+                            <i class="fas fa-truck"></i>
+                        </span>
+                    {% elif request.status == 'complete' %}
+                        <span style="font-size: 25px; color: rgb(48, 190, 20); position: center;">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    {% endif %}
+                    <span hidden>{{ request.status }}</span>
+                </td>
                 <td>{{ request.created_date }}</td>
                 <td>{{ request.name }}</td>
                 <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
