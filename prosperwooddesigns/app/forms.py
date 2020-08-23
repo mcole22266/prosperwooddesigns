@@ -142,6 +142,9 @@ class AdminCreateForm(FlaskForm):
 
     username = StringField('Username', validators=[
         DataRequired(),
+        Length(min=5, max=20,
+               message="Username must be between 5 and 20 characters"
+               ),
         username_exists
     ])
 
