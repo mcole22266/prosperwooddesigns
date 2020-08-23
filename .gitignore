@@ -5,9 +5,7 @@
 # ----------------------------------------
 
 # My Custom ignores
-*.jpg
-*.jpeg
-*.png
+./prosperwoodesigns/app/static/images/*
 .vscode
 *secrets.env
 logs/
