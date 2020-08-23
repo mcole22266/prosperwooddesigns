@@ -6,7 +6,7 @@
 
 from flask import redirect, render_template, request, url_for
 
-from flask_login import login_required, login_user, logout_user, current_user
+from flask_login import login_required, login_user, logout_user
 
 from .extensions import DbConnector, Helper, Logger
 
@@ -213,7 +213,6 @@ class Routes:
             '''
 
             logout_user()
-            logger.log(f'{current_user.username} logged-out')
 
             logger.log('Redirecting to index page')
             return redirect(url_for('index'))
