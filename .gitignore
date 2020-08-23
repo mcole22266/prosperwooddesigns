@@ -5,7 +5,7 @@
 # ----------------------------------------
 
 # My Custom ignores
-./prosperwoodesigns/app/static/images/*
+**/static/images
 .vscode
 *secrets.env
 logs/
