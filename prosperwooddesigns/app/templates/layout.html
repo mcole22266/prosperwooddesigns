@@ -9,9 +9,12 @@ Contains structure for general layout of pages -->
     {% include './navbar.html' %}
 {% endif %}
 
-{% block body %}{% endblock %}
+<body>
+    
+    {% block body %}{% endblock %}
 
-{% include './footer.html' %}
+    {% include './footer.html' %}
 
-{% include './styles.html' %}
-{% include './scripts.html' %}
+    {% include './scripts.html' %}
+
+</body>

@@ -10,6 +10,9 @@ _still in development_
 2) Add the following parameters to this file:
     - **AWS_ACCESS_KEY_ID**
     - **AWS_SECRET_ACCESS_KEY**
+    - **POSTGRES_USER**
+    - **POSTGRES_PASSWORD**
+    - **ADMIN_FORM_SECRET_CODE**
 3) Run the app as follows depending on whether you want to run in dev or prod modes:
     - **Development Mode**: `docker-compose up --build`
         - _Note_: In `./prosperwooddesigns/config.py`, set **AWS_DOWNLOAD_IMAGES** to `True` in 
