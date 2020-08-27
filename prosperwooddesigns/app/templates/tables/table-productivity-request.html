@@ -46,12 +46,12 @@ Productivity Request table -->
                     <td>{{ request.name }}</td>
                     <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
                 </tr>
-                <!-- Modal -->
+                <!-- Main Modal -->
                 <div class="modal fade" id="request-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-{{ request.id }}-modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <!-- Form -->
-                            <form action="/admin/request/{{ request.id }}" method="POST">
+                            <form action="/admin/request/update/{{ request.id }}" method="POST">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="modal-header">
                                     <h2 class="modal-title" id="request-{{ request.id }}-title">{{ request.name }}</h2>
@@ -84,7 +84,36 @@ Productivity Request table -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#request-delete-{{ request.id }}">Delete</button>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Delete Modal -->
+                <div class="modal" id="request-delete-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-delete-{{ request.id }}-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <!-- Form -->
+                            <form action="/admin/request/delete/{{ request.id }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="request-delete-{{ request.id }}-title">Delete Request?</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Are you sure you want to <strong>permanently</strong> delete this Request?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                                    <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
                                 </div>
                             </form>
                         </div>

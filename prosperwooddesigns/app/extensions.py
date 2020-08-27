@@ -148,6 +148,14 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
+    def deleteRequest(self, id, commit=True):
+        request = self.getRequest(id=id)
+
+        self.db.session.delete(request)
+        self.logger.log(f'Deleted Request - {request}')
+        if commit:
+            self.db.session.commit()
+
     def getImages(self):
         from .models import Image
         return Image.query.all()
@@ -226,6 +234,14 @@ class DbConnector:
             self.logger.log(
                 f'Updated Contact {contact.id} - Now archived'
             )
+        if commit:
+            self.db.session.commit()
+
+    def deleteContact(self, id, commit=True):
+        contact = self.getContact(id=id)
+
+        self.db.session.delete(contact)
+        self.logger.log(f'Deleted Contact - {contact}')
         if commit:
             self.db.session.commit()
 

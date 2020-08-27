@@ -33,12 +33,12 @@ Productivity Contact table -->
                     <td>{{ contact.name }}</td>
                     <td>{{ contact.content[:50] }} {% if contact.content|length > 50 %}...{% endif %}</td>
                 </tr>
-                <!-- Modal -->
+                <!-- Main Modal -->
                 <div class="modal fade" id="contact-{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="contact-{{ contact.id }}-modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <!-- Form -->
-                            <form action="/admin/contact/{{ contact.id }}" method="POST">
+                            <form action="/admin/contact/update/{{ contact.id }}" method="POST">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="modal-header">
                                     <h2 class="modal-title" id="contact-{{ contact.id }}-title">{{ contact.name }}</h2>
@@ -65,7 +65,36 @@ Productivity Contact table -->
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#contact-delete-{{ contact.id }}">Delete</button>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Delete Modal -->
+                <div class="modal" id="contact-delete-{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="contact-delete-{{ contact.id }}-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <!-- Form -->
+                            <form action="/admin/contact/delete/{{ contact.id }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="contact-delete-{{ contact.id }}-title">Delete Contact?</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Are you sure you want to <strong>permanently</strong> delete this Contact?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                                    <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
                                 </div>
                             </form>
                         </div>
