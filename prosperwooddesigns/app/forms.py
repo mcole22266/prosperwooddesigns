@@ -74,12 +74,11 @@ class RequestForm(FlaskForm):
         DataRequired()
     ])
 
+    how_hear = StringField('How Did You Hear About Us?')
+
     description = TextAreaField("Tell me what you're looking for!",
                                 validators=[
-                                    DataRequired(),
-                                    Length(min=25, max=2500, message=(
-                                        'Must contain at least 25 characters'
-                                    ))
+                                    DataRequired()
                                     ]
                                 )
 
@@ -101,9 +100,10 @@ class ContactForm(FlaskForm):
         Email()
     ])
 
+    how_hear = StringField('How Did You Hear About Us?')
+
     content = TextAreaField('Question', validators=[
-        DataRequired(),
-        Length(min=25, max=2500, message="Must contain at least 25 characters")
+        DataRequired()
     ])
 
     submit = SubmitField('Send')

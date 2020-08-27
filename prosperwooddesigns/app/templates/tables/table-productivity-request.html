@@ -3,8 +3,9 @@ Michael Cole
 
 Productivity Request table -->
 
-<table id='request-table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
-    class="table-hover table">
+<table id='request-table' data-toggle='table' data-search='true' data-pagination='true'
+       data-show-columns='true' data-toolbar='#request-toolbar'
+       class="table-hover table">
     <thead>
         <tr>
             <th>Status</th>
@@ -15,85 +16,110 @@ Productivity Request table -->
     </thead>
     <tbody>
         {% for request in requests %}
-            <tr data-toggle="modal" data-target="#request-{{ request.id }}">
-                <!-- <td class=
-                    {% if request.status == "unread" %}'bg-dark text-light'{% endif %}
-                    {% if request.status == "read" %}'bg-secondary text-light'{% endif %}
-                    {% if request.status == "in progress" %}'bg-warning'{% endif %}
-                    {% if request.status == "ready to deliver" %}'bg-info'{% endif %}
-                    {% if request.status == "complete" %}'bg-success'{% endif %}
-                >{{ request.status }}</td> -->
-                <td class="text-center">
-                    {% if request.status == 'unread' %}
-                        <span style="font-size: 25px; color: rgb(0, 0, 0); position: center;">
-                            <i class="fas fa-envelope"></i>
-                        </span>
-                    {% elif request.status == 'read' %}
-                        <span style="font-size: 25px; color: rgb(143, 143, 143); position: center;">
-                            <i class="fas fa-envelope-open"></i>
-                        </span>
-                    {% elif  request.status == 'in progress' %}
-                        <span style="font-size: 25px; color: rgb(189, 124, 81); position: center;">
-                            <i class="fas fa-tools"></i>
-                        </span>
-                    {% elif request.status == 'ready to deliver' %}
-                        <span style="font-size: 25px; color: rgb(46, 59, 177); position: center;">
-                            <i class="fas fa-truck"></i>
-                        </span>
-                    {% elif request.status == 'complete' %}
-                        <span style="font-size: 25px; color: rgb(48, 190, 20); position: center;">
-                            <i class="fas fa-check-circle"></i>
-                        </span>
-                    {% endif %}
-                    <span hidden>{{ request.status }}</span>
-                </td>
-                <td>{{ request.created_date }}</td>
-                <td>{{ request.name }}</td>
-                <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
-            </tr>
-            <!-- Modal -->
-            <div class="modal fade" id="request-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-{{ request.id }}-modal" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <!-- Form -->
-                        <form action="/admin/request/{{ request.id }}" method="POST">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <div class="modal-header">
-                                <h2 class="modal-title" id="request-{{ request.id }}-title">{{ request.name }}</h2>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="request-{{ request.id }}"><h5>{{ request.created_date }}</h5></label>
-                                        <select name="request-{{ request.id }}" id="request-{{ request.id }}" class="form-control">
-                                            <option value="unread" {% if request.status == 'unread' %}selected{% endif %}>Unread</option>
-                                            <option value="read" {% if request.status ==  'read' %}selected{% endif %}>Read</option>
-                                            <option value="in progress" {% if request.status == 'in progress' %}selected{% endif %}>In Progress</option>
-                                            <option value="ready to deliver" {% if request.status == 'ready to deliver' %}selected{% endif %}>Ready to Deliver</option>
-                                            <option value="complete" {% if request.status == 'complete' %}selected{% endif %}>Complete</option>
-                                        </select>
+            {% if not request.is_archived %}
+                <tr data-toggle="modal" data-target="#request-{{ request.id }}">
+                    <td class="text-center">
+                        {% if request.status == 'unread' %}
+                            <span style="font-size: 25px; color: rgb(0, 0, 0); position: center;">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        {% elif request.status == 'read' %}
+                            <span style="font-size: 25px; color: rgb(143, 143, 143); position: center;">
+                                <i class="fas fa-envelope-open"></i>
+                            </span>
+                        {% elif  request.status == 'in progress' %}
+                            <span style="font-size: 25px; color: rgb(189, 124, 81); position: center;">
+                                <i class="fas fa-tools"></i>
+                            </span>
+                        {% elif request.status == 'ready to deliver' %}
+                            <span style="font-size: 25px; color: rgb(46, 59, 177); position: center;">
+                                <i class="fas fa-truck"></i>
+                            </span>
+                        {% elif request.status == 'complete' %}
+                            <span style="font-size: 25px; color: rgb(48, 190, 20); position: center;">
+                                <i class="fas fa-check-circle"></i>
+                            </span>
+                        {% endif %}
+                        <span hidden>{{ request.status }}</span>
+                    </td>
+                    <td>{{ request.created_date }}</td>
+                    <td>{{ request.name }}</td>
+                    <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
+                </tr>
+                <!-- Main Modal -->
+                <div class="modal fade" id="request-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-{{ request.id }}-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <!-- Form -->
+                            <form action="/admin/request/update/{{ request.id }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="request-{{ request.id }}-title">{{ request.name }}</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="request-{{ request.id }}"><h5>{{ request.created_date }}</h5></label>
+                                            <select name="request-{{ request.id }}" id="request-{{ request.id }}" class="form-control">
+                                                <option value="unread" {% if request.status == 'unread' %}selected{% endif %}>Unread</option>
+                                                <option value="read" {% if request.status ==  'read' %}selected{% endif %}>Read</option>
+                                                <option value="in progress" {% if request.status == 'in progress' %}selected{% endif %}>In Progress</option>
+                                                <option value="ready to deliver" {% if request.status == 'ready to deliver' %}selected{% endif %}>Ready to Deliver</option>
+                                                <option value="complete" {% if request.status == 'complete' %}selected{% endif %}>Complete</option>
+                                                <option value="archive">Archive</option>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md"><strong>Email:</strong> {{ request.emailaddress }}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md"><strong>Phone:</strong> {{ request.phonenumber }}</div>
+                                    </div>
+                                    <hr>
+                                    <p>{{ request.description }}</p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md"><strong>Email:</strong> {{ request.emailaddress }}</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#request-delete-{{ request.id }}">Delete</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md"><strong>Phone:</strong> {{ request.phonenumber }}</div>
-                                </div>
-                                <hr>
-                                <p>{{ request.description }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <!-- Delete Modal -->
+                <div class="modal" id="request-delete-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-delete-{{ request.id }}-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <!-- Form -->
+                            <form action="/admin/request/delete/{{ request.id }}" method="POST">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="request-delete-{{ request.id }}-title">Delete Request?</h2>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            Are you sure you want to <strong>permanently</strong> delete this Request?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                                    <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </tbody>
 </table>

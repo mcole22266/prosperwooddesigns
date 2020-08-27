@@ -7,6 +7,18 @@ The Request Form to be used by customers requesting a custom design -->
     {{ requestform.csrf_token }}
     <div class="form-row">
         <div class="form-group col-md-6">
+            {{ requestform.name.label }}
+            {{ requestform.name(class_="form-control") }}
+            <div class="invalid-feedback">{{ requestform.name.errors[0] }}</div>
+        </div>
+        <div class="form-group col-md-6">
+            {{ requestform.contact_method.label }}
+            {{ requestform.contact_method(class_="form-control") }}
+            <div class="invalid-feedback">{{ requestform.contact_method.errors[0] }}</div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
             {{ requestform.email.label }}
             {{ requestform.email(class_="form-control") }}
             <div class="invalid-feedback">{{ requestform.email.errors[0] }}</div>
@@ -18,15 +30,15 @@ The Request Form to be used by customers requesting a custom design -->
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
-            {{ requestform.name.label }}
-            {{ requestform.name(class_="form-control") }}
-            <div class="invalid-feedback">{{ requestform.name.errors[0] }}</div>
-        </div>
-        <div class="form-group col-md-6">
-            {{ requestform.contact_method.label }}
-            {{ requestform.contact_method(class_="form-control") }}
-            <div class="invalid-feedback">{{ requestform.contact_method.errors[0] }}</div>
+        <div class="form-group col-md-12">
+            {{ requestform.how_hear.label }}
+            {{ requestform.how_hear(class_="form-control", list="how_hear-list", placeholder="Optional") }}
+            <datalist id="how_hear-list">
+                <option value="Facebook">
+                <option value="Instagram">
+                <option value="Ad">
+                <option value="Word of Mouth">
+            </datalist>
         </div>
     </div>
     <div class="form-row">
