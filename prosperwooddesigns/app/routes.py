@@ -138,8 +138,8 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             greeting = helper.getGreeting()
-            requests = dbConn.getRequests(order_date=True)
-            contacts = dbConn.getContacts(order_date=True)
+            requests = dbConn.getRequests(order_id=True)
+            contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
             return render_template('admin.html',
@@ -217,31 +217,62 @@ class Routes:
             logger.log('Redirecting to index page')
             return redirect(url_for('index'))
 
-        @app.route('/admin/request/<request_id>', methods=['POST'])
+        @app.route('/admin/request/update/<request_id>', methods=['POST'])
         @login_required
-        def admin_request_requestid(request_id):
+        def admin_request__update_requestid(request_id):
             '''
             Updated a request's status based on modal input
             '''
             new_status = request.form[f'request-{request_id}']
-            dbConn.updateRequest(id=request_id, status=new_status)
+
+            if new_status == 'archive':
+                dbConn.updateRequest(id=request_id, is_archived=True)
+            else:
+                dbConn.updateRequest(id=request_id, status=new_status)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
-        @app.route('/admin/contact/<contact_id>', methods=['POST'])
+        @app.route('/admin/request/delete/<request_id>', methods=['POST'])
+        @login_required
+        def admin_request_delete_requestid(request_id):
+            '''
+            Delete a request based on modal input
+            '''
+            dbConn.deleteRequest(request_id)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin'))
+
+        @app.route('/admin/contact/update/<contact_id>', methods=['POST'])
         @login_required
         def admin_contact_contactid(contact_id):
             '''
             Updated a contact's status based on modal input
             '''
             new_status = request.form[f'contact-{contact_id}']
-            dbConn.updateContact(id=contact_id, status=new_status)
+
+            if new_status == 'archive':
+                dbConn.updateContact(id=contact_id, is_archived=True)
+            else:
+                dbConn.updateContact(id=contact_id, status=new_status)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin'))
+
+        @app.route('/admin/contact/delete/<contact_id>', methods=['POST'])
+        @login_required
+        def admin_contact_delete_requestid(contact_id):
+            '''
+            Delete a contact based on modal input
+            '''
+            dbConn.deleteContact(contact_id)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
         @app.route('/admin/data')
+        @login_required
         def data():
             '''
             Routes the user to the Data Page of the website

@@ -14,7 +14,7 @@ Content for the Request Table -->
         <th>contactmethod</th>
         <th>description</th>
         <th>status</th>
-        <th>is_deleted</th>
+        <th>is_archived</th>
         <th>created_date</th>
     </tr>
 {% endblock %}
@@ -29,7 +29,7 @@ Content for the Request Table -->
             <td>{{ request.contactmethod }}</td>
             <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
             <td>{{ request.status }}</td>
-            <td>{{ request.is_deleted }}</td>
+            <td>{{ request.is_archived }}</td>
             <td>{{ request.created_date }}</td>
         </tr>
     {% endfor %}

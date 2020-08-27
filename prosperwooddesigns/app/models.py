@@ -121,7 +121,7 @@ class Request(db.Model):
         unique=False,
         nullable=False
     )
-    is_deleted = db.Column(
+    is_archived = db.Column(
         db.Boolean,
         unique=False,
         nullable=False
@@ -134,7 +134,8 @@ class Request(db.Model):
 
     def __init__(
         self, emailaddress, phonenumber, name, contactmethod,
-        description, status, is_deleted=False, created_date=datetime.now()
+        description, status, is_archived=False,
+        created_date=datetime.now()
     ):
         self.emailaddress = emailaddress
         self.phonenumber = phonenumber
@@ -142,7 +143,7 @@ class Request(db.Model):
         self.contactmethod = contactmethod
         self.description = description
         self.status = status
-        self.is_deleted = is_deleted
+        self.is_archived = is_archived
         self.created_date = created_date
 
     def __repr__(self):
@@ -269,6 +270,11 @@ class Contact(db.Model):
         unique=False,
         nullable=False
     )
+    is_archived = db.Column(
+        db.Boolean,
+        unique=False,
+        nullable=False
+    )
     created_date = db.Column(
         db.Date,
         unique=False,
@@ -276,13 +282,14 @@ class Contact(db.Model):
     )
 
     def __init__(
-        self, emailaddress, name, content, status,
+        self, emailaddress, name, content, status, is_archived=False,
         created_date=datetime.now()
     ):
         self.emailaddress = emailaddress
         self.name = name
         self.content = content
         self.status = status
+        self.is_archived = is_archived
         self.created_date = created_date
 
     def __repr__(self):
