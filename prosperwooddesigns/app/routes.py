@@ -224,7 +224,11 @@ class Routes:
             Updated a request's status based on modal input
             '''
             new_status = request.form[f'request-{request_id}']
-            dbConn.updateRequest(id=request_id, status=new_status)
+
+            if new_status == 'archive':
+                dbConn.updateRequest(id=request_id, is_archived=True)
+            else:
+                dbConn.updateRequest(id=request_id, status=new_status)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
@@ -236,12 +240,17 @@ class Routes:
             Updated a contact's status based on modal input
             '''
             new_status = request.form[f'contact-{contact_id}']
-            dbConn.updateContact(id=contact_id, status=new_status)
+
+            if new_status == 'archive':
+                dbConn.updateContact(id=contact_id, is_archived=True)
+            else:
+                dbConn.updateContact(id=contact_id, status=new_status)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
         @app.route('/admin/data')
+        @login_required
         def data():
             '''
             Routes the user to the Data Page of the website

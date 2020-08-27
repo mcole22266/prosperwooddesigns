@@ -119,23 +119,31 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status='unread', is_deleted=False,
-                   created_date=datetime.now(), commit=True):
+                   description, status='unread', is_archived=False,
+                   created_date=datetime.now(),
+                   commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
-                          description, status, is_deleted, created_date)
+                          description, status, is_archived,
+                          created_date)
         self.db.session.add(request)
         if commit:
             self.db.session.commit()
         self.logger.log(f'Created Request - {request}')
         return request
 
-    def updateRequest(self, id, status=False, commit=True):
+    def updateRequest(self, id, status=False, is_archived=False,
+                      commit=True):
         request = self.getRequest(id=id)
         if status:
             request.status = status
             self.logger.log(
                 f'Updated Request {request.id} status to {status}'
+            )
+        if is_archived:
+            request.is_archived = is_archived
+            self.logger.log(
+                f'Updated Request {request.id} - now archived'
             )
         if commit:
             self.db.session.commit()
@@ -194,22 +202,29 @@ class DbConnector:
             return Contact.query.filter_by(id=id).first()
 
     def setContact(self, emailaddress, name, content, status='unread',
-                   created_date=datetime.now(),
+                   is_archived=False, created_date=datetime.now(),
                    commit=True):
         from .models import Contact
-        contact = Contact(emailaddress, name, content, status, created_date)
+        contact = Contact(emailaddress, name, content, status, is_archived,
+                          created_date)
         self.db.session.add(contact)
         if commit:
             self.db.session.commit()
         self.logger.log(f'Created Contact - {contact}')
         return contact
 
-    def updateContact(self, id, status=False, commit=True):
+    def updateContact(self, id, status=False, is_archived=False,
+                      commit=True):
         contact = self.getContact(id=id)
         if status:
             contact.status = status
             self.logger.log(
                 f'Updated Contact {contact.id} status to {status}'
+            )
+        if is_archived:
+            contact.is_archived = is_archived
+            self.logger.log(
+                f'Updated Contact {contact.id} - Now archived'
             )
         if commit:
             self.db.session.commit()
@@ -345,12 +360,13 @@ class MockData:
             status = self.fake.random_element([
                 'unread', 'read', 'in progress', 'ready to deliver', 'complete'
             ])
-            is_deleted = self.fake.boolean()
+            is_archived = self.fake.boolean(chance_of_getting_true=20)
             created_date = self.fakeDate()
 
             self.dbConn.setRequest(emailaddress, phonenumber, name,
                                    contactmethod, description, status,
-                                   is_deleted, created_date, commit=False)
+                                   is_archived, created_date,
+                                   commit=False)
         db.session.commit()
 
     def loadImage(self, db, num_rows=20):
@@ -398,7 +414,8 @@ class MockData:
                 'unread', 'read',
             ])
             created_date = self.fakeDate()
+            is_archived = self.fake.boolean(chance_of_getting_true=20)
 
             self.dbConn.setContact(emailaddress, name, content, status,
-                                   created_date, commit=False)
+                                   is_archived, created_date, commit=False)
         db.session.commit()
