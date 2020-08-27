@@ -79,21 +79,21 @@ class Routes:
                 )
 
                 logger.log('Redirecting to request form success page')
-                return redirect(url_for('request_success'))
+                return redirect(url_for('requestform_success'))
 
             logger.log('Serving request form page')
-            return render_template('request.html',
+            return render_template('requestform.html',
                                    title='Request Form',
                                    requestform=requestform)
 
-        @app.route('/request/success')
-        def request_success():
+        @app.route('/requestform/success')
+        def requestform_success():
             '''
             Routes the user to a confirmation page after submitting a
             request form
             '''
             logger.log('Serving request form success page')
-            return render_template('request_success.html',
+            return render_template('requestform_success.html',
                                    title='Request Success')
 
         @app.route('/contact', methods=['GET', 'POST'])
