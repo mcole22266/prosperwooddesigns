@@ -74,9 +74,7 @@ class RequestForm(FlaskForm):
         DataRequired()
     ])
 
-    how_hear = StringField('How Did You Hear About Us?', validators=[
-        DataRequired()
-    ])
+    how_hear = StringField('How Did You Hear About Us?')
 
     description = TextAreaField("Tell me what you're looking for!",
                                 validators=[
@@ -102,9 +100,7 @@ class ContactForm(FlaskForm):
         Email()
     ])
 
-    how_hear = StringField('How Did You Hear About Us?', validators=[
-        DataRequired()
-    ])
+    how_hear = StringField('How Did You Hear About Us?')
 
     content = TextAreaField('Question', validators=[
         DataRequired()

@@ -119,12 +119,12 @@ class DbConnector:
             return Request.query.filter_by(id=id).first()
 
     def setRequest(self, emailaddress, phonenumber, name, contactmethod,
-                   description, status='unread', is_archived=False,
+                   description, how_hear, status='unread', is_archived=False,
                    created_date=datetime.now(),
                    commit=True):
         from .models import Request
         request = Request(emailaddress, phonenumber, name, contactmethod,
-                          description, status, is_archived,
+                          description, how_hear, status, is_archived,
                           created_date)
         self.db.session.add(request)
         if commit:
@@ -209,12 +209,12 @@ class DbConnector:
         if id:
             return Contact.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content, status='unread',
+    def setContact(self, emailaddress, name, content, how_hear, status='unread',
                    is_archived=False, created_date=datetime.now(),
                    commit=True):
         from .models import Contact
-        contact = Contact(emailaddress, name, content, status, is_archived,
-                          created_date)
+        contact = Contact(emailaddress, name, content, how_hear, status,
+                          is_archived, created_date)
         self.db.session.add(contact)
         if commit:
             self.db.session.commit()
@@ -373,6 +373,9 @@ class MockData:
                 'phone', 'email', None
             ])
             description = self.fakeDescription()
+            how_hear = self.fake.random_element([
+                'Facebook', 'Instagram', 'Ad', 'Word of Mouth'
+            ])
             status = self.fake.random_element([
                 'unread', 'read', 'in progress', 'ready to deliver', 'complete'
             ])
@@ -380,8 +383,8 @@ class MockData:
             created_date = self.fakeDate()
 
             self.dbConn.setRequest(emailaddress, phonenumber, name,
-                                   contactmethod, description, status,
-                                   is_archived, created_date,
+                                   contactmethod, description, how_hear,
+                                   status, is_archived, created_date,
                                    commit=False)
         db.session.commit()
 
@@ -426,12 +429,16 @@ class MockData:
             emailaddress = self.fake.email()
             name = self.fake.name()
             content = self.fakeDescription()
+            how_hear = self.fake.random_element([
+                'Facebook', 'Instagram', 'Ad', 'Word of Mouth'
+            ])
             status = self.fake.random_element([
                 'unread', 'read',
             ])
             created_date = self.fakeDate()
             is_archived = self.fake.boolean(chance_of_getting_true=20)
 
-            self.dbConn.setContact(emailaddress, name, content, status,
-                                   is_archived, created_date, commit=False)
+            self.dbConn.setContact(emailaddress, name, content, how_hear,
+                                   status, is_archived, created_date,
+                                   commit=False)
         db.session.commit()

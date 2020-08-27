@@ -73,9 +73,10 @@ class Routes:
                 name = request.form['name']
                 contact_method = request.form['contact_method']
                 description = request.form['description']
+                how_hear = request.form['how_hear']
 
                 dbConn.setRequest(
-                    email, phone, name, contact_method, description
+                    email, phone, name, contact_method, description, how_hear
                 )
 
                 logger.log('Redirecting to request form success page')
@@ -110,8 +111,9 @@ class Routes:
                 name = request.form['name']
                 email = request.form['email']
                 content = request.form['content']
+                how_hear = request.form['how_hear']
 
-                dbConn.setContact(email, name, content)
+                dbConn.setContact(email, name, content, how_hear)
 
                 logger.log('Redirecting to contact form success page')
                 return redirect(url_for('contact_success'))

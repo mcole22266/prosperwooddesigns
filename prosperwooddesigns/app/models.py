@@ -116,6 +116,11 @@ class Request(db.Model):
         unique=False,
         nullable=True
     )
+    how_hear = db.Column(
+        db.String(80),
+        unique=False,
+        nullable=True
+    )
     status = db.Column(
         db.String(80),
         unique=False,
@@ -134,7 +139,7 @@ class Request(db.Model):
 
     def __init__(
         self, emailaddress, phonenumber, name, contactmethod,
-        description, status, is_archived=False,
+        description, how_hear, status, is_archived=False,
         created_date=datetime.now()
     ):
         self.emailaddress = emailaddress
@@ -142,6 +147,7 @@ class Request(db.Model):
         self.name = name
         self.contactmethod = contactmethod
         self.description = description
+        self.how_hear = how_hear
         self.status = status
         self.is_archived = is_archived
         self.created_date = created_date
@@ -265,6 +271,11 @@ class Contact(db.Model):
         unique=False,
         nullable=True
     )
+    how_hear = db.Column(
+        db.String(80),
+        unique=False,
+        nullable=True
+    )
     status = db.Column(
         db.String(80),
         unique=False,
@@ -282,12 +293,13 @@ class Contact(db.Model):
     )
 
     def __init__(
-        self, emailaddress, name, content, status, is_archived=False,
-        created_date=datetime.now()
+        self, emailaddress, name, content, how_hear, status,
+        is_archived=False, created_date=datetime.now()
     ):
         self.emailaddress = emailaddress
         self.name = name
         self.content = content
+        self.how_hear = how_hear
         self.status = status
         self.is_archived = is_archived
         self.created_date = created_date
