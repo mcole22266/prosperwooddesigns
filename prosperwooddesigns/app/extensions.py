@@ -105,11 +105,11 @@ class DbConnector:
         self.logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self, order_date=False):
+    def getRequests(self, order_id=False):
         from .models import Request
-        if order_date:
-            # order by created_date desc
-            return Request.query.order_by(Request.created_date.desc())
+        if order_id:
+            # order by id desc
+            return Request.query.order_by(Request.id.desc())
         else:
             return Request.query.all()
 
@@ -180,11 +180,11 @@ class DbConnector:
         self.logger.log(f'Created Layout - {layout}')
         return layout
 
-    def getContacts(self, order_date=False):
+    def getContacts(self, order_id=False):
         from .models import Contact
-        if order_date:
-            # order by created_date desc
-            return Contact.query.order_by(Contact.created_date.desc())
+        if order_id:
+            # order by id desc
+            return Contact.query.order_by(Contact.id.desc())
         else:
             return Contact.query.all()
 

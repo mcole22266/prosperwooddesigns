@@ -138,8 +138,8 @@ class Routes:
             Routes the user to the Admin Page of the website
             '''
             greeting = helper.getGreeting()
-            requests = dbConn.getRequests(order_date=True)
-            contacts = dbConn.getContacts(order_date=True)
+            requests = dbConn.getRequests(order_id=True)
+            contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
             return render_template('admin.html',
