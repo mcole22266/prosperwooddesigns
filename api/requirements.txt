@@ -4,6 +4,8 @@
 # dependencies for Python container
 # ---------------------------------
 
+requests
+
 boto3==1.14.33              # AWS package
 
 flask==1.1.2                # base flask package

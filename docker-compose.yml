@@ -24,6 +24,8 @@ services:
       - FLASK_ENV=development
     depends_on: 
       - postgres
+    networks:
+      - dev_network
 
   flask_api:
     container_name: api
@@ -41,6 +43,8 @@ services:
       - FLASK_ENV=development
     depends_on:
       - postgres
+    networks:
+      - dev_network
 
   postgres:
     container_name: db
@@ -50,6 +54,11 @@ services:
       - ./prosperwooddesigns.secrets.env
     volumes:
       - data_dev:/var/lib/postgresql/data/
+    networks:
+      - dev_network
 
 volumes:
   data_dev:
+
+networks:
+  dev_network:

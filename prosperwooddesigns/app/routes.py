@@ -4,6 +4,8 @@
 # Location of all app routing
 # ---------------------------
 
+import requests
+
 from flask import redirect, render_template, request, url_for
 
 from flask_login import login_required, login_user, logout_user
@@ -25,7 +27,7 @@ class Routes:
         routes.init(app)
     '''
 
-    def init(self, app):
+    def init_app(self, app):
         '''
         Initializes a Flask app object with all available routes
         '''
@@ -297,3 +299,8 @@ class Routes:
                                    images=images,
                                    layouts=layouts,
                                    contacts=contacts)
+
+        @app.route('/hello')
+        def hello():
+            data = requests.get('http://api:5000/hello')
+            return data.json()

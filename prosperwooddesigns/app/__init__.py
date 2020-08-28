@@ -54,7 +54,7 @@ def create_app():
             s3Conn.downloadImages()
 
         logger.log('Importing routes')
-        routes.init(app)
+        routes.init_app(app)
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
         logger.log('Initializing encryption')
