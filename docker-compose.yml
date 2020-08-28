@@ -8,7 +8,7 @@ version: '3'
 
 services:
 
-  flask:
+  flask_web:
     container_name: app
     build: 
       context: ./prosperwooddesigns
@@ -23,6 +23,23 @@ services:
     environment:
       - FLASK_ENV=development
     depends_on: 
+      - postgres
+
+  flask_api:
+    container_name: api
+    build:
+      context: ./api
+      dockerfile: api.dockerfile
+    ports:
+      - "5050:5000"
+    volumes:
+      - "./api:/prosperwooddesigns"
+    env_file:
+      - ./prosperwooddesigns.env
+      - ./prosperwooddesigns.secrets.env
+    environment:
+      - FLASK_ENV=development
+    depends_on:
       - postgres
 
   postgres:
