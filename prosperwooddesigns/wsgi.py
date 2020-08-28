@@ -2,7 +2,7 @@
 # Michael Cole
 #
 # Production WSGI Server to be used by Gunicorn
-# -----------------------------------------------------
+# ----------------------------------------------
 
 from app import create_app
 

@@ -1,3 +1,9 @@
+# S3Connector.py
+# Michael Cole
+#
+# Used to simplify S3 connectivity
+# --------------------------------
+
 import os
 
 import boto3

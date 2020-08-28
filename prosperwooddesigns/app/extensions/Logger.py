@@ -1,3 +1,9 @@
+# Logger.py
+# Michael Cole
+#
+# Used for logging -- both to the console and to log files
+# --------------------------------------------------------
+
 import os
 import sys
 
@@ -16,13 +22,14 @@ class Logger:
 
     def log(self, string):
         '''
-        Prints to the console by default. Can pass a filename
-        for logs to write to
+        Create a log. Based on environment variables, the logs will be
+        written to stdout and/or a logfile
         '''
         if current_app.config['LOG_TO_STDOUT']:
             print(f'>> {string}', file=sys.stdout, flush=True)
 
         if current_app.config['LOG_TO_FILE']:
+            # Get timestamp information
             now = self.helper.getTime_tz()
             year = str(now.year).rjust(4, '0')
             month = str(now.month).rjust(2, '0')
@@ -31,12 +38,15 @@ class Logger:
             minute = str(now.minute).rjust(2, '0')
             second = str(now.second).rjust(2, '0')
 
+            # Define filename prefix
             fileprefix = f'/prosperwooddesigns/logs/{year}/{month}'
             if not os.path.exists(fileprefix):
                 os.makedirs(fileprefix)
 
+            # Define filename and timestamp
             filename = f'{fileprefix}/log_{year}{month}{day}.log'
             timestamp = f'{hour}:{minute}:{second}'
 
+            # Write Log
             with open(filename, 'a+') as f:
                 print(f'>> [{timestamp}] {string}', file=f, flush=True)

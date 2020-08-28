@@ -1,17 +1,17 @@
 # routes.py
 # Michael Cole
 #
-# Location of all app routing
-# ---------------------------
+# Defines all app's routing logic
+# --------------------------------
 
 from flask import redirect, render_template, request, url_for
-
-from flask_login import login_required, login_user, logout_user
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
+from flask_login import login_required, login_user, logout_user
 
+# instantiate variables
 logger = Logger()
 dbConn = DbConnector()
 helper = Helper()
@@ -70,6 +70,7 @@ class Routes:
             if requestform.validate_on_submit():
                 logger.log('Request form validated')
 
+                # Get form data
                 email = request.form['email']
                 phone = request.form['phone']
                 name = request.form['name']
@@ -110,6 +111,7 @@ class Routes:
             if contactform.validate_on_submit():
                 logger.log('Contact form validated')
 
+                # get form data
                 name = request.form['name']
                 email = request.form['email']
                 content = request.form['content']
@@ -141,6 +143,7 @@ class Routes:
             '''
             Routes the user to the Admin Page of the website
             '''
+            # get data to be used in page
             greeting = helper.getGreeting()
             requests = dbConn.getRequests(order_id=True)
             contacts = dbConn.getContacts(order_id=True)
@@ -164,11 +167,15 @@ class Routes:
                 logger.log('Admin log-in form validated')
 
                 username = request.form['username']
-                # Currently handled by form -- TODO: Handle password auth
+                # Password confirmation is handled client-side.
+                # If implementation changes to server-side, uncomment
+                # the below line and validate password
                 # password = request.form['password']
+
+                # Log user in after form has submitted
                 admin = dbConn.getAdmin(username=username)
                 login_user(admin)
-                next = request.args.get('next')
+                next = request.args.get('next')  # get next-page location
 
                 logger.log('Redirecting to next or admin page')
                 return redirect(next or url_for('admin'))
@@ -189,15 +196,18 @@ class Routes:
             if admincreateform.validate_on_submit():
                 logger.log('Admin create form validated')
 
+                # get form data
                 firstname = request.form['firstname']
                 lastname = request.form['lastname']
                 username = request.form['username']
                 password = request.form['password']
 
+                # Create Admin
                 admin = dbConn.setAdmin(
                     username, password, firstname, lastname
                 )
 
+                # go ahead and log user in
                 login_user(admin)
                 logger.log(f'{admin.username} logged in')
 
@@ -216,6 +226,7 @@ class Routes:
             Logs a logged-in admin out and redirects to home-page
             '''
 
+            # Log user out of the app
             logout_user()
 
             logger.log('Redirecting to index page')
@@ -229,6 +240,8 @@ class Routes:
             '''
             new_status = request.form[f'request-{request_id}']
 
+            # If status is "archive" then is_archived will be set to True
+            # while status will be left as-is
             if new_status == 'archive':
                 dbConn.updateRequest(id=request_id, is_archived=True)
             else:
@@ -256,6 +269,8 @@ class Routes:
             '''
             new_status = request.form[f'contact-{contact_id}']
 
+            # If status is "archive" then is_archived will be set to True
+            # while status will be left as-is
             if new_status == 'archive':
                 dbConn.updateContact(id=contact_id, is_archived=True)
             else:
@@ -285,6 +300,7 @@ class Routes:
 
             dbConnector = DbConnector()
 
+            # get data for front-end presentation
             admins = dbConnector.getAdmins()
             requests = dbConnector.getRequests()
             images = dbConnector.getImages()

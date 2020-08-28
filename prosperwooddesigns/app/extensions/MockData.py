@@ -1,3 +1,9 @@
+# MockData.py
+# Michael Cole
+#
+# Generates MockData for the app -- especially in development mode
+# -----------------------------------------------------------------
+
 from datetime import datetime
 
 from .DbConnector import DbConnector
@@ -9,6 +15,7 @@ class MockData:
     '''
     from faker import Faker
 
+    # Instantiate variables
     fake = Faker()
     dbConn = DbConnector()
 
@@ -28,6 +35,9 @@ class MockData:
         num_paragraphs_min=2,
         num_paragraphs_max=5
     ):
+        '''
+        Generates a fake description
+        '''
         description = ''
         paragraphs = self.fake.paragraphs(self.fake.random_int(
             num_paragraphs_min, num_paragraphs_max
@@ -35,7 +45,7 @@ class MockData:
         )
         for paragraph in paragraphs:
             description += f'{paragraph} '
-        description = description[:-1]
+        description = description[:-1]  # account for extra space
         return description
 
     def hasData(self, db):
@@ -43,6 +53,7 @@ class MockData:
         Check if database is empty
         '''
 
+        # Get a few tables from the database
         admins = self.dbConn.getAdmins()
         requests = self.dbConn.getRequests()
         images = self.dbConn.getImages()
@@ -57,6 +68,7 @@ class MockData:
         '''
 
         for i in range(num_rows):
+            # fake some data
             username = self.fake.user_name()
             password = self.fake.password()
             firstname = self.fake.first_name()
@@ -73,6 +85,7 @@ class MockData:
         '''
 
         for i in range(num_rows):
+            # fake some data
             emailaddress = self.fake.email()
             phonenumber = self.fake.phone_number()
             name = self.fake.name()
@@ -101,6 +114,7 @@ class MockData:
         '''
 
         for i in range(num_rows):
+            # fake some data
             name = self.fake.word()
             description = self.fakeDescription()
             filename = self.fake.file_path()
@@ -116,6 +130,7 @@ class MockData:
         '''
 
         for i in range(num_rows):
+            # fake some data
             endpoint = self.fake.uri_path()
             content_name = self.fake.word()
             content = self.fakeDescription(2, 3)
@@ -133,6 +148,7 @@ class MockData:
         '''
 
         for i in range(num_rows):
+            # fake some data
             emailaddress = self.fake.email()
             name = self.fake.name()
             content = self.fakeDescription()
@@ -149,4 +165,3 @@ class MockData:
                                    status, is_archived, created_date,
                                    commit=False)
         db.session.commit()
-
