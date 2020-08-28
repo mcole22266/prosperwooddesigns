@@ -1,8 +1,9 @@
 # config.py
 # Michael Cole
 #
-# OOP Configuration file for Flask
-# --------------------------------
+# Configuration file for Flask which will be
+# consumed by the app object
+# ------------------------------------------
 
 from os import environ, urandom
 
@@ -50,17 +51,17 @@ class ConfigDev:
     Development Configuration
     '''
 
-    # Config
-    GENERATE_FAKE_DATA = True
-    DB_CREATE_ADMIN_USER = True
-    LOG_TO_STDOUT = True
-    LOG_TO_FILE = False
+    # General Config
+    GENERATE_FAKE_DATA = True       # generates mockdata upon startup
+    DB_CREATE_ADMIN_USER = True     # creates dev admin user
+    LOG_TO_STDOUT = True            # logs go to stdout
+    LOG_TO_FILE = False             # logs go to log files
 
     # SQLAlchemy Config
-    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_ECHO = False         # SQLAlchemy verbose output
 
     # AWS Config
-    AWS_DOWNLOAD_IMAGES = False
+    AWS_DOWNLOAD_IMAGES = False     # download images from S3 bucket
 
 
 class ConfigProd:
@@ -68,14 +69,14 @@ class ConfigProd:
     Production Configuration
     '''
 
-    # Config
-    GENERATE_FAKE_DATA = False
-    DB_CREATE_ADMIN_USER = False
-    LOG_TO_STDOUT = False
-    LOG_TO_FILE = True
+    # General Config
+    GENERATE_FAKE_DATA = False      # generates mockdata upon startup
+    DB_CREATE_ADMIN_USER = False    # creates dev admin user
+    LOG_TO_STDOUT = False           # logs go to stdout
+    LOG_TO_FILE = True              # logs go to log files
 
     # SQLAlchemy Config
-    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_ECHO = False         # SQLAlchemy verbose output
 
     # AWS Config
-    AWS_DOWNLOAD_IMAGES = True
+    AWS_DOWNLOAD_IMAGES = True      # download images from S3 bucket

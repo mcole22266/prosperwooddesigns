@@ -4,18 +4,24 @@
 # Forms to be used by flask_wtf to render and handle form data
 # ------------------------------------------------------------
 
+from app.extensions.DbConnector import DbConnector
 from flask_wtf import FlaskForm
 from wtforms import (PasswordField, SelectField, StringField, SubmitField,
                      TextAreaField)
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional,
                                 Regexp, ValidationError)
 
-from .extensions import DbConnector
-
+# Instantiate variables
 dbConn = DbConnector()
 
 
 def email_or_phone(form, field):
+    '''
+    Validator for Request Form
+
+    ValidationError is raised if neither a phone or email have been
+    added to the form
+    '''
     if len(form.phone.data) == 0 and len(form.email.data) == 0:
         raise ValidationError(
             'Must provide either a phone number or an email address'
@@ -23,20 +29,39 @@ def email_or_phone(form, field):
 
 
 def username_not_found(form, field):
+    '''
+    Validator for Admin Log-In Form
+
+    ValidationError is raised if user inputs a username that does
+    not exist
+    '''
     user = dbConn.getAdmin(username=field.data)
     if not user:
         raise ValidationError("Username doesn't exist")
 
 
 def username_exists(form, field):
+    '''
+    Validator for Admin Create Form
+
+    ValidationError is raised if user inputs a name of a username
+    that is already in use
+    '''
     user = dbConn.getAdmin(username=field.data)
     if user:
-        raise ValidationError("Username already taken")
+        raise ValidationError("Sorry, this username is already in-use")
 
 
 def incorrect_password(form, field):
+    '''
+    Validator for Admin Log-In Form
+
+    ValidationError is raised if user inputs a password that does not match
+    the given username's password
+    '''
     username = form.username.data
     user = dbConn.getAdmin(username=username)
+    # First, check to see if given username exists
     if user:
         import flask_bcrypt
         if not flask_bcrypt.check_password_hash(user.password, field.data):
@@ -44,6 +69,11 @@ def incorrect_password(form, field):
 
 
 def secret_code_check(form, field):
+    '''
+    Validator for Admin Create Form
+
+    ValidationError is raised if user inputs the incorrect secret code
+    '''
     from os import environ
     if not field.data == environ['ADMIN_FORM_SECRET_CODE']:
         raise ValidationError('Incorrect secret code')
