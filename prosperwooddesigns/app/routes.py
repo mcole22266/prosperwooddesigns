@@ -27,7 +27,7 @@ class Routes:
         routes.init(app)
     '''
 
-    def init(self, app):
+    def init_app(self, app):
         '''
         Initializes a Flask app object with all available routes
         '''

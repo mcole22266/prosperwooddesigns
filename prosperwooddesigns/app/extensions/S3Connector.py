@@ -5,7 +5,7 @@ import boto3
 from .Logger import Logger
 
 
-class S3Connecter:
+class S3Connector:
     '''
     S3 Connector to be used specifically for interacting with
     this project's S3 Bucket
