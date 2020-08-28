@@ -8,7 +8,9 @@ from flask import redirect, render_template, request, url_for
 
 from flask_login import login_required, login_user, logout_user
 
-from .extensions import DbConnector, Helper, Logger
+from app.extensions.DbConnector import DbConnector
+from app.extensions.Helper import Helper
+from app.extensions.Logger import Logger
 
 logger = Logger()
 dbConn = DbConnector()

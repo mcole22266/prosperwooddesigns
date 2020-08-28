@@ -9,7 +9,7 @@ from datetime import datetime
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-from .extensions import Logger
+from app.extensions.Logger import Logger
 
 logger = Logger()
 db = SQLAlchemy()

@@ -10,7 +10,7 @@ from wtforms import (PasswordField, SelectField, StringField, SubmitField,
 from wtforms.validators import (DataRequired, Email, EqualTo, Length, Optional,
                                 Regexp, ValidationError)
 
-from .extensions import DbConnector
+from app.extensions.DbConnector import DbConnector
 
 dbConn = DbConnector()
 

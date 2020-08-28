@@ -9,7 +9,11 @@ from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
-from .extensions import DbConnector, Logger, MockData, S3Connecter
+from app.extensions.DbConnector import DbConnector
+from app.extensions.Logger import Logger
+from app.extensions.MockData import MockData
+# from app.extensions.S3Connector import S3Connector
+
 from .models import db, loginManager
 from .routes import Routes
 
@@ -17,7 +21,7 @@ csrf = CSRFProtect()
 flask_bcrypt = Bcrypt()
 routes = Routes()
 logger = Logger()
-s3Conn = S3Connecter()
+# s3Conn = S3Connector()
 dbConn = DbConnector()
 mockData = MockData()
 
@@ -48,10 +52,10 @@ def create_app():
     with app.app_context():
         logger.log('Creating App')
 
-        if app.config['AWS_DOWNLOAD_IMAGES']:
+        # if app.config['AWS_DOWNLOAD_IMAGES']:
             # by default, will only download images on startup
             # if in production
-            s3Conn.downloadImages()
+            # s3Conn.downloadImages()
 
         logger.log('Importing routes')
         routes.init(app)
