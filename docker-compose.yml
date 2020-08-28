@@ -2,6 +2,7 @@
 # Michael Cole
 # 
 # -Development- Docker Compose file
+# Run with `docker-compose up -d --build`
 # ----------------------------------
 
 version: '3'

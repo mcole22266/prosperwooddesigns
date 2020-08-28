@@ -6,16 +6,17 @@
 
 from datetime import datetime
 
+from app.extensions.Logger import Logger
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-from .extensions import Logger
-
+# Instantiate variables
 logger = Logger()
 db = SQLAlchemy()
 loginManager = LoginManager()
 
 
+# User Loader used by flask_login
 @loginManager.user_loader
 def load_user(admin_id):
     return Admin.query.filter_by(id=admin_id).first()
@@ -64,11 +65,12 @@ class Admin(db.Model):
         self.password = password
         self.firstname = firstname
         self.lastname = lastname
-        self.created_date = created_date
+        self.created_date = created_date  # current time by default
 
     def __repr__(self):
         return f'Admin: @{self.username} ({self.firstname} {self.lastname})'
 
+    # below 4 methods are for flask_login
     def is_authenticated(self):
         return True
 
@@ -149,8 +151,8 @@ class Request(db.Model):
         self.description = description
         self.how_hear = how_hear
         self.status = status
-        self.is_archived = is_archived
-        self.created_date = created_date
+        self.is_archived = is_archived  # False by default
+        self.created_date = created_date  # current date by default
 
     def __repr__(self):
         return f'Request: {self.name} - {self.emailaddress} ({self.status})'
@@ -192,7 +194,7 @@ class Image(db.Model):
         self.name = name
         self.description = description
         self.filename = filename
-        self.created_date = created_date
+        self.created_date = created_date  # current date by default
 
     def __repr__(self):
         return f'Image: {self.name}'
@@ -241,7 +243,7 @@ class Layout(db.Model):
         self.content_name = content_name
         self.content = content
         self.is_image = is_image
-        self.created_date = created_date
+        self.created_date = created_date  # current date by default
 
     def __repr__(self):
         return f'Layout: {self.endpoint} - {self.content_name}'
@@ -301,8 +303,8 @@ class Contact(db.Model):
         self.content = content
         self.how_hear = how_hear
         self.status = status
-        self.is_archived = is_archived
-        self.created_date = created_date
+        self.is_archived = is_archived  # false by default
+        self.created_date = created_date  # current date by default
 
     def __repr__(self):
         return f'Contact: {self.name} - {self.emailaddress} ({self.status})'

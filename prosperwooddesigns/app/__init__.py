@@ -6,18 +6,22 @@
 
 from flask import Flask
 
+from app.extensions.DbConnector import DbConnector
+from app.extensions.Logger import Logger
+from app.extensions.MockData import MockData
+from app.extensions.S3Connector import S3Connector
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
-from .extensions import DbConnector, Logger, MockData, S3Connecter
 from .models import db, loginManager
 from .routes import Routes
 
+# Instantiate global variables
 csrf = CSRFProtect()
 flask_bcrypt = Bcrypt()
 routes = Routes()
 logger = Logger()
-s3Conn = S3Connecter()
+s3Conn = S3Connector()
 dbConn = DbConnector()
 mockData = MockData()
 
@@ -30,9 +34,9 @@ def create_app():
         Flask App
     '''
     app = Flask(__name__, instance_relative_config=False,
-                template_folder='./templates',
-                static_folder='./static')
-    # configure app with base vars
+                template_folder='./templates',  # define templates folder
+                static_folder='./static')       # define static folder
+    # config app with base variables
     app.config.from_object('config.ConfigBase')
 
     if app.config['FLASK_ENV'] == 'development':
@@ -54,16 +58,21 @@ def create_app():
             s3Conn.downloadImages()
 
         logger.log('Importing routes')
-        routes.init(app)
+        routes.init_app(app)
+
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
+
         logger.log('Initializing encryption')
         flask_bcrypt.init_app(app)
+
         logger.log('Creating all tables in db')
         db.create_all()
         db.session.commit()
+
         logger.log('Initializing login manager')
         loginManager.init_app(app)
+        # define where login protected routes should route user to log-in
         loginManager.login_view = 'admin_login'
 
         if app.config['GENERATE_FAKE_DATA']:
