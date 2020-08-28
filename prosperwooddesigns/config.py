@@ -51,7 +51,7 @@ class ConfigDev:
     Development Configuration
     '''
 
-    # Config
+    # General Config
     GENERATE_FAKE_DATA = True       # generates mockdata upon startup
     DB_CREATE_ADMIN_USER = True     # creates dev admin user
     LOG_TO_STDOUT = True            # logs go to stdout
@@ -69,7 +69,7 @@ class ConfigProd:
     Production Configuration
     '''
 
-    # Config
+    # General Config
     GENERATE_FAKE_DATA = False      # generates mockdata upon startup
     DB_CREATE_ADMIN_USER = False    # creates dev admin user
     LOG_TO_STDOUT = False           # logs go to stdout
