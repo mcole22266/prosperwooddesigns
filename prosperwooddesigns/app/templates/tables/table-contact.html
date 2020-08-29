@@ -1,0 +1,30 @@
+<!-- table-contact.html
+Michael Cole
+
+Content for the Contact Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>phonenumber</th>
+        <th>emailaddress</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for contact in contacts %}
+        <tr>
+            <td>{{ contact.id }}</td>
+            <td>{{ contact.name }}</td>
+            <td>{{ contact.phonenumber }}</td>
+            <td>{{ contact.emailaddress }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+
+

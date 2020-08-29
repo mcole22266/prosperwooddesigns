@@ -272,3 +272,39 @@ class DbConnector:
         logger.log(f'Deleted Question - {question}')
         if commit:
             self.db.session.commit()
+
+    def getContacts(self, order_id=False):
+        '''
+        Get all Contact rows
+
+        order_id (bool): Set True to "order by id desc"
+        '''
+        from app.models import Contact
+        if order_id:
+            # order by id desc
+            return Contact.query.order_by(Contact.id.desc())
+        else:
+            return Contact.query.all()
+
+    def getContact(self, id=False):
+        '''
+        Get a single Contact row based on the following parameter:
+
+        id (int): Set to get row by id
+        '''
+        from app.models import Contact
+        if id:
+            return Contact.query.filter_by(id=id).first()
+
+    def setContact(self, name, phonenumber=False, emailaddress=False,
+                   commit=True):
+        '''
+        Create a Contact row
+        '''
+        from app.models import Contact
+        contact = Contact(name, phonenumber, emailaddress)
+        self.db.session.add(contact)
+        if commit:
+            self.db.session.commit()
+        logger.log(f'Created Contact - {contact}')
+        return contact
