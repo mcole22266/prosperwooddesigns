@@ -1,9 +1,9 @@
-<!-- table-productivity-contact.html
+<!-- table-productivity-question.html
 Michael Cole
 
-Productivity Contact table -->
+Productivity Question table -->
 
-<table id='contact-table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
+<table id='question-table' data-toggle='table' data-search='true' data-pagination='true' data-show-columns='true'
     class="table-hover">
     <thead>
         <tr>
@@ -14,34 +14,34 @@ Productivity Contact table -->
         </tr>
     </thead>
     <tbody>
-        {% for contact in contacts %}
-            {% if not contact.is_archived %}
-                <tr data-toggle="modal" data-target="#contact-{{ contact.id }}">
+        {% for question in questions %}
+            {% if not question.is_archived %}
+                <tr data-toggle="modal" data-target="#question-{{ question.id }}">
                     <td class="text-center">
-                        {% if contact.status == 'unread' %}
+                        {% if question.status == 'unread' %}
                             <span style="font-size: 25px; color: rgb(0, 0, 0); position: center;">
                                 <i class="fas fa-envelope"></i>
                             </span>
-                        {% elif contact.status == 'read' %}
+                        {% elif question.status == 'read' %}
                             <span style="font-size: 25px; color: rgb(143, 143, 143); position: center;">
                                 <i class="fas fa-envelope-open"></i>
                             </span>
                         {% endif %}
-                        <span hidden>{{ contact.status }}</span>
+                        <span hidden>{{ question.status }}</span>
                     </td>
-                    <td>{{ contact.created_date }}</td>
-                    <td>{{ contact.name }}</td>
-                    <td>{{ contact.content[:50] }} {% if contact.content|length > 50 %}...{% endif %}</td>
+                    <td>{{ question.created_date }}</td>
+                    <td>{{ question.name }}</td>
+                    <td>{{ question.content[:50] }} {% if question.content|length > 50 %}...{% endif %}</td>
                 </tr>
                 <!-- Main Modal -->
-                <div class="modal fade" id="contact-{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="contact-{{ contact.id }}-modal" aria-hidden="true">
+                <div class="modal fade" id="question-{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="question-{{ question.id }}-modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <!-- Form -->
-                            <form action="/admin/contact/update/{{ contact.id }}" method="POST">
+                            <form action="/admin/question/update/{{ question.id }}" method="POST">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="modal-header">
-                                    <h2 class="modal-title" id="contact-{{ contact.id }}-title">{{ contact.name }}</h2>
+                                    <h2 class="modal-title" id="question-{{ question.id }}-title">{{ question.name }}</h2>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>
@@ -49,23 +49,23 @@ Productivity Contact table -->
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="contact-{{ contact.id }}"><h5>{{ contact.created_date }}</h5></label>
-                                            <select name="contact-{{ contact.id }}" id="contact-{{ contact.id }}" class="form-control">
-                                                <option value="unread" {% if contact.status == 'unread' %}selected{% endif %}>Unread</option>
-                                                <option value="read" {% if contact.status ==  'read' %}selected{% endif %}>Read</option>
+                                            <label for="question-{{ question.id }}"><h5>{{ question.created_date }}</h5></label>
+                                            <select name="question-{{ question.id }}" id="question-{{ question.id }}" class="form-control">
+                                                <option value="unread" {% if question.status == 'unread' %}selected{% endif %}>Unread</option>
+                                                <option value="read" {% if question.status ==  'read' %}selected{% endif %}>Read</option>
                                                 <option value="archive">Archive</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md"><strong>Email:</strong> {{ contact.emailaddress }}</div>
+                                        <div class="col-md"><strong>Email:</strong> {{ question.emailaddress }}</div>
                                     </div>
                                     <hr>
-                                    <p>{{ contact.content }}</p>
+                                    <p>{{ question.content }}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#contact-delete-{{ contact.id }}">Delete</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#question-delete-{{ question.id }}">Delete</button>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
                                 </div>
                             </form>
@@ -73,14 +73,14 @@ Productivity Contact table -->
                     </div>
                 </div>
                 <!-- Delete Modal -->
-                <div class="modal" id="contact-delete-{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="contact-delete-{{ contact.id }}-modal" aria-hidden="true">
+                <div class="modal" id="question-delete-{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="question-delete-{{ question.id }}-modal" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <!-- Form -->
-                            <form action="/admin/contact/delete/{{ contact.id }}" method="POST">
+                            <form action="/admin/question/delete/{{ question.id }}" method="POST">
                                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <div class="modal-header">
-                                    <h2 class="modal-title" id="contact-delete-{{ contact.id }}-title">Delete Contact?</h2>
+                                    <h2 class="modal-title" id="question-delete-{{ question.id }}-title">Delete Contact?</h2>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                     </button>

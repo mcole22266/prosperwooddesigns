@@ -142,9 +142,9 @@ class MockData:
                                   commit=False)
         db.session.commit()
 
-    def loadContact(self, db, num_rows=20):
+    def loadQuestion(self, db, num_rows=20):
         '''
-        Load Contact table with fake data
+        Load Question table with fake data
         '''
 
         for i in range(num_rows):
@@ -161,7 +161,7 @@ class MockData:
             created_date = self.fakeDate()
             is_archived = self.fake.boolean(chance_of_getting_true=20)
 
-            self.dbConn.setContact(emailaddress, name, content, how_hear,
-                                   status, is_archived, created_date,
-                                   commit=False)
+            self.dbConn.setQuestion(emailaddress, name, content, how_hear,
+                                    status, is_archived, created_date,
+                                    commit=False)
         db.session.commit()

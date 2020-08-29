@@ -200,75 +200,75 @@ class DbConnector:
         logger.log(f'Created Layout - {layout}')
         return layout
 
-    def getContacts(self, order_id=False):
+    def getQuestions(self, order_id=False):
         '''
-        Get all Contact rows
+        Get all Question rows
 
         order_id (bool): Set True to "order by id desc"
         '''
-        from app.models import Contact
+        from app.models import Question
         if order_id:
             # order by id desc
-            return Contact.query.order_by(Contact.id.desc())
+            return Question.query.order_by(Question.id.desc())
         else:
-            return Contact.query.all()
+            return Question.query.all()
 
-    def getContact(self, id=False):
+    def getQuestion(self, id=False):
         '''
-        Get a single Contact row based on the following parameter:
+        Get a single Question row based on the following parameter:
 
         id (int): Set to get row by id
         '''
-        from app.models import Contact
+        from app.models import Question
         if id:
-            return Contact.query.filter_by(id=id).first()
+            return Question.query.filter_by(id=id).first()
 
-    def setContact(self, emailaddress, name, content, how_hear,
-                   status='unread', is_archived=False,
-                   created_date=datetime.now(),
-                   commit=True):
+    def setQuestion(self, emailaddress, name, content, how_hear,
+                    status='unread', is_archived=False,
+                    created_date=datetime.now(),
+                    commit=True):
         '''
-        Create a Contact row
+        Create a Question row
         '''
-        from app.models import Contact
-        contact = Contact(emailaddress, name, content, how_hear, status,
-                          is_archived, created_date)
-        self.db.session.add(contact)
+        from app.models import Question
+        question = Question(emailaddress, name, content, how_hear, status,
+                            is_archived, created_date)
+        self.db.session.add(question)
         if commit:
             self.db.session.commit()
-        logger.log(f'Created Contact - {contact}')
-        return contact
+        logger.log(f'Created Question - {question}')
+        return question
 
-    def updateContact(self, id, status=False, is_archived=False,
-                      commit=True):
+    def updateQuestion(self, id, status=False, is_archived=False,
+                       commit=True):
         '''
-        Update a Contact row based on the following parameters:
+        Update a Question row based on the following parameters:
 
         id (int): The id you want to update
         status (str): Set to update the status
         is_archived (bool): Set to update the is_archived
         '''
-        contact = self.getContact(id=id)
+        question = self.getQuestion(id=id)
         if status:
-            contact.status = status
+            question.status = status
             logger.log(
-                f'Updated Contact {contact.id} status to {status}'
+                f'Updated Question {question.id} status to {status}'
             )
         if is_archived:
-            contact.is_archived = is_archived
+            question.is_archived = is_archived
             logger.log(
-                f'Updated Contact {contact.id} - Now archived'
+                f'Updated Question {question.id} - Now archived'
             )
         if commit:
             self.db.session.commit()
 
-    def deleteContact(self, id, commit=True):
+    def deleteQuestion(self, id, commit=True):
         '''
-        Delete a Contact from the DB
+        Delete a Question from the DB
         '''
-        contact = self.getContact(id=id)
+        question = self.getQuestion(id=id)
 
-        self.db.session.delete(contact)
-        logger.log(f'Deleted Contact - {contact}')
+        self.db.session.delete(question)
+        logger.log(f'Deleted Question - {question}')
         if commit:
             self.db.session.commit()
