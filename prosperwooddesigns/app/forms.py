@@ -115,9 +115,9 @@ class RequestForm(FlaskForm):
     submit = SubmitField('Request')
 
 
-class ContactForm(FlaskForm):
+class QuestionForm(FlaskForm):
     '''
-    Contact Form for users to communicate with the owner without
+    Question Form for users to communicate with the owner without
     requesting a design
     '''
 

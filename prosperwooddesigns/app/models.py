@@ -249,9 +249,9 @@ class Layout(db.Model):
         return f'Layout: {self.endpoint} - {self.content_name}'
 
 
-class Contact(db.Model):
+class Question(db.Model):
     '''
-    Data model for Contact
+    Data model for Question
     '''
 
     id = db.Column(
@@ -307,4 +307,4 @@ class Contact(db.Model):
         self.created_date = created_date  # current date by default
 
     def __repr__(self):
-        return f'Contact: {self.name} - {self.emailaddress} ({self.status})'
+        return f'Question: {self.name} - {self.emailaddress} ({self.status})'

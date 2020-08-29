@@ -1,0 +1,37 @@
+<!-- table-question.html
+Michael Cole
+
+Content for the Question Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>emailaddress</th>
+        <th>name</th>
+        <th>content</th>
+        <th>how_hear</th>
+        <th>status</th>
+        <th>is_archived</th>
+        <th>created_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for question in questions %}
+        <tr>
+            <td>{{ question.id }}</td>
+            <td>{{ question.emailaddress }}</td>
+            <td>{{ question.name }}</td>
+            <td>{{ question.content[:50] }} {% if question.content|length > 50 %}...{% endif %}</td>
+            <td>{{ question.how_hear }}</td>
+            <td>{{ question.status }}</td>
+            <td>{{ question.is_archived }}</td>
+            <td>{{ question.created_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
+
