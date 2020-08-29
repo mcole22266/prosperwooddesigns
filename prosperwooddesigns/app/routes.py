@@ -147,13 +147,15 @@ class Routes:
             greeting = helper.getGreeting()
             requests = dbConn.getRequests(order_id=True)
             questions = dbConn.getQuestions(order_id=True)
+            contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
             return render_template('admin.html',
                                    title='Admin',
                                    greeting=greeting,
                                    requests=requests,
-                                   questions=questions)
+                                   questions=questions,
+                                   contacts=contacts)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -298,14 +300,15 @@ class Routes:
             '''
             from app.extensions.DbConnector import DbConnector
 
-            dbConnector = DbConnector()
+            dbConn = DbConnector()
 
             # get data for front-end presentation
-            admins = dbConnector.getAdmins()
-            requests = dbConnector.getRequests()
-            images = dbConnector.getImages()
-            layouts = dbConnector.getLayouts()
-            questions = dbConnector.getQuestions()
+            admins = dbConn.getAdmins()
+            requests = dbConn.getRequests()
+            images = dbConn.getImages()
+            layouts = dbConn.getLayouts()
+            questions = dbConn.getQuestions()
+            contacts = dbConn.getContacts()
 
             logger.log('Serving admin data page')
             return render_template('data.html',
@@ -314,4 +317,5 @@ class Routes:
                                    requests=requests,
                                    images=images,
                                    layouts=layouts,
-                                   questions=questions)
+                                   questions=questions,
+                                   contacts=contacts)

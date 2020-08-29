@@ -86,6 +86,7 @@ def create_app():
                 mockData.loadImage(db)
                 mockData.loadLayout(db)
                 mockData.loadQuestion(db)
+                mockData.loadContact(db)
             else:
                 logger.log('Fake data already present')
 

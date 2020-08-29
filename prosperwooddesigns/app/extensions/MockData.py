@@ -165,3 +165,18 @@ class MockData:
                                     status, is_archived, created_date,
                                     commit=False)
         db.session.commit()
+
+    def loadContact(self, db, num_rows=20):
+        '''
+        Load Contact table with fake data
+        '''
+
+        for i in range(num_rows):
+            # fake some data
+            name = self.fake.name()
+            phonenumber = self.fake.phone_number()
+            emailaddress = self.fake.email()
+
+            self.dbConn.setContact(name, phonenumber, emailaddress)
+
+        db.session.commit()
