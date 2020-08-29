@@ -100,8 +100,8 @@ class Routes:
             return render_template('requestform_success.html',
                                    title='Request Success')
 
-        @app.route('/question', methods=['GET', 'POST'])
-        def question():
+        @app.route('/questionform', methods=['GET', 'POST'])
+        def questionform():
             '''
             Routes the user to the Question Form of the website
             '''
@@ -120,21 +120,21 @@ class Routes:
                 dbConn.setQuestion(email, name, content, how_hear)
 
                 logger.log('Redirecting to question form success page')
-                return redirect(url_for('question_success'))
+                return redirect(url_for('questionform_success'))
 
             logger.log('Serving question form page')
-            return render_template('question.html',
+            return render_template('questionform.html',
                                    title='Question Form',
                                    questionform=questionform)
 
-        @app.route('/question/success')
-        def question_success():
+        @app.route('/questionform/success')
+        def questionform_success():
             '''
             Routes the user to a confirmation page after submitting a
             question form
             '''
             logger.log('Serving question form success page')
-            return render_template('question_success.html',
+            return render_template('questionform_success.html',
                                    title='Question Success')
 
         @app.route('/admin')
