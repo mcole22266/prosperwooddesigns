@@ -100,16 +100,16 @@ class Routes:
             return render_template('requestform_success.html',
                                    title='Request Success')
 
-        @app.route('/contact', methods=['GET', 'POST'])
-        def contact():
+        @app.route('/questionform', methods=['GET', 'POST'])
+        def questionform():
             '''
-            Routes the user to the Contact Form of the website
+            Routes the user to the Question Form of the website
             '''
-            from .forms import ContactForm
+            from .forms import QuestionForm
 
-            contactform = ContactForm()
-            if contactform.validate_on_submit():
-                logger.log('Contact form validated')
+            questionform = QuestionForm()
+            if questionform.validate_on_submit():
+                logger.log('Question form validated')
 
                 # get form data
                 name = request.form['name']
@@ -117,25 +117,25 @@ class Routes:
                 content = request.form['content']
                 how_hear = request.form['how_hear']
 
-                dbConn.setContact(email, name, content, how_hear)
+                dbConn.setQuestion(email, name, content, how_hear)
 
-                logger.log('Redirecting to contact form success page')
-                return redirect(url_for('contact_success'))
+                logger.log('Redirecting to question form success page')
+                return redirect(url_for('questionform_success'))
 
-            logger.log('Serving contact form page')
-            return render_template('contact.html',
-                                   title='Contact Form',
-                                   contactform=contactform)
+            logger.log('Serving question form page')
+            return render_template('questionform.html',
+                                   title='Question Form',
+                                   questionform=questionform)
 
-        @app.route('/contact/success')
-        def contact_success():
+        @app.route('/questionform/success')
+        def questionform_success():
             '''
             Routes the user to a confirmation page after submitting a
-            contact form
+            question form
             '''
-            logger.log('Serving contact form success page')
-            return render_template('contact_success.html',
-                                   title='Contact Success')
+            logger.log('Serving question form success page')
+            return render_template('questionform_success.html',
+                                   title='Question Success')
 
         @app.route('/admin')
         @login_required
@@ -146,6 +146,7 @@ class Routes:
             # get data to be used in page
             greeting = helper.getGreeting()
             requests = dbConn.getRequests(order_id=True)
+            questions = dbConn.getQuestions(order_id=True)
             contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
@@ -153,6 +154,7 @@ class Routes:
                                    title='Admin',
                                    greeting=greeting,
                                    requests=requests,
+                                   questions=questions,
                                    contacts=contacts)
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
@@ -261,31 +263,31 @@ class Routes:
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
-        @app.route('/admin/contact/update/<contact_id>', methods=['POST'])
+        @app.route('/admin/question/update/<question_id>', methods=['POST'])
         @login_required
-        def admin_contact_contactid(contact_id):
+        def admin_question_questionid(question_id):
             '''
-            Updated a contact's status based on modal input
+            Updated a Question's status based on modal input
             '''
-            new_status = request.form[f'contact-{contact_id}']
+            new_status = request.form[f'question-{question_id}']
 
             # If status is "archive" then is_archived will be set to True
             # while status will be left as-is
             if new_status == 'archive':
-                dbConn.updateContact(id=contact_id, is_archived=True)
+                dbConn.updateQuestion(id=question_id, is_archived=True)
             else:
-                dbConn.updateContact(id=contact_id, status=new_status)
+                dbConn.updateQuestion(id=question_id, status=new_status)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
 
-        @app.route('/admin/contact/delete/<contact_id>', methods=['POST'])
+        @app.route('/admin/question/delete/<question_id>', methods=['POST'])
         @login_required
-        def admin_contact_delete_requestid(contact_id):
+        def admin_question_delete_question_id(question_id):
             '''
-            Delete a contact based on modal input
+            Delete a question based on modal input
             '''
-            dbConn.deleteContact(contact_id)
+            dbConn.deleteQuestion(question_id)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin'))
@@ -296,16 +298,17 @@ class Routes:
             '''
             Routes the user to the Data Page of the website
             '''
-            from .extensions import DbConnector
+            from app.extensions.DbConnector import DbConnector
 
-            dbConnector = DbConnector()
+            dbConn = DbConnector()
 
             # get data for front-end presentation
-            admins = dbConnector.getAdmins()
-            requests = dbConnector.getRequests()
-            images = dbConnector.getImages()
-            layouts = dbConnector.getLayouts()
-            contacts = dbConnector.getContacts()
+            admins = dbConn.getAdmins()
+            requests = dbConn.getRequests()
+            images = dbConn.getImages()
+            layouts = dbConn.getLayouts()
+            questions = dbConn.getQuestions()
+            contacts = dbConn.getContacts()
 
             logger.log('Serving admin data page')
             return render_template('data.html',
@@ -314,4 +317,5 @@ class Routes:
                                    requests=requests,
                                    images=images,
                                    layouts=layouts,
+                                   questions=questions,
                                    contacts=contacts)

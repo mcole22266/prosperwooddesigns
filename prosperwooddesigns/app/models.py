@@ -249,9 +249,9 @@ class Layout(db.Model):
         return f'Layout: {self.endpoint} - {self.content_name}'
 
 
-class Contact(db.Model):
+class Question(db.Model):
     '''
-    Data model for Contact
+    Data model for Question
     '''
 
     id = db.Column(
@@ -307,4 +307,38 @@ class Contact(db.Model):
         self.created_date = created_date  # current date by default
 
     def __repr__(self):
-        return f'Contact: {self.name} - {self.emailaddress} ({self.status})'
+        return f'Question: {self.name} - {self.emailaddress} ({self.status})'
+
+
+class Contact(db.Model):
+    '''
+    Data model for Contact
+    '''
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    name = db.Column(
+        db.String(80),
+        unique=False,
+        nullable=False
+    )
+    phonenumber = db.Column(
+        db.Text,
+        unique=False,
+        nullable=True
+    )
+    emailaddress = db.Column(
+        db.String(64),
+        unique=False,
+        nullable=False
+    )
+
+    def __init__(self, name, phonenumber=False, emailaddress=False):
+        self.name = name
+        self.phonenumber = phonenumber
+        self.emailaddress = emailaddress
+
+    def __repr__(self):
+        return f'Contact: {self.name}'

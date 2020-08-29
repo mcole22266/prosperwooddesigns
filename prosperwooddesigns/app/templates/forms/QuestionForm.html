@@ -1,27 +1,27 @@
-<!-- ContactForm.html
+<!-- QuestionForm.html
 Michael Cole
 
-The Contact Form to be used by customer to contact the owner without submitting
+The Question Form to be used by customer to contact the owner without submitting
 a request -->
 
 <form method="POST">
-    {{ contactform.csrf_token }}
+    {{ questionform.csrf_token }}
     <div class="form-row">
         <div class="form-group col-md-6">
-            {{ contactform.name.label }}
-            {{ contactform.name(class_="form-control") }}
-            <div class="invalid-feedback">{{ contactform.name.errors[0] }}</div>
+            {{ questionform.name.label }}
+            {{ questionform.name(class_="form-control") }}
+            <div class="invalid-feedback">{{ questionform.name.errors[0] }}</div>
         </div>
         <div class="form-group col-md-6">
-            {{ contactform.email.label }}
-            {{ contactform.email(class_="form-control") }}
-            <div class="invalid-feedback">{{ contactform.email.errors[0] }}</div>
+            {{ questionform.email.label }}
+            {{ questionform.email(class_="form-control") }}
+            <div class="invalid-feedback">{{ questionform.email.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            {{ contactform.how_hear.label }}
-            {{ contactform.how_hear(class_="form-control", list="how_hear-list", placeholder="Optional") }}
+            {{ questionform.how_hear.label }}
+            {{ questionform.how_hear(class_="form-control", list="how_hear-list", placeholder="Optional") }}
             <datalist id="how_hear-list">
                 <option value="Facebook">
                 <option value="Instagram">
@@ -32,14 +32,14 @@ a request -->
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            {{ contactform.content.label }}
-            {{ contactform.content(class_="form-control", rows=8) }}
-            <div class="invalid-feedback">{{ contactform.content.errors[0] }}</div>
+            {{ questionform.content.label }}
+            {{ questionform.content(class_="form-control", rows=8) }}
+            <div class="invalid-feedback">{{ questionform.content.errors[0] }}</div>
         </div>
     </div>
     <div class="form-row">
         <div class="col-md-12">
-            {{ contactform.submit(class_="btn btn-primary float-right animated fadeInRightShort") }}
+            {{ questionform.submit(class_="btn btn-primary float-right animated fadeInRightShort") }}
         </div>
     </div>
 
@@ -60,12 +60,12 @@ a request -->
     }
 </script>
 
-{% if contactform.name.errors %}
+{% if questionform.name.errors %}
     <script>nameError();</script>
 {% endif %}
-{% if contactform.email.errors %}
+{% if questionform.email.errors %}
     <script>emailError();</script>
 {% endif %}
-{% if contactform.content.errors %}
+{% if questionform.content.errors %}
     <script>contentError();</script>
 {% endif %}
