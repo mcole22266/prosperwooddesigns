@@ -1,0 +1,28 @@
+<!-- table-product.html
+Michael Cole
+
+Content for the Product Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>description</th>
+        <th>created_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description[:50] }} {% if product.description|length > 50 %}...{% endif %}</td>
+            <td>{{ product.created_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
+
+
