@@ -8,9 +8,8 @@ Content for the Image Table -->
 {% block tableheader %}
     <tr>
         <th>id</th>
-        <th>name</th>
-        <th>description</th>
-        <th>filename</th>
+        <th>location</th>
+        <th>product_id</th>
         <th>created_date</th>
     </tr>
 {% endblock %}
@@ -19,9 +18,8 @@ Content for the Image Table -->
     {% for image in images %}
         <tr>
             <td>{{ image.id }}</td>
-            <td>{{ image.name }}</td>
-            <td>{{ image.description[:50] }} {% if image.description|length > 50 %}...{% endif %}</td>
-            <td>{{ image.filename }}</td>
+            <td>{{ image.location}}</td>
+            <td>{{ image.product_id }}</td>
             <td>{{ image.created_date }}</td>
         </tr>
     {% endfor %}

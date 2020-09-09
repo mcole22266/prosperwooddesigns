@@ -115,13 +115,28 @@ class MockData:
 
         for i in range(num_rows):
             # fake some data
-            name = self.fake.word()
-            description = self.fakeDescription()
-            filename = self.fake.file_path()
+            location = self.fake.file_path()
+            product_id = self.fake.random_int(1, 15)
             created_date = self.fakeDate()
 
-            self.dbConn.setImage(name, description, filename,
+            self.dbConn.setImage(location, product_id,
                                  created_date, commit=False)
+        db.session.commit()
+
+    def loadProduct(self, db, num_rows=15):
+        '''
+        Load Product table with fake data
+        '''
+
+        for i in range(num_rows):
+            # fake some data
+            name = self.fake.word()
+            description = self.fakeDescription(2, 3)
+            created_date = self.fakeDate()
+
+            self.dbConn.setProduct(name, description, created_date,
+                                   commit=False)
+
         db.session.commit()
 
     def loadLayout(self, db, num_rows=30):

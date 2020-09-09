@@ -155,19 +155,50 @@ class DbConnector:
         if id:
             return Image.query.filter_by(id=id).first()
 
-    def setImage(self, name, description, filename,
+    def setImage(self, location, product_id,
                  created_date=datetime.now(),
                  commit=True):
         '''
         Create an Image in the db
         '''
         from app.models import Image
-        image = Image(name, description, filename, created_date)
+        image = Image(location, product_id, created_date)
         self.db.session.add(image)
         if commit:
             self.db.session.commit()
         logger.log(f'Created Image - {image}')
         return image
+
+    def getProducts(self):
+        '''
+        Get all Product rows from the db
+        '''
+        from app.models import Product
+        return Product.query.all()
+
+    def getProduct(self, id=False):
+        '''
+        Get a single Product row based on the following parameter:
+
+        id (int): Set to return a row based on id
+        '''
+        from app.models import Product
+        if id:
+            return Product.query.filter_by(id=id).first()
+
+    def setProduct(self, name, description,
+                   created_date=datetime.now(), commit=True):
+        '''
+        Create a Product row
+        '''
+        from app.models import Product
+        product = Product(name, description,
+                          created_date=created_date)
+        self.db.session.add(product)
+        if commit:
+            self.db.session.commit()
+        logger.log(f'Created Product - {product}')
+        return product
 
     def getLayouts(self):
         '''

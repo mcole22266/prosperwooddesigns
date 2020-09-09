@@ -309,6 +309,7 @@ class Routes:
             layouts = dbConn.getLayouts()
             questions = dbConn.getQuestions()
             contacts = dbConn.getContacts()
+            products = dbConn.getProducts()
 
             logger.log('Serving admin data page')
             return render_template('data.html',
@@ -318,4 +319,5 @@ class Routes:
                                    images=images,
                                    layouts=layouts,
                                    questions=questions,
-                                   contacts=contacts)
+                                   contacts=contacts,
+                                   products=products)

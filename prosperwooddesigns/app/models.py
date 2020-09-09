@@ -167,20 +167,14 @@ class Image(db.Model):
         db.Integer,
         primary_key=True
     )
-    name = db.Column(
+    location = db.Column(
         db.String(64),
         unique=False,
         nullable=False
     )
-    description = db.Column(
-        db.Text,
-        unique=False,
-        nullable=True
-    )
-    filename = db.Column(
-        db.String(80),
-        unique=True,
-        nullable=False
+    product_id = db.Column(
+        db.Integer,
+        unique=False
     )
     created_date = db.Column(
         db.Date,
@@ -189,15 +183,14 @@ class Image(db.Model):
     )
 
     def __init__(
-        self, name, description, filename, created_date=datetime.now()
+        self, location, product_id, created_date=datetime.now()
     ):
-        self.name = name
-        self.description = description
-        self.filename = filename
+        self.location = location
+        self.product_id = product_id
         self.created_date = created_date  # current date by default
 
     def __repr__(self):
-        return f'Image: {self.name}'
+        return f'Image: {self.location}'
 
 
 class Layout(db.Model):
@@ -342,3 +335,37 @@ class Contact(db.Model):
 
     def __repr__(self):
         return f'Contact: {self.name}'
+
+
+class Product(db.Model):
+    '''
+    Data model for Product
+    '''
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    name = db.Column(
+        db.String(80),
+        unique=False,
+        nullable=False
+    )
+    description = db.Column(
+        db.Text,
+        unique=False,
+        nullable=True
+    )
+    created_date = db.Column(
+        db.Date,
+        unique=False,
+        nullable=False
+    )
+
+    def __init__(self, name, description, created_date=datetime.now()):
+        self.name = name
+        self.description = description
+        self.created_date = created_date
+
+    def __repr__(self):
+        return f'Product: {self.name}'
