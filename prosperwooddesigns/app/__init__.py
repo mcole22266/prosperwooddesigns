@@ -83,11 +83,12 @@ def create_app():
                 logger.log('Generating fake data')
                 mockData.loadAdmin(db)
                 mockData.loadRequest(db)
-                mockData.loadImage(db)
                 mockData.loadLayout(db)
                 mockData.loadQuestion(db)
                 mockData.loadContact(db)
-                mockData.loadProduct(db)
+                mockData.loadJoined_ProductImage(db)
+                # mockData.loadProduct(db)  # uncomment to load
+                # mockData.loadImage(db)    # uncomment to load
             else:
                 logger.log('Fake data already present')
 

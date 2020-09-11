@@ -4,9 +4,11 @@
 # Generates MockData for the app -- especially in development mode
 # -----------------------------------------------------------------
 
+import os
 from datetime import datetime
 
 from .DbConnector import DbConnector
+from .Logger import Logger
 
 
 class MockData:
@@ -18,6 +20,7 @@ class MockData:
     # Instantiate variables
     fake = Faker()
     dbConn = DbConnector()
+    logger = Logger()
 
     def fakeDate(
         self,
@@ -195,3 +198,56 @@ class MockData:
             self.dbConn.setContact(name, phonenumber, emailaddress)
 
         db.session.commit()
+
+    def loadJoined_ProductImage(self, db):
+        '''
+        Load Product and Image tables with hard-coded "real" data
+        '''
+
+        imageDir = '/prosperwooddesigns/app/static/images'
+        for filename in os.listdir(imageDir):
+            path = f'{imageDir}/{filename}'
+            if 'cornhole_football' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Cornhole Football Board',
+                    'This is the description for a football cornhole board',
+                    path
+                    )
+            elif 'cornhole' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Cornhole Board',
+                    'This is the description for a cornhole board',
+                    path
+                )
+            elif 'cabinet' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Custom Cabinet',
+                    'This is the description for a custom cabinet',
+                    path
+                )
+            elif 'exercise' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Exercise Box',
+                    'This is the description for an exercise box',
+                    path
+                )
+            elif 'decor_holiday' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Holiday Decor Board',
+                    'This is the description for a custom holiday decorative \
+                        board',
+                    path
+                )
+            elif 'decor_name' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Name Decor Board',
+                    'This is the description for a custom name decorative \
+                        board',
+                    path
+                )
+            elif 'decor' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Decor Board',
+                    'This is the description for a custom decor board',
+                    path
+                )
