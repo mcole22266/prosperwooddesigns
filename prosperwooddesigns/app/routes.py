@@ -56,8 +56,14 @@ class Routes:
             Routes the user to the Designs Page of the website
             '''
             logger.log('Serving designs page')
+            joinedProductsImages = dbConn.getJoined_ProductImages(
+                featured=True
+                )
+            # chunk into lists of no greater than 4
+            joinedProductsImages = helper.chunk(joinedProductsImages, 4)
             return render_template('designs.html',
-                                   title='Designs')
+                                   title='Designs',
+                                   joinedProductsImages=joinedProductsImages)
 
         @app.route('/designs/product_id')
         def designs_product():
