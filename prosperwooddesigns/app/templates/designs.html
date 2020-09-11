@@ -15,11 +15,19 @@ Content for the landing page -->
         {% for row in joinedProductsImages %}
             <div class="card-deck highlighted-designs-deck">
                 {% for product in row %}
-                    <div class="card highlighted-designs-card animated bounceInUp">
-                        <img src="{{ product[2] }}" alt="" class="card-img-top highlighted-designs-img">
+                    <div class="card highlighted-designs-card animated
+                    {% if loop.first %}
+                        bounceInLeft
+                    {% elif loop.last %}
+                        bounceInRight
+                    {% else %}
+                        bounceInUp
+                    {% endif %}
+                    ">
+                        <img src="{{ product.location }}" alt="" class="card-img-top highlighted-designs-img">
                         <div class="card-body">
                             <div class="card-title">
-                                <h5>{{ product[0] }}</h5>
+                                <h5>{{ product.name }}</h5>
                             </div>
                         </div>
                         <div class="card-footer">

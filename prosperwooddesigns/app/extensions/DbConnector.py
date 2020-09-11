@@ -379,6 +379,7 @@ class DbConnector:
         '''
         Return all rows where image.product_id=product.id
         '''
+
         if featured:
             # return only featured product/images
             result = self.db.session.execute('''
@@ -398,4 +399,23 @@ FROM product
     JOIN image on image.product_id=product.id
 ORDER BY product.name
 ''')
-        return list(result)
+        productImages = []
+        for item in result:
+            # return as a list of ProductImage objects
+            # (defined in this file)
+            productImage = ProductImage(item[0], item[1], item[2])
+            productImages.append(productImage)
+
+        return productImages
+
+
+class ProductImage:
+    '''
+    Object to represent ProductImage results returned by
+    getJoined_ProductImages. Allow for easier use
+    '''
+
+    def __init__(self, name, description, location):
+        self.name = name
+        self.description = description
+        self.location = location
