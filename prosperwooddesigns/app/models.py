@@ -176,6 +176,10 @@ class Image(db.Model):
         db.Integer,
         unique=False
     )
+    is_featured_img = db.Column(
+        db.Boolean,
+        nullable=False
+    )
     created_date = db.Column(
         db.Date,
         unique=False,
@@ -183,10 +187,12 @@ class Image(db.Model):
     )
 
     def __init__(
-        self, location, product_id, created_date=datetime.now()
+        self, location, product_id, is_featured_img=False,
+        created_date=datetime.now()
     ):
         self.location = location
         self.product_id = product_id
+        self.is_featured_img = is_featured_img
         self.created_date = created_date  # current date by default
 
     def __repr__(self):

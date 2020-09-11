@@ -37,3 +37,14 @@ class Helper:
 
         utc_now = pytz.utc.localize(datetime.now())
         return utc_now.astimezone(pytz.timezone(tz))
+
+    def chunk(self, thelist, maxNumElements):
+        '''
+        A generator which chunks a given list into a list with
+        sublists. Each sublist contains no greater than
+        maxNumElements elements
+
+        Ex: chunk([1, 2, 3, 4, 5], 2) == [[1, 2], [3, 4], [5]]
+        '''
+        for idx in range(0, len(thelist), maxNumElements):
+            yield thelist[idx:idx + maxNumElements]

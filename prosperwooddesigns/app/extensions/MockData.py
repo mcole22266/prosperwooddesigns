@@ -205,49 +205,69 @@ class MockData:
         '''
 
         imageDir = '/prosperwooddesigns/app/static/images'
+        relimageDir = '../static/images'
         for filename in os.listdir(imageDir):
-            path = f'{imageDir}/{filename}'
+            path = f'{relimageDir}/{filename}'
             if 'cornhole_football' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Cornhole Football Board',
                     'This is the description for a football cornhole board',
-                    path
+                    path,
+                    is_featured_img=featured
                     )
             elif 'cornhole' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Cornhole Board',
                     'This is the description for a cornhole board',
-                    path
+                    path,
+                    is_featured_img=True
                 )
             elif 'cabinet' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Custom Cabinet',
                     'This is the description for a custom cabinet',
-                    path
+                    path,
+                    is_featured_img=True
                 )
             elif 'exercise' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Exercise Box',
                     'This is the description for an exercise box',
-                    path
+                    path,
+                    is_featured_img=True
                 )
             elif 'decor_holiday' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Customized Holiday Decor Board',
                     'This is the description for a custom holiday decorative \
                         board',
-                    path
+                    path,
+                    is_featured_img=featured
                 )
             elif 'decor_name' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Customized Name Decor Board',
                     'This is the description for a custom name decorative \
                         board',
-                    path
+                    path,
+                    is_featured_img=featured
                 )
             elif 'decor' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Customized Decor Board',
                     'This is the description for a custom decor board',
-                    path
+                    path,
+                    is_featured_img=True
                 )

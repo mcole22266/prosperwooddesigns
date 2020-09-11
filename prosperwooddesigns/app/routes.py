@@ -56,18 +56,28 @@ class Routes:
             Routes the user to the Designs Page of the website
             '''
             logger.log('Serving designs page')
+            joinedProductsImages = dbConn.getJoined_ProductImages(
+                featured=True
+                )
+            # chunk into lists of no greater than 4
+            joinedProductsImages = helper.chunk(joinedProductsImages, 4)
             return render_template('designs.html',
-                                   title='Designs')
+                                   title='Designs',
+                                   joinedProductsImages=joinedProductsImages)
 
-        @app.route('/designs/product_id')
-        def designs_product():
+        @app.route('/designs/<product_name>')
+        def designs_product(product_name):
             '''
-            Routes the user to the Product Page of a chose design
-            NOTE: This is currently a WIP
+            Routes the user to the Product Page of a chosen design
             '''
-            logger.log('Serving WIP product page')
+            logger.log(f'Serving {product_name} product page')
+
+            joinedProductsImages = dbConn.getJoined_ProductImages(
+                name=product_name)
+
             return render_template('designs_product.html',
-                                   title='Product Page')
+                                   title=f'{product_name}',
+                                   joinedProductsImages=joinedProductsImages)
 
         @app.route('/requestform', methods=['GET', 'POST'])
         def requestform():

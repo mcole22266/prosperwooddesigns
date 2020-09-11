@@ -9,102 +9,34 @@ Content for the landing page -->
 
     <div class="container page-content highlighted-designs animatedParent">
 
+
         <h1 class="animated fadeInDownShort delay-250">Check out some of our designs!</h1>
 
-        <div class="card-deck highlighted-designs-deck">
-            <div class="card highlighted-designs-card animated bounceInLeft">
-                <img src="../static/images/cornhole00.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Traditional Custom Cornhole Board</h5>
+        {% for row in joinedProductsImages %}
+            <div class="card-deck highlighted-designs-deck">
+                {% for product in row %}
+                    <div class="card highlighted-designs-card animated
+                    {% if loop.first %}
+                        bounceInLeft
+                    {% elif loop.last %}
+                        bounceInRight
+                    {% else %}
+                        bounceInUp
+                    {% endif %}
+                    ">
+                        <img src="{{ product.location }}" alt="" class="card-img-top highlighted-designs-img">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <h5>{{ product.name }}</h5>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="/designs/{{ product.name }}" class="btn-link"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
+                        </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs/product_id"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
+                {% endfor %}
             </div>
-            <div class="card highlighted-designs-card animated bounceInUp">
-                <img src="../static/images/cornhole_football00.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Football-Style Cornhole Board</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-            <div class="card highlighted-designs-card animated bounceInUp">
-                <img src="../static/images/cornhole00.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Traditional Custom Cornhole Board</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-            <div class="card highlighted-designs-card animated bounceInRight">
-                <img src="../static/images/cabinet00.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Sliding Barn-Door Cabinet</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="card-deck highlighted-designs-deck">
-            <div class="card highlighted-designs-card animated bounceInLeft">
-                <img src="../static/images/decor_name01.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Personalized Decorative Name Boards</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-            <div class="card highlighted-designs-card animated bounceInUp">
-                <img src="../static/images/decor_holiday01.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Custom Holiday Decorative Boards</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-            <div class="card highlighted-designs-card animated bounceInUp">
-                <img src="../static/images/decor_name01.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Personalized Decorative Name Boards</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-            <div class="card highlighted-designs-card animated bounceInRight">
-                <img src="../static/images/exercisebox00.jpeg" alt="" class="card-img-top highlighted-designs-img">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h5>Custom Plyometric Boxes</h5>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <a class="btn-link" href="/designs"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
 
     </div>
 
