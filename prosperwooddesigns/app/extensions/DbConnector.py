@@ -138,12 +138,17 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
-    def getImages(self):
+    def getImages(self, featured=False):
         '''
         Get all Image rows from the db
+
+        featured (bool): Set True to return only featured images
         '''
         from app.models import Image
-        return Image.query.all()
+        if featured:
+            return Image.query.filter_by(featured=True).all()
+        else:
+            return Image.query.all()
 
     def getImage(self, id=False):
         '''
@@ -155,14 +160,14 @@ class DbConnector:
         if id:
             return Image.query.filter_by(id=id).first()
 
-    def setImage(self, location, product_id,
+    def setImage(self, location, product_id, is_featured_img=False,
                  created_date=datetime.now(),
                  commit=True):
         '''
         Create an Image in the db
         '''
         from app.models import Image
-        image = Image(location, product_id, created_date)
+        image = Image(location, product_id, is_featured_img, created_date)
         self.db.session.add(image)
         if commit:
             self.db.session.commit()
@@ -344,8 +349,8 @@ class DbConnector:
         return contact
 
     def setJoined_ProductImage(self, product_name, product_description,
-                               image_location, created_date=datetime.now(),
-                               commit=True):
+                               image_location, is_featured_img=False,
+                               created_date=datetime.now(), commit=True):
         '''
         Create an image object. If the given product already exists, the image
         object will simply point to that product id. If the given product does
@@ -365,19 +370,32 @@ class DbConnector:
 
         # create the image pointing at the product
         image = self.setImage(image_location, product.id,
+                              is_featured_img=is_featured_img,
                               created_date=created_date, commit=commit)
 
         return (product, image)
 
-    def getJoined_ProductImages(self):
+    def getJoined_ProductImages(self, featured=False):
         '''
         Return all rows where image.product_id=product.id
         '''
-        result = self.db.session.execute('''
+        if featured:
+            # return only featured product/images
+            result = self.db.session.execute('''
+SELECT
+    product.name, product.description, image.location
+FROM product
+    JOIN image on image.product_id=product.id
+WHERE image.is_featured_img='y'
+ORDER BY product.name
+''')
+        else:
+            # return all product/images
+            result = self.db.session.execute('''
 SELECT
     product.name, product.description, image.location
 FROM product
     JOIN image on image.product_id=product.id
 ORDER BY product.name
 ''')
-        return result
+        return list(result)

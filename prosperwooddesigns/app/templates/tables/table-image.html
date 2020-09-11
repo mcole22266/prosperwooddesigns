@@ -10,6 +10,7 @@ Content for the Image Table -->
         <th>id</th>
         <th>location</th>
         <th>product_id</th>
+        <th>is_featured_img</th>
         <th>created_date</th>
     </tr>
 {% endblock %}
@@ -20,6 +21,7 @@ Content for the Image Table -->
             <td>{{ image.id }}</td>
             <td>{{ image.location}}</td>
             <td>{{ image.product_id }}</td>
+            <td>{{ image.is_featured_img }}</td>
             <td>{{ image.created_date }}</td>
         </tr>
     {% endfor %}
