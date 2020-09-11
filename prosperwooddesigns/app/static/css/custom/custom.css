@@ -93,47 +93,47 @@ Custom CSS to overwrite any bootstrap CSS */
     margin-bottom: 5rem;
 }
 
-.gallery-container {
-    padding-left: 3%;
-    padding-right: 3%;
-}
-
-.gallery-row {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 4px;
-}
-
-.gallery-column {
-    flex: 25%;
-    max-width: 25%;
-    padding: 0 6px;
-}
-
-.gallery-column img {
-    margin-top: 8px;
-    vertical-align: middle;
-    width: 100%;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
-    border-radius: 3%;
-}
-
-.gallery-column img:hover {
-    transition: all .2s ease-in-out;
-    transform: scale(1.2) translateY(-12px);
-    filter: drop-shadow(10px 10px 4px black);
-}
-
-@media screen and (max-width: 600px) {
-    .gallery-column {
-        flex: 100%;
-        max-width: 100%;
-    }
-}
-
 body {
     background-color: #cccccc;
     font-family: 'Titillium Web', sans-serif;
+}
+.product-button {
+    float: right;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+/* ---- originally from https://www.codeply.com/p/4ROQRamTcN ---- */
+
+#product-carousel .list-inline {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+#product-carousel .carousel-indicators {
+    position: static;
+    left: initial;
+    width: initial;
+    margin-left: initial;
+}
+
+#product-carousel .carousel-indicators > li {
+    width: initial;
+    height: initial;
+    text-indent: initial;
+}
+
+#product-carousel .carousel-indicators > li.active img {
+    opacity: 1;
+}
+
+/* ---- end ----*/
+
+#product-carousel {
+    width: 100%;
+    max-height: 90%;
+}
+
+#product-carousel .carousel-indicators :hover {
+    opacity: 0.8;
 }

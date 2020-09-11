@@ -4,9 +4,11 @@
 # Generates MockData for the app -- especially in development mode
 # -----------------------------------------------------------------
 
+import os
 from datetime import datetime
 
 from .DbConnector import DbConnector
+from .Logger import Logger
 
 
 class MockData:
@@ -18,6 +20,7 @@ class MockData:
     # Instantiate variables
     fake = Faker()
     dbConn = DbConnector()
+    logger = Logger()
 
     def fakeDate(
         self,
@@ -115,13 +118,28 @@ class MockData:
 
         for i in range(num_rows):
             # fake some data
-            name = self.fake.word()
-            description = self.fakeDescription()
-            filename = self.fake.file_path()
+            location = self.fake.file_path()
+            product_id = self.fake.random_int(1, 15)
             created_date = self.fakeDate()
 
-            self.dbConn.setImage(name, description, filename,
+            self.dbConn.setImage(location, product_id,
                                  created_date, commit=False)
+        db.session.commit()
+
+    def loadProduct(self, db, num_rows=15):
+        '''
+        Load Product table with fake data
+        '''
+
+        for i in range(num_rows):
+            # fake some data
+            name = self.fake.word()
+            description = self.fakeDescription(2, 3)
+            created_date = self.fakeDate()
+
+            self.dbConn.setProduct(name, description, created_date,
+                                   commit=False)
+
         db.session.commit()
 
     def loadLayout(self, db, num_rows=30):
@@ -180,3 +198,76 @@ class MockData:
             self.dbConn.setContact(name, phonenumber, emailaddress)
 
         db.session.commit()
+
+    def loadJoined_ProductImage(self, db):
+        '''
+        Load Product and Image tables with hard-coded "real" data
+        '''
+
+        imageDir = '/prosperwooddesigns/app/static/images'
+        relimageDir = '../static/images'
+        for filename in os.listdir(imageDir):
+            path = f'{relimageDir}/{filename}'
+            if 'cornhole_football' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
+                self.dbConn.setJoined_ProductImage(
+                    'Cornhole Football Board',
+                    'This is the description for a football cornhole board',
+                    path,
+                    is_featured_img=featured
+                    )
+            elif 'cornhole' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Cornhole Board',
+                    'This is the description for a cornhole board',
+                    path,
+                    is_featured_img=True
+                )
+            elif 'cabinet' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Custom Cabinet',
+                    'This is the description for a custom cabinet',
+                    path,
+                    is_featured_img=True
+                )
+            elif 'exercise' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Exercise Box',
+                    'This is the description for an exercise box',
+                    path,
+                    is_featured_img=True
+                )
+            elif 'decor_holiday' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Holiday Decor Board',
+                    'This is the description for a custom holiday decorative \
+                        board',
+                    path,
+                    is_featured_img=featured
+                )
+            elif 'decor_name' in filename:
+                if '00' in filename:
+                    featured = True
+                else:
+                    featured = False
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Name Decor Board',
+                    'This is the description for a custom name decorative \
+                        board',
+                    path,
+                    is_featured_img=featured
+                )
+            elif 'decor' in filename:
+                self.dbConn.setJoined_ProductImage(
+                    'Customized Decor Board',
+                    'This is the description for a custom decor board',
+                    path,
+                    is_featured_img=True
+                )

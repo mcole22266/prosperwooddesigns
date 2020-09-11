@@ -58,6 +58,17 @@ a request -->
         var contentInput = document.getElementById("content");
         contentInput.classList.add("is-invalid");
     }
+    function productPreFill() {
+        // Automatically fills "Question" input box
+        // with product name if a user navigates to this page via the button
+        // on the product page
+        const queryString = window.location.search;         // get URL
+        const urlParams = new URLSearchParams(queryString); // get arguments
+
+        var contentInput = document.getElementById("content");
+        // Value will be "[Product Name]: "
+        contentInput.value = '[' + urlParams.get('product') + ']: ';
+    }
 </script>
 
 {% if questionform.name.errors %}
@@ -68,4 +79,7 @@ a request -->
 {% endif %}
 {% if questionform.content.errors %}
     <script>contentError();</script>
+{% endif %}
+{% if product %}
+    <script>productPreFill();</script>
 {% endif %}

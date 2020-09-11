@@ -1,0 +1,83 @@
+<!-- designs_product.html
+Michael Cole
+
+Content for the product page -->
+{% extends './layout.html' %}
+
+{% block body %}
+
+    <div class="container page-content animatedParent">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div id="product-carousel" class="carousel slide shadow animated fadeInLeftShort">
+                    <div class="carousel-inner">
+                        {% for item in joinedProductsImages %}
+                            {% if loop.first %}
+                                <div class="active carousel-item" data-slide-number='{{ loop.index-1 }}'>
+                            {% else %}
+                                <div class="carousel-item" data-slide-number='{{ loop.index-1 }}'>
+                            {% endif %}
+                                <img src="{{ item.location }}" alt="{{ item.location }}" class="img-fluid">
+                            </div>
+                        {% endfor %}
+
+                        <a href="#product-carousel" class="carousel-control-prev" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a href="#product-carousel" class="carousel-control-next" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <ul class="carousel-indicators list-inline mx-auto border px-2">
+                        {% for item in joinedProductsImages %}
+                            {% if loop.first %}
+                                <li class="list-inline-item active">
+                                    <a id="carousel-selector-{{ loop.index-1 }}" class="selected" data-slide-to="{{ loop.index-1 }}" data-target="#product-carousel">
+                            {% else %}
+                                <li class="list-inline-item">
+                                    <a id="carousel-selector-{{ loop.index-1 }}" data-slide-to="{{ loop.index-1 }}" data-target="#product-carousel">
+                            {% endif %}
+                                    <img src="{{ item.location }}" alt="{{ item.location }}" class="img-fluid">
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 product-title animated fadeInRightShort">
+                        <h1>{{ joinedProductsImages[0].name }}</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 animated fadeInRightShort">
+                        <p class="product-description">
+                            {{ joinedProductsImages[0].description }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="/requestform?product={{ joinedProductsImages[0].name }}" class="btn-link">
+                            <button class="btn btn-primary product-button animated growIn delay-500">Request this item</button>
+                        </a>
+                        <a href="/questionform?product={{ joinedProductsImages[0].name }}" class="btn-link">
+                            <button class="btn btn-secondary product-button animated fadeInUpShort">Ask about this item</button>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="/designs" class="animated fadeIn delay-750" style="float: right;">back to the rest of the designs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

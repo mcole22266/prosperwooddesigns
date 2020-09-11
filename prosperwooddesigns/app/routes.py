@@ -5,6 +5,7 @@
 # --------------------------------
 
 from flask import redirect, render_template, request, url_for
+from werkzeug.exceptions import BadRequestKeyError
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
@@ -56,8 +57,28 @@ class Routes:
             Routes the user to the Designs Page of the website
             '''
             logger.log('Serving designs page')
+            joinedProductsImages = dbConn.getJoined_ProductImages(
+                featured=True
+                )
+            # chunk into lists of no greater than 4
+            joinedProductsImages = helper.chunk(joinedProductsImages, 4)
             return render_template('designs.html',
-                                   title='Designs')
+                                   title='Designs',
+                                   joinedProductsImages=joinedProductsImages)
+
+        @app.route('/designs/<product_name>')
+        def designs_product(product_name):
+            '''
+            Routes the user to the Product Page of a chosen design
+            '''
+            logger.log(f'Serving {product_name} product page')
+
+            joinedProductsImages = dbConn.getJoined_ProductImages(
+                name=product_name)
+
+            return render_template('designs_product.html',
+                                   title=f'{product_name}',
+                                   joinedProductsImages=joinedProductsImages)
 
         @app.route('/requestform', methods=['GET', 'POST'])
         def requestform():
@@ -85,10 +106,16 @@ class Routes:
                 logger.log('Redirecting to request form success page')
                 return redirect(url_for('requestform_success'))
 
+            try:
+                product = request.args['product']
+            except BadRequestKeyError:
+                product = None
+
             logger.log('Serving request form page')
             return render_template('requestform.html',
                                    title='Request Form',
-                                   requestform=requestform)
+                                   requestform=requestform,
+                                   product=product)
 
         @app.route('/requestform/success')
         def requestform_success():
@@ -122,10 +149,16 @@ class Routes:
                 logger.log('Redirecting to question form success page')
                 return redirect(url_for('questionform_success'))
 
+            try:
+                product = request.args['product']
+            except BadRequestKeyError:
+                product = None
+
             logger.log('Serving question form page')
             return render_template('questionform.html',
                                    title='Question Form',
-                                   questionform=questionform)
+                                   questionform=questionform,
+                                   product=product)
 
         @app.route('/questionform/success')
         def questionform_success():
@@ -309,6 +342,7 @@ class Routes:
             layouts = dbConn.getLayouts()
             questions = dbConn.getQuestions()
             contacts = dbConn.getContacts()
+            products = dbConn.getProducts()
 
             logger.log('Serving admin data page')
             return render_template('data.html',
@@ -318,4 +352,5 @@ class Routes:
                                    images=images,
                                    layouts=layouts,
                                    questions=questions,
-                                   contacts=contacts)
+                                   contacts=contacts,
+                                   products=products)
