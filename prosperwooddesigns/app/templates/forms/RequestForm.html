@@ -76,6 +76,17 @@ The Request Form to be used by customers requesting a custom design -->
         var descriptionInput = document.getElementById("description");
         descriptionInput.classList.add("is-invalid");
     }
+    function productPreFill() {
+        // Automatically fills "Tell me what you're looking for!" input box
+        // with product name if a user navigates to this page via the button
+        // on the product page
+        const queryString = window.location.search;         // get URL
+        const urlParams = new URLSearchParams(queryString); // get arguments
+
+        var descriptionInput = document.getElementById("description");
+        // Value will be "[Product Name]: "
+        descriptionInput.value = '[' + urlParams.get('product') + ']: ';
+    }
 </script>
 
 {% if requestform.email.errors %}
@@ -92,4 +103,7 @@ The Request Form to be used by customers requesting a custom design -->
 {% endif %}
 {% if requestform.description.errors %}
     <script>descriptionError();</script>
+{% endif %}
+{% if product %}
+    <script>productPreFill();</script>
 {% endif %}

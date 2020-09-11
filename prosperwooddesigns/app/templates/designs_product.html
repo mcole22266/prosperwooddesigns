@@ -61,8 +61,12 @@ Content for the product page -->
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-primary product-button animated growIn delay-500">Request this item</button>
-                        <button class="btn btn-secondary product-button animated fadeInUpShort">Ask about this item</button>
+                        <a href="/requestform?product={{ joinedProductsImages[0].name }}" class="btn-link">
+                            <button class="btn btn-primary product-button animated growIn delay-500">Request this item</button>
+                        </a>
+                        <a href="/questionform?product={{ joinedProductsImages[0].name }}" class="btn-link">
+                            <button class="btn btn-secondary product-button animated fadeInUpShort">Ask about this item</button>
+                        </a>
                     </div>
                 </div>
                 <div class="row">

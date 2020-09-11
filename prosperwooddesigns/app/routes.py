@@ -5,6 +5,7 @@
 # --------------------------------
 
 from flask import redirect, render_template, request, url_for
+from werkzeug.exceptions import BadRequestKeyError
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
@@ -105,10 +106,16 @@ class Routes:
                 logger.log('Redirecting to request form success page')
                 return redirect(url_for('requestform_success'))
 
+            try:
+                product = request.args['product']
+            except BadRequestKeyError:
+                product = None
+
             logger.log('Serving request form page')
             return render_template('requestform.html',
                                    title='Request Form',
-                                   requestform=requestform)
+                                   requestform=requestform,
+                                   product=product)
 
         @app.route('/requestform/success')
         def requestform_success():
@@ -142,10 +149,16 @@ class Routes:
                 logger.log('Redirecting to question form success page')
                 return redirect(url_for('questionform_success'))
 
+            try:
+                product = request.args['product']
+            except BadRequestKeyError:
+                product = None
+
             logger.log('Serving question form page')
             return render_template('questionform.html',
                                    title='Question Form',
-                                   questionform=questionform)
+                                   questionform=questionform,
+                                   product=product)
 
         @app.route('/questionform/success')
         def questionform_success():
