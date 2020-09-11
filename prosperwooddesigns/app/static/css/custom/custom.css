@@ -100,6 +100,7 @@ body {
 .product-button {
     float: right;
     margin-left: 5px;
+    margin-bottom: 5px;
 }
 
 /* ---- originally from https://www.codeply.com/p/4ROQRamTcN ---- */
@@ -130,6 +131,7 @@ body {
 
 #product-carousel {
     width: 100%;
+    max-height: 90%;
 }
 
 #product-carousel .carousel-indicators :hover {
