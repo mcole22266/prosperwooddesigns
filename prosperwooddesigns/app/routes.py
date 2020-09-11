@@ -59,6 +59,16 @@ class Routes:
             return render_template('designs.html',
                                    title='Designs')
 
+        @app.route('/designs/product_id')
+        def designs_product():
+            '''
+            Routes the user to the Product Page of a chose design
+            NOTE: This is currently a WIP
+            '''
+            logger.log('Serving WIP product page')
+            return render_template('designs_product.html',
+                                   title='Product Page')
+
         @app.route('/requestform', methods=['GET', 'POST'])
         def requestform():
             '''

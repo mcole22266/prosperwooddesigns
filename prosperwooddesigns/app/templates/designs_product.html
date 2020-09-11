@@ -1,0 +1,95 @@
+<!-- designs_product.html
+Michael Cole
+
+Content for the product page -->
+{% extends './layout.html' %}
+
+{% block body %}
+
+    <div class="container page-content">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div id="product-carousel" class="carousel slide shadow">
+                    <div class="carousel-inner">
+                        <div class="active carousel-item" data-slide-number='0'>
+                            <img src="../static/images/cornhole_football01.jpeg" alt="Cornhole Football" class="img-fluid">
+                        </div>
+                        <div class="carousel-item" data-slide-number='1'>
+                            <img src="../static/images/cornhole_football02.jpeg" alt="Cornhole Football" class="img-fluid">
+                        </div>
+                        <div class="carousel-item" data-slide-number='2'>
+                            <img src="../static/images/cornhole_football03.jpeg" alt="Cornhole Football" class="img-fluid">
+                        </div>
+                        <div class="carousel-item" data-slide-number='3'>
+                            <img src="../static/images/cornhole_football02.jpeg" alt="Cornhole Football" class="img-fluid">
+                        </div>
+                        <div class="carousel-item" data-slide-number='4'>
+                            <img src="../static/images/decor_board00.jpeg" alt="Cornhole Football" class="img-fluid">
+                        </div>
+
+                        <a href="#product-carousel" class="carousel-control-prev" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a href="#product-carousel" class="carousel-control-next" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <ul class="carousel-indicators list-inline mx-auto border px-2">
+                        <li class="list-inline-item active">
+                            <a id="carousel-selector-0" class="selected" data-slide-to="0" data-target="#product-carousel">
+                                <img src="../static/images/cornhole_football01.jpeg" alt="Cornhole Football" class="img-fluid">
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a id="carousel-selector-1" class="selected" data-slide-to="1" data-target="#product-carousel">
+                                <img src="../static/images/cornhole_football02.jpeg" alt="Cornhole Football" class="img-fluid">
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a id="carousel-selector-2" class="selected" data-slide-to="2" data-target="#product-carousel">
+                                <img src="../static/images/cornhole_football03.jpeg" alt="Cornhole Football" class="img-fluid">
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a id="carousel-selector-3" class="selected" data-slide-to="3" data-target="#product-carousel">
+                                <img src="../static/images/cornhole_football02.jpeg" alt="Cornhole Football" class="img-fluid">
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a id="carousel-selector-4" class="selected" data-slide-to="4" data-target="#product-carousel">
+                                <img src="../static/images/decor_board00.jpeg" alt="Cornhole Football" class="img-fluid">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 product-title">
+                        <h1>Custom Cornhole Board</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="product-description">
+                            First to throw for 100 years wins! Customize them for your favorite NFL, College, or High School Team and be the 
+                            envy of the neighborhood. Oh, and check out the "Beverage" holders at the top of the goal posts. No more spilling 
+                            your drink on the lawn while you're throwing the winning shot!
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary product-button">Request this item</button>
+                        <button class="btn btn-secondary product-button">Ask about this item</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
