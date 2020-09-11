@@ -375,18 +375,33 @@ class DbConnector:
 
         return (product, image)
 
-    def getJoined_ProductImages(self, featured=False):
+    def getJoined_ProductImages(self, name=False, featured=False):
         '''
         Return all rows where image.product_id=product.id
+
+        name (bool): Set to only return all product/images by name
+        featured (bool): Set to only return all product/images with
+            featured images
         '''
 
-        if featured:
+        if name:
+            # return only product/images where product_name=name
+            result = self.db.session.execute(f'''
+SELECT
+    product.name, product.description, image.location
+FROM product
+    JOIN image ON image.product_id=product.id
+WHERE product.name='{name}'
+ORDER BY image.is_featured_img DESC
+''')
+
+        elif featured:
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT
     product.name, product.description, image.location
 FROM product
-    JOIN image on image.product_id=product.id
+    JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
 ORDER BY product.name
 ''')
@@ -396,7 +411,7 @@ ORDER BY product.name
 SELECT
     product.name, product.description, image.location
 FROM product
-    JOIN image on image.product_id=product.id
+    JOIN image ON image.product_id=product.id
 ORDER BY product.name
 ''')
         productImages = []
