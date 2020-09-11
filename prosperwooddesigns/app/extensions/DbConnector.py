@@ -176,15 +176,18 @@ class DbConnector:
         from app.models import Product
         return Product.query.all()
 
-    def getProduct(self, id=False):
+    def getProduct(self, id=False, name=False):
         '''
         Get a single Product row based on the following parameter:
 
         id (int): Set to return a row based on id
+        name (str): Set to return a row based on name
         '''
         from app.models import Product
         if id:
             return Product.query.filter_by(id=id).first()
+        if name:
+            return Product.query.filter_by(name=name).first()
 
     def setProduct(self, name, description,
                    created_date=datetime.now(), commit=True):
@@ -339,3 +342,42 @@ class DbConnector:
             self.db.session.commit()
         logger.log(f'Created Contact - {contact}')
         return contact
+
+    def setJoined_ProductImage(self, product_name, product_description,
+                               image_location, created_date=datetime.now(),
+                               commit=True):
+        '''
+        Create an image object. If the given product already exists, the image
+        object will simply point to that product id. If the given product does
+        not yet exist, the product will be created first using the given
+        values.
+
+        Returns tuple: (product, image)
+        '''
+
+        product = self.getProduct(name=product_name)
+
+        # check for product availability
+        if not product:
+            # Create the product if it does not yet exist
+            product = self.setProduct(product_name, product_description,
+                                      created_date=created_date, commit=commit)
+
+        # create the image pointing at the product
+        image = self.setImage(image_location, product.id,
+                              created_date=created_date, commit=commit)
+
+        return (product, image)
+
+    def getJoined_ProductImages(self):
+        '''
+        Return all rows where image.product_id=product.id
+        '''
+        result = self.db.session.execute('''
+SELECT
+    product.name, product.description, image.location
+FROM product
+    JOIN image on image.product_id=product.id
+ORDER BY product.name
+''')
+        return result
