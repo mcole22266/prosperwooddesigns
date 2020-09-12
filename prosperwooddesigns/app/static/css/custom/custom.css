@@ -11,13 +11,14 @@ Custom CSS to overwrite any bootstrap CSS */
 .cover-photo {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         url('../../images/landingpage.jpg');
-    height: 66vh;
+    height: 80vh;
     background-position: center;
     background-size: cover;
 }
 
 .landing-logo {
-    max-width: 50%;
+    min-width: 60%;
+    max-width: 80%;
     height: auto;
 }
 
