@@ -412,15 +412,14 @@ ORDER BY product.name
 ''')
         elif featuredProducts:
             # return only featured product/images
-            # order by is_featured_img desc so that featured
-            # images appear first
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.name, product.description, image.location
+    product.name, product.description,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.is_featured_product='y'
-ORDER BY image.is_featured_img DESC
+    AND image.is_featured_img='y'
 ''')
         else:
             # return all product/images
