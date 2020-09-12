@@ -215,7 +215,7 @@ class MockData:
                     featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Cornhole Football Board',
-                    'This is the description for a football cornhole board',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=featured,
                     is_featured_product=True
@@ -223,14 +223,14 @@ class MockData:
             elif 'cornhole' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Cornhole Board',
-                    'This is the description for a cornhole board',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=True
                 )
             elif 'cabinet' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Custom Cabinet',
-                    'This is the description for a custom cabinet',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=True,
                     is_featured_product=True
@@ -238,7 +238,7 @@ class MockData:
             elif 'exercise' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Exercise Box',
-                    'This is the description for an exercise box',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=True
                 )
@@ -249,8 +249,7 @@ class MockData:
                     featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Customized Holiday Decor Board',
-                    'This is the description for a custom holiday decorative \
-                        board',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=featured,
                     is_featured_product=True
@@ -262,15 +261,14 @@ class MockData:
                     featured = False
                 self.dbConn.setJoined_ProductImage(
                     'Customized Name Decor Board',
-                    'This is the description for a custom name decorative \
-                        board',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=featured
                 )
             elif 'decor' in filename:
                 self.dbConn.setJoined_ProductImage(
                     'Customized Decor Board',
-                    'This is the description for a custom decor board',
+                    self.fakeDescription(),
                     path,
                     is_featured_img=True
                 )
