@@ -10,7 +10,9 @@ Content for the landing page -->
     <div class="container page-content highlighted-designs animatedParent">
 
 
-        <h1 class="animated fadeInDownShort delay-250">Check out some of our designs!</h1>
+        <h1 class="display-4 animated fadeInDownShort delay-250">Check out some of our designs!</h1>
+
+        <hr>
 
         {% for row in joinedProductsImages %}
             <div class="card-deck highlighted-designs-deck">
@@ -31,7 +33,9 @@ Content for the landing page -->
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a href="/designs/{{ product.name }}" class="btn-link"><button class="btn btn-primary btn-lg btn-block">See More</button></a>
+                            <a href="/designs/{{ product.name }}" class="btn-link">
+                                <button class="btn btn-primary btn-lg btn-block animated-button">See More</button>
+                            </a>
                         </div>
                     </div>
                 {% endfor %}

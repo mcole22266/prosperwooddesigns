@@ -169,7 +169,7 @@ class Image(db.Model):
     )
     location = db.Column(
         db.String(64),
-        unique=False,
+        unique=True,
         nullable=False
     )
     product_id = db.Column(
@@ -362,15 +362,21 @@ class Product(db.Model):
         unique=False,
         nullable=True
     )
+    is_featured_product = db.Column(
+        db.Boolean,
+        nullable=False
+    )
     created_date = db.Column(
         db.Date,
         unique=False,
         nullable=False
     )
 
-    def __init__(self, name, description, created_date=datetime.now()):
+    def __init__(self, name, description, is_featured_product=False,
+                 created_date=datetime.now()):
         self.name = name
         self.description = description
+        self.is_featured_product = is_featured_product
         self.created_date = created_date
 
     def __repr__(self):
