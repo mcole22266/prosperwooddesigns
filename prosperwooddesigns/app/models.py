@@ -169,7 +169,7 @@ class Image(db.Model):
     )
     location = db.Column(
         db.String(64),
-        unique=False,
+        unique=True,
         nullable=False
     )
     product_id = db.Column(
