@@ -194,13 +194,13 @@ class DbConnector:
         if name:
             return Product.query.filter_by(name=name).first()
 
-    def setProduct(self, name, description,
+    def setProduct(self, name, description, is_featured_product=False,
                    created_date=datetime.now(), commit=True):
         '''
         Create a Product row
         '''
         from app.models import Product
-        product = Product(name, description,
+        product = Product(name, description, is_featured_product,
                           created_date=created_date)
         self.db.session.add(product)
         if commit:
@@ -349,7 +349,8 @@ class DbConnector:
         return contact
 
     def setJoined_ProductImage(self, product_name, product_description,
-                               image_location, is_featured_img=False,
+                               image_location, is_featured_product=False,
+                               is_featured_img=False,
                                created_date=datetime.now(), commit=True):
         '''
         Create an image object. If the given product already exists, the image
@@ -366,6 +367,7 @@ class DbConnector:
         if not product:
             # Create the product if it does not yet exist
             product = self.setProduct(product_name, product_description,
+                                      is_featured_product=is_featured_product,
                                       created_date=created_date, commit=commit)
 
         # create the image pointing at the product
@@ -375,12 +377,12 @@ class DbConnector:
 
         return (product, image)
 
-    def getJoined_ProductImages(self, name=False, featured=False):
+    def getJoined_ProductImages(self, name=False, featuredImages=False):
         '''
         Return all rows where image.product_id=product.id
 
         name (bool): Set to only return all product/images by name
-        featured (bool): Set to only return all product/images with
+        featuredImages (bool): Set to only return all product/images with
             featured images
         '''
 
@@ -395,7 +397,7 @@ WHERE product.name='{name}'
 ORDER BY image.is_featured_img DESC
 ''')
 
-        elif featured:
+        elif featuredImages:
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT
@@ -430,7 +432,9 @@ class ProductImage:
     getJoined_ProductImages. Allow for easier use
     '''
 
-    def __init__(self, name, description, location):
+    def __init__(self, name, description, location,
+                 is_featured_product=False):
         self.name = name
         self.description = description
         self.location = location
+        self.is_featured_product = is_featured_product

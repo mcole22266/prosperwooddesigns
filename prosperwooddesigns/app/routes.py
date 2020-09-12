@@ -58,7 +58,7 @@ class Routes:
             '''
             logger.log('Serving designs page')
             joinedProductsImages = dbConn.getJoined_ProductImages(
-                featured=True
+                featuredImages=True
                 )
             # chunk into lists of no greater than 4
             joinedProductsImages = helper.chunk(joinedProductsImages, 4)
