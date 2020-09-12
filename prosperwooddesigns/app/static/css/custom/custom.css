@@ -45,6 +45,10 @@ Custom CSS to overwrite any bootstrap CSS */
     max-width: 75%;
 }
 
+.featured-footer {
+    margin-top: 3rem;
+}
+
 .mission-statement p {
     font-size: larger;
 }

@@ -11,12 +11,12 @@ Content for the landing page -->
     {% include './navbar.html' %}
 
     <div class="row justify-content-around align-items-center text-center landing-content h-75">
-        <div class="col-md-6 animatedParent">
+        <div class="col-md-6 animatedParent animateOnce">
             <img src="../static/images/logo_white.png" alt="" class="landing-logo animated fadeInDownShort">
         </div>
         <div class="col-md-6">
             <div class="row justify-content-around align-items-center text-center">
-                <div class="col-md-12 landing-tag animatedParent">
+                <div class="col-md-12 landing-tag animatedParent animateOnce">
                     <h4 class="animated fadeInRightShort">Your one stop shop for your custom wood designs!</h4>
                 </div>
             </div>
@@ -25,64 +25,44 @@ Content for the landing page -->
 
 </div>
 
-<div class="container page-content highlighted-designs animatedParent">
+<div class="container page-content highlighted-designs">
 
-    <h1 class="text-center">Featured Designs</h1>
+    <div class="featured-title animatedParent animateOnce">
+        <h1 class="text-center animated fadeIn">Featured Designs</h1>
+    </div>
 
-    <div class="container marketing">
+    {% for product in featuredProducts %}
+        <div class="featured-product-container animatedParent animateOnce" data-appear-top-offset='400'>
+            <hr class="featured-divider animated fadeIn">
+            <div class="row featured align-items-center">
+                {% if loop.index is odd %}
+                <div class="col-md-7 animated fadeInLeft delay-250">
+                {% else %}
+                <div class="col-md-7 order-md-2 text-right animated fadeInRight delay-250">
+                {% endif %}
+                    <h2 class="featured-heading">{{ product.name }}</h2>
+                    <p class="lead">{{ product.description }}</p>
 
+                </div>
+                {% if loop.index is odd %}
+                <div class="col-md-5 align-items-center text-center animated fadeInRight delay-250">
+                {% else %}
+                <div class="col-md-5 order-md-1 align-items-center text-center animated fadeInLeft delay-250">
+                {% endif %}
+                    <img src="{{ product.location }}" alt="{{ product.name }}"
+                    class="featured-image img-fluid mx-auto">
+                </div>
+            </div>
+            <div class="row featured-footer justify-content-center animatedParent animateOnce" data-appear-top-offset='400'>
+                <a href="/designs/{{ product.name }}" class="btn-link"><button class="btn btn-primary animated growIn delay-1000">Check it out!</button></a>
+            </div>
+        </div>
+    {% endfor %}
     <hr class="featured-divider">
 
-        <div class="row featured align-items-center">
-            <div class="col-md-7">
-                <h2 class="featured-heading">First featured heading. <span class="text-muted">It'll blow your
-                        mind.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5 align-items-center text-center">
-                <img class="featured-image img-fluid mx-auto" src="../static/images/cornhole_football00.jpeg"
-                    alt="Generic placeholder image">
-            </div>
-        </div>
 
-        <hr class="featured-divider">
+</div>
 
-        <div class="row featured">
-            <div class="col-md-7 order-md-2">
-                <h2 class="featured-heading">Oh yeah, it's that good. <span class="text-muted">See for
-                        yourself.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5 order-md-1">
-                <img class="featured-image img-fluid mx-auto" data-src="holder.js/500x500/auto"
-                    alt="Generic placeholder image">
-            </div>
-        </div>
-
-        <hr class="featured-divider">
-
-        <div class="row featured">
-            <div class="col-md-7">
-                <h2 class="featured-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-                <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
-                    euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
-                    tellus ac cursus commodo.</p>
-            </div>
-            <div class="col-md-5">
-                <img class="featured-image img-fluid mx-auto" data-src="holder.js/500x500/auto"
-                    alt="Generic placeholder image">
-            </div>
-        </div>
-
-        <hr class="featured-divider">
-
-        <!-- /END THE FEATURETTES -->
-
-    </div>
 
 
     {% endblock body %}

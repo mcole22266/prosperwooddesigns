@@ -38,9 +38,15 @@ class Routes:
             '''
             Routes the user to the Landing Page of the website
             '''
+
+            # get all featured products
+            featuredProducts = dbConn.getJoined_ProductImages(
+                featuredProducts=True)
+
             logger.log('Serving index page')
             return render_template('index.html',
-                                   title='Home')
+                                   title='Home',
+                                   featuredProducts=featuredProducts)
 
         # CURRENTLY TABLED PENDING CLIENT'S THOUGHTS
         # @app.route('/about')
