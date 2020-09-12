@@ -25,10 +25,10 @@ Content for the landing page -->
 
 </div>
 
-<div class="container page-content highlighted-designs">
+<div class="container page-content featured-products">
 
     <div class="featured-title animatedParent animateOnce">
-        <h1 class="text-center animated fadeIn">Featured Designs</h1>
+        <h1 class="display-4 text-center animated fadeIn">Featured Designs</h1>
     </div>
 
     {% for product in featuredProducts %}
@@ -40,7 +40,7 @@ Content for the landing page -->
                 {% else %}
                 <div class="col-md-7 order-md-2 text-right animated fadeInRight delay-250">
                 {% endif %}
-                    <h2 class="featured-heading">{{ product.name }}</h2>
+                    <h1 class="featured-heading">{{ product.name }}</h1>
                     <p class="lead">{{ product.description }}</p>
 
                 </div>
@@ -50,19 +50,31 @@ Content for the landing page -->
                 <div class="col-md-5 order-md-1 align-items-center text-center animated fadeInLeft delay-250">
                 {% endif %}
                     <img src="{{ product.location }}" alt="{{ product.name }}"
-                    class="featured-image img-fluid mx-auto">
+                    class="featured-image img-fluid mx-auto rounded">
                 </div>
             </div>
             <div class="row featured-footer justify-content-center animatedParent animateOnce" data-appear-top-offset='400'>
-                <a href="/designs/{{ product.name }}" class="btn-link"><button class="btn btn-primary animated growIn delay-1000">Check it out!</button></a>
+                <a href="/designs/{{ product.name }}" class="btn-link animated-button">
+                    <button class="btn btn-primary animated growIn delay-1000">Check it out!</button>
+                </a>
             </div>
         </div>
     {% endfor %}
     <hr class="featured-divider">
 
+    <div class="featured-more-designs animatedParent animateOnce">
+        <div class="row animated pulse delay-500">
+            <div class="col-md-12">
+                <h1 class="display-4 text-center">Check out the rest of our designs!</h1>
+            </div>
+        </div>
+        <div class="row featured-more-designs-button justify-content-center animated tada delay-1500">
+            <a href="/designs" class="btn-link animated-button">
+                <button class="btn btn-primary">Show me more!</button>
+            </a>
+        </div>
+    </div>
 
 </div>
 
-
-
-    {% endblock body %}
+{% endblock body %}

@@ -36,13 +36,18 @@ Custom CSS to overwrite any bootstrap CSS */
 }
 
 .featured-heading {
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1;
   letter-spacing: -.05rem;
 }
 
+.featured-more-designs-button {
+    margin-top: 3rem;
+}
+
 .featured-image {
     max-width: 75%;
+    border: 2px solid black;
 }
 
 .featured-footer {
@@ -61,10 +66,6 @@ Custom CSS to overwrite any bootstrap CSS */
 .carousel {
     width: 60%;
     height: auto;
-}
-
-.highlighted-designs-deck {
-    margin-bottom: 2rem;
 }
 
 .business-card-logo {
@@ -115,10 +116,21 @@ body {
     background-color: #cccccc;
     font-family: 'Titillium Web', sans-serif;
 }
+
+.animated-button:hover {
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+}
+
 .product-button {
     float: right;
     margin-left: 5px;
     margin-bottom: 5px;
+}
+
+.highlighted-designs-card {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* ---- originally from https://www.codeply.com/p/4ROQRamTcN ---- */
@@ -149,7 +161,6 @@ body {
 
 #product-carousel {
     width: 100%;
-    max-height: 90%;
 }
 
 #product-carousel .carousel-indicators :hover {
