@@ -403,7 +403,7 @@ ORDER BY image.is_featured_img DESC
         elif featuredImages:
             # return only featured product/images
             result = self.db.session.execute('''
-SELECT
+SELECT DISTINCT
     product.name, product.description, image.location
 FROM product
     JOIN image ON image.product_id=product.id
@@ -415,7 +415,7 @@ ORDER BY product.name
             # order by is_featured_img desc so that featured
             # images appear first
             result = self.db.session.execute('''
-SELECT
+SELECT DISTINCT
     product.name, product.description, image.location
 FROM product
     JOIN image ON image.product_id=product.id
