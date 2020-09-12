@@ -8,16 +8,16 @@ Custom CSS to overwrite any bootstrap CSS */
     width: 5rem;
 }
 
-.fullscreen-image {
+.cover-photo {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
         url('../../images/landingpage.jpg');
-    height: 100vh;
+    height: 66vh;
     background-position: center;
     background-size: cover;
 }
 
 .landing-logo {
-    width: 60%;
+    max-width: 50%;
     height: auto;
 }
 
