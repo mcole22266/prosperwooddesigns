@@ -217,7 +217,8 @@ class MockData:
                     'Cornhole Football Board',
                     'This is the description for a football cornhole board',
                     path,
-                    is_featured_img=featured
+                    is_featured_img=featured,
+                    is_featured_product=True
                     )
             elif 'cornhole' in filename:
                 self.dbConn.setJoined_ProductImage(
@@ -231,7 +232,8 @@ class MockData:
                     'Custom Cabinet',
                     'This is the description for a custom cabinet',
                     path,
-                    is_featured_img=True
+                    is_featured_img=True,
+                    is_featured_product=True
                 )
             elif 'exercise' in filename:
                 self.dbConn.setJoined_ProductImage(
@@ -250,7 +252,8 @@ class MockData:
                     'This is the description for a custom holiday decorative \
                         board',
                     path,
-                    is_featured_img=featured
+                    is_featured_img=featured,
+                    is_featured_product=True
                 )
             elif 'decor_name' in filename:
                 if '00' in filename:
