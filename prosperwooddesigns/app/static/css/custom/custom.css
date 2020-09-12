@@ -31,6 +31,20 @@ Custom CSS to overwrite any bootstrap CSS */
     padding-bottom: 3rem;
 }
 
+.featured-divider {
+    margin: 5rem 0;
+}
+
+.featured-heading {
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -.05rem;
+}
+
+.featured-image {
+    max-width: 75%;
+}
+
 .mission-statement p {
     font-size: larger;
 }
