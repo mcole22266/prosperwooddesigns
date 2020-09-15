@@ -45,7 +45,7 @@ class RoutesAdmin:
             contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
-            return render_template('admin/admin.html',
+            return render_template('admin/dashboard.html',
                                    title='Admin',
                                    greeting=greeting,
                                    requests=requests,
