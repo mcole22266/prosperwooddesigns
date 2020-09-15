@@ -5,7 +5,6 @@
 # ------------------------------------------------
 
 from flask import Flask
-from flask_login import login_user
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Logger import Logger
@@ -15,7 +14,7 @@ from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
 from .models import db, loginManager
-from .routes import Routes
+from .routes.Routes import Routes
 
 # Instantiate global variables
 csrf = CSRFProtect()

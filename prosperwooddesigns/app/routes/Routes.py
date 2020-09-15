@@ -1,7 +1,7 @@
-# routes.py
+# Routes.py
 # Michael Cole
 #
-# Defines all app's routing logic
+# Defines all main app's routing logic
 # --------------------------------
 
 from flask import redirect, render_template, request, url_for
@@ -100,7 +100,7 @@ class Routes:
             '''
             Routes the user to the Request Form of the website
             '''
-            from .forms import RequestForm
+            from app.forms import RequestForm
 
             requestform = RequestForm()
             if requestform.validate_on_submit():
@@ -147,7 +147,7 @@ class Routes:
             '''
             Routes the user to the Question Form of the website
             '''
-            from .forms import QuestionForm
+            from app.forms import QuestionForm
 
             questionform = QuestionForm()
             if questionform.validate_on_submit():
@@ -198,7 +198,7 @@ class Routes:
             contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving admin page')
-            return render_template('admin.html',
+            return render_template('admin/admin.html',
                                    title='Admin',
                                    greeting=greeting,
                                    requests=requests,
@@ -215,7 +215,6 @@ class Routes:
 
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
-                from flask_login import current_user
                 logger.log('Admin log-in form validated')
 
                 username = request.form['username']
@@ -235,7 +234,7 @@ class Routes:
                 return redirect(next or url_for('admin'))
 
             logger.log('Serving admin log-in page')
-            return render_template('admin-login.html',
+            return render_template('admin/admin-login.html',
                                    title='Admin - Log-In',
                                    adminloginform=adminloginform)
 
@@ -269,7 +268,7 @@ class Routes:
                 return redirect(url_for('admin'))
 
             logger.log('Serving admin create page')
-            return render_template('admin-create.html',
+            return render_template('admin/admin-create.html',
                                    title='Admin - Create',
                                    admincreateform=admincreateform)
 
