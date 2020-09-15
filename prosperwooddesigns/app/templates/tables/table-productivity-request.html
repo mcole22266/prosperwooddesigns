@@ -6,7 +6,7 @@ Productivity Request table -->
 <table id='request-table' data-toggle='table' data-search='true' data-pagination='true'
        data-show-columns='true' data-toolbar='#request-toolbar'
        class="table-hover table">
-    <thead>
+    <thead class='thead-dark'>
         <tr>
             <th>Status</th>
             <th>Date</th>
@@ -36,7 +36,7 @@ Productivity Request table -->
                                 <i class="fas fa-truck"></i>
                             </span>
                         {% elif request.status == 'complete' %}
-                            <span style="font-size: 25px; color: rgb(48, 190, 20); position: center;">
+                            <span style="font-size: 25px; color: rgb(32, 129, 12); position: center;">
                                 <i class="fas fa-check-circle"></i>
                             </span>
                         {% endif %}
@@ -44,7 +44,7 @@ Productivity Request table -->
                     </td>
                     <td>{{ request.created_date }}</td>
                     <td>{{ request.name }}</td>
-                    <td>{{ request.description[:50] }} {% if request.description|length > 50 %}...{% endif %}</td>
+                    <td>{{ request.description[:100] }} {% if request.description|length > 100 %}...{% endif %}</td>
                 </tr>
                 <!-- Main Modal -->
                 <div class="modal fade" id="request-{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="request-{{ request.id }}-modal" aria-hidden="true">

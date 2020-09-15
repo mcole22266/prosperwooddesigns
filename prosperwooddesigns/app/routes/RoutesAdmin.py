@@ -140,7 +140,7 @@ class RoutesAdmin:
                 dbConn.updateRequest(id=request_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin_project_management'))
 
         @app.route('/admin/request/delete/<request_id>', methods=['POST'])
         @login_required
@@ -151,7 +151,7 @@ class RoutesAdmin:
             dbConn.deleteRequest(request_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin_project_management'))
 
         @app.route('/admin/question/update/<question_id>', methods=['POST'])
         @login_required
@@ -169,7 +169,7 @@ class RoutesAdmin:
                 dbConn.updateQuestion(id=question_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin_project_management'))
 
         @app.route('/admin/question/delete/<question_id>', methods=['POST'])
         @login_required
@@ -180,7 +180,7 @@ class RoutesAdmin:
             dbConn.deleteQuestion(question_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin_project_management'))
 
         @app.route('/admin/data')
         @login_required

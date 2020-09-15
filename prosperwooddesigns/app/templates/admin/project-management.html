@@ -6,8 +6,6 @@ Project Management Page for the Admins -->
 
 {% block body %}
 
-    <div class="container page-content full-screen">
-
         <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="true">Requests</a>
@@ -25,7 +23,6 @@ Project Management Page for the Admins -->
             <div class="tab-pane fade show" id="question" role="tabpanel" aria-labelledby="question-tab">{% include './tables/table-productivity-question.html' %}</div>
             <div class="tab-pane fade show" id="contact" role="tabpanel" aria-labelledby="contact-tab">{% include './tables/table-productivity-contact.html' %}</div>
         </div>
-    </div>
 
 {% endblock body %}
 
