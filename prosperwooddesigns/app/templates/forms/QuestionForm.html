@@ -6,7 +6,7 @@ a request -->
 
 <form method="POST">
     {{ questionform.csrf_token }}
-    <div class="form-row">
+    <div class="form-row animated fadeInLeftShort">
         <div class="form-group col-md-6">
             {{ questionform.name.label }}
             {{ questionform.name(class_="form-control") }}
@@ -18,7 +18,7 @@ a request -->
             <div class="invalid-feedback">{{ questionform.email.errors[0] }}</div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row animated fadeInLeftShort">
         <div class="form-group col-md-12">
             {{ questionform.how_hear.label }}
             {{ questionform.how_hear(class_="form-control", list="how_hear-list", placeholder="Optional") }}
@@ -30,7 +30,7 @@ a request -->
             </datalist>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row animated fadeInRightShort">
         <div class="form-group col-md-12">
             {{ questionform.content.label }}
             {{ questionform.content(class_="form-control", rows=8) }}

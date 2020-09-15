@@ -6,7 +6,7 @@ a request -->
 
 <form method='POST'>
     {{ admincreateform.csrf_token }}
-    <div class="form-row">
+    <div class="form-row animated fadeInLeftShort">
         <div class="form-group col-md-6">
             {{ admincreateform.firstname.label }}
             {{ admincreateform.firstname(class_="form-control") }}
@@ -18,14 +18,14 @@ a request -->
             <div class="invalid-feedback">{{ admincreateform.lastname.errors[0] }}</div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row animated fadeInRightShort">
         <div class="form-group col-md">
             {{ admincreateform.username.label }}
             {{ admincreateform.username(class_="form-control") }}
             <div class="invalid-feedback">{{ admincreateform.username.errors[0] }}</div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row animated fadeInLeftShort">
         <div class="form-group col-md-6">
             {{ admincreateform.password.label }}
             {{ admincreateform.password(class_="form-control") }}
@@ -37,7 +37,7 @@ a request -->
             <div class="invalid-feedback">{{ admincreateform.password_retype.errors[0] }}</div>
         </div>
     </div>
-    <div class="form-row">
+    <div class="form-row animated fadeInRightShort">
         <div class="form-group col-md">
             {{ admincreateform.secret_code.label }}
             {{ admincreateform.secret_code(class_="form-control") }}

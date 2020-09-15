@@ -31,7 +31,7 @@ Productivity Question table -->
                     </td>
                     <td>{{ question.created_date }}</td>
                     <td>{{ question.name }}</td>
-                    <td>{{ question.content[:50] }} {% if question.content|length > 50 %}...{% endif %}</td>
+                    <td>{{ question.content[:100] }} {% if question.content|length > 100 %}...{% endif %}</td>
                 </tr>
                 <!-- Main Modal -->
                 <div class="modal fade" id="question-{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="question-{{ question.id }}-modal" aria-hidden="true">
