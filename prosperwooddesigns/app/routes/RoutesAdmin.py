@@ -38,19 +38,9 @@ class RoutesAdmin:
             '''
             Routes the user to the Admin Page of the website
             '''
-            # get data to be used in page
-            greeting = helper.getGreeting()
-            requests = dbConn.getRequests(order_id=True)
-            questions = dbConn.getQuestions(order_id=True)
-            contacts = dbConn.getContacts(order_id=True)
-
             logger.log('Serving admin page')
             return render_template('admin/dashboard.html',
-                                   title='Admin',
-                                   greeting=greeting,
-                                   requests=requests,
-                                   questions=questions,
-                                   contacts=contacts)
+                                   title='Admin: Dashboard')
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -221,3 +211,21 @@ class RoutesAdmin:
                                    questions=questions,
                                    contacts=contacts,
                                    products=products)
+
+        @app.route('/admin/project-management')
+        @login_required
+        def admin_project_management():
+            '''
+            Routes the user to the Admin Project Management page of the website
+            '''
+            # get data to be used in page
+            requests = dbConn.getRequests(order_id=True)
+            questions = dbConn.getQuestions(order_id=True)
+            contacts = dbConn.getContacts(order_id=True)
+
+            logger.log('Serving admin page')
+            return render_template('admin/project-management.html',
+                                   title='Admin: Project Management',
+                                   requests=requests,
+                                   questions=questions,
+                                   contacts=contacts)
