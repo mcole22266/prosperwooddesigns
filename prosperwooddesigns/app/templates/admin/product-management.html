@@ -1,0 +1,20 @@
+<!-- admin/product-management.html
+Michael Cole
+
+Product Management Page for the Admins -->
+
+{% extends './admin/layout.html' %}
+
+{% block body %}
+
+    <ul>
+        {% for productImage in productsFeaturedImages %}
+            <li>{{ productImage.name }}</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock body %}
+
+
+
