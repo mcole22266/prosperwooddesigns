@@ -39,6 +39,15 @@ class Routes:
             Routes the user to the Landing Page of the website
             '''
 
+            # log user in automatically if set
+            if app.config['ADMIN_AUTO_LOGIN']:
+                from flask_login import current_user
+                admin = dbConn.getAdmin(
+                    username=app.config['DB_TEST_ADMIN_USERNAME']
+                    )
+                login_user(admin)
+                logger.log(f'Logged in {current_user}')
+
             # get all featured products
             featuredProducts = dbConn.getJoined_ProductImages(
                 featuredProducts=True)
@@ -202,9 +211,11 @@ class Routes:
             Routes the user to the Admin Log-In Page of the website
             '''
             from .forms import AdminLogInForm
+            from flask_login import current_user
 
             adminloginform = AdminLogInForm()
             if adminloginform.validate_on_submit():
+                from flask_login import current_user
                 logger.log('Admin log-in form validated')
 
                 username = request.form['username']
@@ -215,7 +226,9 @@ class Routes:
 
                 # Log user in after form has submitted
                 admin = dbConn.getAdmin(username=username)
+                logger.log(f'Logging in {current_user}')
                 login_user(admin)
+                logger.log(f'Logged in {current_user}')
                 next = request.args.get('next')  # get next-page location
 
                 logger.log('Redirecting to next or admin page')
@@ -266,8 +279,10 @@ class Routes:
             '''
             Logs a logged-in admin out and redirects to home-page
             '''
+            from flask_login import current_user
 
             # Log user out of the app
+            logger.log(f'Logging out {current_user}')
             logout_user()
 
             logger.log('Redirecting to index page')

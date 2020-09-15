@@ -5,6 +5,7 @@
 # ------------------------------------------------
 
 from flask import Flask
+from flask_login import login_user
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Logger import Logger
