@@ -196,6 +196,10 @@ class Routes:
                                    questions=questions,
                                    contacts=contacts)
 
+        @app.route('/admin2')
+        def admin2():
+            return render_template('admin2.html')
+
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
             '''
