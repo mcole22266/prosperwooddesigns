@@ -46,6 +46,8 @@ _Note: You'll find these options under the ConfigDev and ConfigProd classes_
         - Set this to `True` in order for all logs to be written to stdout _(can be used in conjunction with `LOG_TO_FILE`)_
     - _**LOG_TO_FILE**_
         - Set this to `True` in order for all logs to be written to logfiles _(can be used in conjunction with `LOG_TO_STDOUT`)_
+    - _**ADMIN_AUTO_LOGIN**_
+        - Set this to `True` in order to automatically be logged in as Admin upon arriving at index page
 - SQLAlchemy Config
     - _**SQLALCHEMY_ECHO**_
         - From the [source](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/): _"If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging."_

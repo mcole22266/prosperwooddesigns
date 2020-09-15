@@ -56,6 +56,7 @@ class ConfigDev:
     DB_CREATE_ADMIN_USER = True     # creates dev admin user
     LOG_TO_STDOUT = True            # logs go to stdout
     LOG_TO_FILE = False             # logs go to log files
+    ADMIN_AUTO_LOGIN = True         # auto login as admin at index page
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False         # SQLAlchemy verbose output
@@ -74,6 +75,7 @@ class ConfigProd:
     DB_CREATE_ADMIN_USER = False    # creates dev admin user
     LOG_TO_STDOUT = False           # logs go to stdout
     LOG_TO_FILE = True              # logs go to log files
+    ADMIN_AUTO_LOGIN = False        # auto login as admin at index page
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False         # SQLAlchemy verbose output
