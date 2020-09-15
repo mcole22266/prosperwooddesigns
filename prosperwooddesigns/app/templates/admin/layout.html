@@ -1,0 +1,32 @@
+<!-- admin/layout.html
+Michael Cole
+
+Contains structure for general layout of admin pages -->
+
+{% include './meta.html' %}
+
+{% include './navbar.html' %}
+
+<body>
+
+    <div class="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            {% include './admin/sidebar.html' %}
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+        
+            {% block body %}{% endblock %}
+
+            {% include './footer.html' %}
+
+            {% include './scripts.html' %}
+
+        </div>
+    </div>
+
+</body>

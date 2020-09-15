@@ -14,12 +14,14 @@ from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 
 from .models import db, loginManager
-from .routes import Routes
+from .routes.Routes import Routes
+from .routes.RoutesAdmin import RoutesAdmin
 
 # Instantiate global variables
 csrf = CSRFProtect()
 flask_bcrypt = Bcrypt()
 routes = Routes()
+routesAdmin = RoutesAdmin()
 logger = Logger()
 s3Conn = S3Connector()
 dbConn = DbConnector()
@@ -59,6 +61,7 @@ def create_app():
 
         logger.log('Importing routes')
         routes.init_app(app)
+        routesAdmin.init_app(app)
 
         logger.log('Initializing csrf protection')
         csrf.init_app(app)
