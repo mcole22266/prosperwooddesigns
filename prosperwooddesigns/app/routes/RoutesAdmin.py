@@ -223,9 +223,31 @@ class RoutesAdmin:
             questions = dbConn.getQuestions(order_id=True)
             contacts = dbConn.getContacts(order_id=True)
 
-            logger.log('Serving admin page')
+            logger.log('Serving Project Management page')
             return render_template('admin/project-management.html',
                                    title='Admin: Project Management',
                                    requests=requests,
                                    questions=questions,
                                    contacts=contacts)
+
+        @app.route('/admin/product-management')
+        @login_required
+        def admin_product_management():
+            '''
+            Routes the user to the Admin Product Management page of the website
+            '''
+            # get data to be used in page
+            productsImages = dbConn.getJoined_ProductImages()
+            featuredProductsImages = dbConn.getJoined_ProductImages(
+                featuredProducts=True)
+            productsFeaturedImages = dbConn.getJoined_ProductImages(
+                featuredImages=True)
+
+            logger.log('Serving Product Management Page')
+            return render_template(
+                'admin/product-management.html',
+                title='Admin: Product Management',
+                productsImages=productsImages,
+                featuredProductsImages=featuredProductsImages,
+                productsFeaturedImages=productsFeaturedImages
+                )
