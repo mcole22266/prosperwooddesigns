@@ -8,11 +8,25 @@ Contains structure for general layout of admin pages -->
 {% include './navbar.html' %}
 
 <body>
-    
-    {% block body %}{% endblock %}
 
-    {% include './footer.html' %}
+    <div class="page-top">
 
-    {% include './scripts.html' %}
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            {% include './admin/sidebar.html' %}
+
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
+
+        
+            {% block body %}{% endblock %}
+
+            {% include './footer.html' %}
+
+            {% include './scripts.html' %}
+
+        </div>
+    </div>
 
 </body>

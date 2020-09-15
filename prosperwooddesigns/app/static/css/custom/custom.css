@@ -64,6 +64,10 @@ Custom CSS to overwrite any bootstrap CSS */
     padding-bottom: 3rem;
 }
 
+.full-screen {
+    min-height: 100vh;
+}
+
 .carousel {
     width: 60%;
     height: auto;

@@ -212,8 +212,8 @@ class RoutesAdmin:
             products = dbConn.getProducts()
 
             logger.log('Serving admin data page')
-            return render_template('data.html',
-                                   title='Data',
+            return render_template('admin/data.html',
+                                   title='Admin: Data',
                                    admins=admins,
                                    requests=requests,
                                    images=images,

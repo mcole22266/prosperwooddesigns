@@ -5,7 +5,9 @@ Footer to be used on all pages -->
 
 <footer>
 
-    {% include 'contact-card.html' %}
+    {% if 'Admin' not in title %}
+        {% include 'contact-card.html' %}
+    {% endif %}
 
     <nav class="navbar navbar-dark bg-dark footer">
         <ul class="navbar-nav ml-auto text-right">
