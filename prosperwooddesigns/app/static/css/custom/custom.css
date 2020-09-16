@@ -171,3 +171,7 @@ body {
 #product-carousel .carousel-indicators :hover {
     opacity: 0.8;
 }
+
+.accordion-img {
+    max-width: 50px;
+}

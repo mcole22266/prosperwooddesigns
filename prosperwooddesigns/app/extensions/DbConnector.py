@@ -393,7 +393,8 @@ class DbConnector:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
 SELECT
-    product.name, product.description, image.location
+    product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.name='{name}'
@@ -404,7 +405,8 @@ ORDER BY image.is_featured_img DESC
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.name, product.description, image.location
+    product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
@@ -414,7 +416,7 @@ ORDER BY product.name
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.name, product.description,
+    product.name, product.description, product.is_featured_product,
     image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
@@ -425,7 +427,8 @@ WHERE product.is_featured_product='y'
             # return all product/images
             result = self.db.session.execute('''
 SELECT
-    product.name, product.description, image.location
+    product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 ORDER BY product.name
@@ -434,7 +437,8 @@ ORDER BY product.name
         for item in result:
             # return as a list of ProductImage objects
             # (defined in this file)
-            productImage = ProductImage(item[0], item[1], item[2])
+            productImage = ProductImage(item[0], item[1], item[2], item[3],
+                                        item[4])
             productImages.append(productImage)
 
         return productImages
@@ -446,9 +450,10 @@ class ProductImage:
     getJoined_ProductImages. Allow for easier use
     '''
 
-    def __init__(self, name, description, location,
-                 is_featured_product=False):
+    def __init__(self, name, description, is_featured_product,
+                 location, is_featured_img):
         self.name = name
         self.description = description
-        self.location = location
         self.is_featured_product = is_featured_product
+        self.location = location
+        self.is_featured_img = is_featured_img
