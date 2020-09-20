@@ -282,3 +282,16 @@ class RoutesAdmin:
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/delete/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_delete_productid(product_id):
+            '''
+            Delete a Product based on modal input
+            '''
+            # Delete the product
+            dbConn.deleteProduct(id=product_id)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
