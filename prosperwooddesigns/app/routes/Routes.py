@@ -75,8 +75,8 @@ class Routes:
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 featuredImages=True
                 )
-            # chunk into lists of no greater than 4
-            joinedProductsImages = helper.chunk(joinedProductsImages, 4)
+            # chunk into lists of no greater than 3
+            joinedProductsImages = helper.chunk(joinedProductsImages, 3)
             return render_template('designs.html',
                                    title='Designs',
                                    joinedProductsImages=joinedProductsImages)
