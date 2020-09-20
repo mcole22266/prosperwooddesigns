@@ -112,6 +112,10 @@ Custom CSS to overwrite any bootstrap CSS */
     text-decoration: none;
 }
 
+.btn-right {
+    float: right;
+}
+
 .form-content {
     margin-top: 5rem;
     margin-bottom: 5rem;

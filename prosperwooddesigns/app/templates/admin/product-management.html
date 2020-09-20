@@ -12,9 +12,9 @@ Product Management Page for the Admins -->
         <div class="accordion" id="accordionExample">
             {% for productFeaturedImage in productsFeaturedImages %}
                 <div class="card">
-                    <div class="card-header" id="heading-{{ loop.index }}">
+                    <div class="card-header" id="heading-{{ productFeaturedImage.id }}">
                         <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ productFeaturedImage.id }}" aria-expanded="true" aria-controls="collapse-{{ productFeaturedImage.id }}">
                             <img class='accordion-img' src="{{ productFeaturedImage.location }}" alt="{{ productFeaturedImage.name }}"> {{ productFeaturedImage.name }}
                             {% if productFeaturedImage.is_featured_product %}
                                 <span class="badge badge-success"><i class="fas fa-trophy"></i> featured</span>
@@ -23,9 +23,21 @@ Product Management Page for the Admins -->
                         </h2>
                     </div>
                 
-                    <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordionExample">
+                    <div id="collapse-{{ productFeaturedImage.id }}" class="collapse" aria-labelledby="heading-{{ productFeaturedImage.id }}" data-parent="#accordionExample">
                         <div class="card-body">
-                            {{ productFeaturedImage.description }}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ productFeaturedImage.description }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary btn-right" type='button' data-toggle='modal' data-target='#modal-{{ productFeaturedImage.id }}'>
+                                        Edit
+                                    </button>
+                                    {% include './modals/modal-product-management.html' %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

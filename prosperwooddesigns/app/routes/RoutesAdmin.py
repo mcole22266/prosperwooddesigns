@@ -251,3 +251,34 @@ class RoutesAdmin:
                 featuredProductsImages=featuredProductsImages,
                 productsFeaturedImages=productsFeaturedImages
                 )
+
+        @app.route('/admin/product-management/update/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_productid(product_id):
+            '''
+            Updated a Product's information based on modal input
+            '''
+            # get values from form
+            product_name = request.form[f'productName-{product_id}']
+            product_description = request.form[
+                f'productDescription-{product_id}'
+                ]
+            # try/except on is_featured_product because if toggle
+            # is off then no value will be posted
+            try:
+                is_featured_product = request.form[
+                    f'is_featured_product-{product_id}'
+                    ]
+                print(is_featured_product)
+            except KeyError:
+                is_featured_product = False
+
+            # update product
+            dbConn.updateProduct(
+                id=product_id, name=product_name,
+                description=product_description,
+                is_featured_product=is_featured_product)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
