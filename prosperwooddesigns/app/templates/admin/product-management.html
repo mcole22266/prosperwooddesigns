@@ -7,11 +7,75 @@ Product Management Page for the Admins -->
 
 {% block body %}
 
-    <ul>
-        {% for productImage in productsFeaturedImages %}
-            <li>{{ productImage.name }}</li>
-        {% endfor %}
-    </ul>
+<div class="row">
+    <!-- left side -->
+    <div class="col-md-9">
+        <div class="accordion" id="accordionExample">
+            {% for productFeaturedImage in productsFeaturedImages %}
+                <div class="card">
+                    <div class="card-header" id="heading-{{ productFeaturedImage.id }}">
+                        <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ productFeaturedImage.id }}" aria-expanded="true" aria-controls="collapse-{{ productFeaturedImage.id }}">
+                            <img class='accordion-img' src="{{ productFeaturedImage.location }}" alt="{{ productFeaturedImage.name }}"> {{ productFeaturedImage.name }}
+                            {% if productFeaturedImage.is_featured_product %}
+                                <span class="badge badge-success"><i class="fas fa-trophy"></i> featured</span>
+                            {% endif %}
+                        </button>
+                        </h2>
+                    </div>
+                
+                    <div id="collapse-{{ productFeaturedImage.id }}" class="collapse" aria-labelledby="heading-{{ productFeaturedImage.id }}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ productFeaturedImage.description }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary btn-right" type='button' data-toggle='modal' data-target='#modal-{{ productFeaturedImage.id }}'>
+                                        Edit
+                                    </button>
+                                    {% include './modals/modal-product-management.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- right side -->
+    <div class="col-md-3 animatedParent">
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card border-primary mx-sm-1 p-3">
+                    <div class="card border-primary shadow text-primary p-3 info-icon" ><span class="fas fa-box-open" aria-hidden="true"></span></div>
+                    <div class="text-primary text-center mt-3"><h4>Products</h4></div>
+                    <div class="text-primary text-center mt-2"><h1 class="display-4">{{ productsFeaturedImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card border-info mx-sm-1 p-3">
+                    <div class="card border-info shadow text-info p-3 info-icon"><span class="fas fa-trophy" aria-hidden="true"></span></div>
+                    <div class="text-info text-center mt-3"><h4>Featured Products</h4></div>
+                    <div class="text-info text-center mt-2"><h1 class="display-4">{{ featuredProductsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card border-success mx-sm-1 p-3">
+                    <div class="card border-success shadow text-success p-3 info-icon"><span class="fas fa-images" aria-hidden="true"></span></div>
+                    <div class="text-success text-center mt-3"><h4>Product Images</h4></div>
+                    <div class="text-success text-center mt-2"><h1 class="display-4">{{ productsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock body %}

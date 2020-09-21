@@ -112,6 +112,10 @@ Custom CSS to overwrite any bootstrap CSS */
     text-decoration: none;
 }
 
+.btn-right {
+    float: right;
+}
+
 .form-content {
     margin-top: 5rem;
     margin-bottom: 5rem;
@@ -170,4 +174,19 @@ body {
 
 #product-carousel .carousel-indicators :hover {
     opacity: 0.8;
+}
+
+.accordion-img {
+    max-width: 50px;
+}
+
+.info-icon {
+    position: absolute;
+    left: -25px;
+    bottom: 35%;
+    border-radius: 50%;
+}
+
+.container-info-card {
+    margin-top: 1rem;
 }

@@ -1,0 +1,72 @@
+<!-- modal-productivity-question.html
+Michael Cole
+
+Modal for the Questions on the productivity board -->
+
+<!-- Main Modal -->
+<div class="modal fade" id="question-{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="question-{{ question.id }}-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Form -->
+            <form action="/admin/question/update/{{ question.id }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="question-{{ question.id }}-title">{{ question.name }}</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="question-{{ question.id }}"><h5>{{ question.created_date }}</h5></label>
+                            <select name="question-{{ question.id }}" id="question-{{ question.id }}" class="form-control">
+                                <option value="unread" {% if question.status == 'unread' %}selected{% endif %}>Unread</option>
+                                <option value="read" {% if question.status ==  'read' %}selected{% endif %}>Read</option>
+                                <option value="archive">Archive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md"><strong>Email:</strong> {{ question.emailaddress }}</div>
+                    </div>
+                    <hr>
+                    <p>{{ question.content }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#question-delete-{{ question.id }}">Delete</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal -->
+<div class="modal" id="question-delete-{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="question-delete-{{ question.id }}-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Form -->
+            <form action="/admin/question/delete/{{ question.id }}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="question-delete-{{ question.id }}-title">Delete Question?</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            Are you sure you want to <strong>permanently</strong> delete this Question?
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nevermind</button>
+                    <button type="submit" class="btn btn-danger">Yes, I'm sure</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -208,6 +208,47 @@ class DbConnector:
         logger.log(f'Created Product - {product}')
         return product
 
+    def updateProduct(self, id, name=False, description=False,
+                      is_featured_product=False, commit=True):
+        '''
+        Update a Product row based on the following parameters:
+
+        name (str): Set to change the name of a Product
+        description (str): Set to change the description of a Product
+        is_featured_product (bool): Set True to change the
+            is_featured_product of a Product
+        '''
+        product = self.getProduct(id=id)
+        if name:
+            product.name = name
+            logger.log(
+                f'Updated Product {product.id} name to {name}'
+            )
+        if description:
+            product.description = description
+            logger.log(
+                f'Updated Product {product.id} description to {description}'
+            )
+        # always update is_featured_product since it is boolean
+        product.is_featured_product = is_featured_product
+        logger.log(
+            f'Updated Product {product.id} is_featured_product to \
+{is_featured_product}'
+        )
+        if commit:
+            self.db.session.commit()
+
+    def deleteProduct(self, id, commit=True):
+        '''
+        Delete a Product row by id
+        '''
+        product = self.getProduct(id=id)
+
+        self.db.session.delete(product)
+        logger.log(f'Deleted Product - {product}')
+        if commit:
+            self.db.session.commit()
+
     def getLayouts(self):
         '''
         Get all Layout rows from the db
@@ -393,7 +434,8 @@ class DbConnector:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
 SELECT
-    product.name, product.description, image.location
+    product.id, product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.name='{name}'
@@ -404,7 +446,8 @@ ORDER BY image.is_featured_img DESC
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.name, product.description, image.location
+    product.id, product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
@@ -414,7 +457,7 @@ ORDER BY product.name
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.name, product.description,
+    product.id, product.name, product.description, product.is_featured_product,
     image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
@@ -425,7 +468,8 @@ WHERE product.is_featured_product='y'
             # return all product/images
             result = self.db.session.execute('''
 SELECT
-    product.name, product.description, image.location
+    product.id, product.name, product.description, product.is_featured_product,
+    image.location, image.is_featured_img
 FROM product
     JOIN image ON image.product_id=product.id
 ORDER BY product.name
@@ -434,7 +478,8 @@ ORDER BY product.name
         for item in result:
             # return as a list of ProductImage objects
             # (defined in this file)
-            productImage = ProductImage(item[0], item[1], item[2])
+            productImage = ProductImage(item[0], item[1], item[2], item[3],
+                                        item[4], item[5])
             productImages.append(productImage)
 
         return productImages
@@ -446,9 +491,11 @@ class ProductImage:
     getJoined_ProductImages. Allow for easier use
     '''
 
-    def __init__(self, name, description, location,
-                 is_featured_product=False):
+    def __init__(self, id, name, description, is_featured_product,
+                 location, is_featured_img):
+        self.id = id
         self.name = name
         self.description = description
-        self.location = location
         self.is_featured_product = is_featured_product
+        self.location = location
+        self.is_featured_img = is_featured_img
