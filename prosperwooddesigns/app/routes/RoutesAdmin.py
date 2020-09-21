@@ -140,7 +140,7 @@ class RoutesAdmin:
                 dbConn.updateRequest(id=request_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_requests'))
 
         @app.route('/admin/request/delete/<request_id>', methods=['POST'])
         @login_required
@@ -151,7 +151,7 @@ class RoutesAdmin:
             dbConn.deleteRequest(request_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_requests'))
 
         @app.route('/admin/question/update/<question_id>', methods=['POST'])
         @login_required
@@ -169,7 +169,7 @@ class RoutesAdmin:
                 dbConn.updateQuestion(id=question_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_questions'))
 
         @app.route('/admin/question/delete/<question_id>', methods=['POST'])
         @login_required
@@ -180,7 +180,7 @@ class RoutesAdmin:
             dbConn.deleteQuestion(question_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_questions'))
 
         @app.route('/admin/data')
         @login_required
@@ -212,22 +212,46 @@ class RoutesAdmin:
                                    contacts=contacts,
                                    products=products)
 
-        @app.route('/admin/project-management')
+        @app.route('/admin/project-management/requests')
         @login_required
-        def admin_project_management():
+        def admin_project_management_requests():
             '''
-            Routes the user to the Admin Project Management page of the website
+            Routes the user to the Requests Management page of the website
             '''
             # get data to be used in page
             requests = dbConn.getRequests(order_id=True)
+
+            logger.log('Serving Project Management page')
+            return render_template('admin/project-management-requests.html',
+                                   title='Admin: Project Management',
+                                   requests=requests)
+
+        @app.route('/admin/project-management/questions')
+        @login_required
+        def admin_project_management_questions():
+            '''
+            Routes the user to the Questions Management page of the website
+            '''
+            # get data to be used in page
             questions = dbConn.getQuestions(order_id=True)
+
+            logger.log('Serving Project Management page')
+            return render_template('admin/project-management-questions.html',
+                                   title='Admin: Project Management',
+                                   questions=questions)
+
+        @app.route('/admin/project-management/contacts')
+        @login_required
+        def admin_project_management_contacts():
+            '''
+            Routes the user to the Contacts Management page of the website
+            '''
+            # get data to be used in page
             contacts = dbConn.getContacts(order_id=True)
 
             logger.log('Serving Project Management page')
-            return render_template('admin/project-management.html',
+            return render_template('admin/project-management-contacts.html',
                                    title='Admin: Project Management',
-                                   requests=requests,
-                                   questions=questions,
                                    contacts=contacts)
 
         @app.route('/admin/product-management')

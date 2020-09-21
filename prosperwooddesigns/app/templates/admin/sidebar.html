@@ -18,7 +18,11 @@ Contains the admins sidebar -->
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    {% if 'Dashboard' in title %}
+        <li class="nav-item active">
+    {% else %}
+        <li class="nav-item">
+    {% endif %}
         <a class="nav-link" href="/admin">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -27,28 +31,50 @@ Contains the admins sidebar -->
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+
     <!-- Heading -->
     <div class="sidebar-heading">
         Management
     </div>
 
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/project-management">
-            <i class="fas fa-fw fa-pencil-ruler"></i>
-            <span>Project Management</span></a>
+    {% if 'Project Management' in title %}
+        <li class="nav-item active">
+    {% else %}
+        <li class="nav-item">
+    {% endif %}
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#projectManagementCollapse" aria-expanded="true" aria-controls="projectManagementCollapse">
+            <i class="fas fa-fw fa-tasks"></i>
+            <span>Project Management</span>
+        </a>
+        <div id="projectManagementCollapse" class="collapse" aria-labelledby="projectManagementHeading" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/admin/project-management/requests"><i class="fas fa-fw fa-inbox"></i> Requests</a>
+                <a class="collapse-item" href="/admin/project-management/questions"><i class="fas fa-fw fa-question-circle"></i> Questions</a>
+                <a class="collapse-item" href="/admin/project-management/contacts"><i class="fas fa-fw fa-id-card"></i> Contacts</a>
+            </div>
+        </div>
     </li>
 
-    <li class="nav-item">
+    {% if 'Product Management' in title %}
+        <li class="nav-item active">
+    {% else %}
+        <li class="nav-item">
+    {% endif %}
         <a class="nav-link" href="/admin/product-management">
             <i class="fas fa-fw fa-box-open"></i>
             <span>Product Management</span></a>
     </li>
 
-    <li class="nav-item">
+    {% if 'Site Management' in title %}
+        <li class="nav-item active">
+    {% else %}
+        <li class="nav-item">
+    {% endif %}
         <a class="nav-link" href="#">
             <i class="fas fa-fw fa-laptop-house"></i>
             <span>Site Management</span></a>
     </li>
+
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -58,7 +84,11 @@ Contains the admins sidebar -->
         Development
     </div>
 
-    <li class="nav-item">
+    {% if 'Data' in title %}
+        <li class="nav-item active">
+    {% else %}
+        <li class="nav-item">
+    {% endif %}
         <a class="nav-link" href="/admin/data">
             <i class="fas fa-fw fa-table"></i>
             <span>Data</span></a>
