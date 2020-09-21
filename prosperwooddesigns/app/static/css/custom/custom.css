@@ -179,3 +179,14 @@ body {
 .accordion-img {
     max-width: 50px;
 }
+
+.info-icon {
+    position: absolute;
+    left: -25px;
+    bottom: 35%;
+    border-radius: 50%;
+}
+
+.container-info-card {
+    margin-top: 1rem;
+}

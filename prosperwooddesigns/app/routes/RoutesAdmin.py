@@ -270,7 +270,7 @@ class RoutesAdmin:
                 is_featured_product = request.form[
                     f'is_featured_product-{product_id}'
                     ]
-                print(is_featured_product)
+                is_featured_product = True
             except KeyError:
                 is_featured_product = False
 
