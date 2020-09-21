@@ -298,6 +298,11 @@ class RoutesAdmin:
             except KeyError:
                 is_featured_product = False
 
+            # download image file if there is one
+            if request.files['imageFile']:
+                imageFile = request.files['imageFile']
+                imageFile.save(f'/prosperwooddesigns/{imageFile.filename}')
+
             # update product
             dbConn.updateProduct(
                 id=product_id, name=product_name,

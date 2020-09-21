@@ -4,7 +4,7 @@ Michael Cole
 Modal for the Product Management products -->
 
 <!-- Main Modal -->
-<form method="POST" action="/admin/product-management/update/{{ productFeaturedImage.id }}">
+<form method="POST" action="/admin/product-management/update/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="modal fade" id="modal-{{ productFeaturedImage.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -33,11 +33,17 @@ Modal for the Product Management products -->
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="custom-control custom-switch">
                             <input name="is_featured_product-{{ productFeaturedImage.id }}" type="checkbox" class="custom-control-input" id="isFeatured-{{ productFeaturedImage.id }}"
                                 {% if productFeaturedImage.is_featured_product %}checked{% endif %}>
                             <label class="custom-control-label" for="isFeatured-{{ productFeaturedImage.id }}">Featured Product</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="uploadImage-{{ productFeaturedImage.id }}">Upload New Image</label>
+                            <input name="imageFile" type="file" id="uploadImage-{{ productFeaturedImage.id }}" class="form-control-file">
                         </div>
                     </div>
                 </div>
