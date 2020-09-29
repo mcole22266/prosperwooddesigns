@@ -116,9 +116,17 @@ Custom CSS to overwrite any bootstrap CSS */
     float: right;
 }
 
+.btn-row {
+    margin-left: 1rem;
+}
+
 .form-content {
     margin-top: 5rem;
     margin-bottom: 5rem;
+}
+
+.thumbnail {
+    max-width: 200px;
 }
 
 body {

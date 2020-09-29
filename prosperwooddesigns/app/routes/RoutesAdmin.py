@@ -299,9 +299,9 @@ class RoutesAdmin:
                 is_featured_product = False
 
             # download image file if there is one
-            if request.files['imageFile']:
-                imageFile = request.files['imageFile']
-                imageFile.save(f'/prosperwooddesigns/{imageFile.filename}')
+            # if request.files['imageFile']:
+            #     imageFile = request.files['imageFile']
+            #     imageFile.save(f'/prosperwooddesigns/{imageFile.filename}')
 
             # update product
             dbConn.updateProduct(

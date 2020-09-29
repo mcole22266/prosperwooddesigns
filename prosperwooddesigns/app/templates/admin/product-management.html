@@ -33,10 +33,14 @@ Product Management Page for the Admins -->
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary btn-right" type='button' data-toggle='modal' data-target='#modal-{{ productFeaturedImage.id }}'>
-                                        Edit
+                                    <button class="btn btn-primary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ productFeaturedImage.id }}'>
+                                        <i class="fas fa-edit"></i> Edit Product
+                                    </button>
+                                    <button class="btn btn-secondary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ productFeaturedImage.id }}-images'>
+                                        <i class="fas fa-images"></i> Manage Images
                                     </button>
                                     {% include './modals/modal-product-management.html' %}
+                                    {% include './modals/modal-product-management-images.html' %}
                                 </div>
                             </div>
                         </div>

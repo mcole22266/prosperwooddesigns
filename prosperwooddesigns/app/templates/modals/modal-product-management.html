@@ -10,7 +10,7 @@ Modal for the Product Management products -->
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editing {{ productFeaturedImage.name }}</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit {{ productFeaturedImage.name }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -38,12 +38,6 @@ Modal for the Product Management products -->
                             <input name="is_featured_product-{{ productFeaturedImage.id }}" type="checkbox" class="custom-control-input" id="isFeatured-{{ productFeaturedImage.id }}"
                                 {% if productFeaturedImage.is_featured_product %}checked{% endif %}>
                             <label class="custom-control-label" for="isFeatured-{{ productFeaturedImage.id }}">Featured Product</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="uploadImage-{{ productFeaturedImage.id }}">Upload New Image</label>
-                            <input name="imageFile" type="file" id="uploadImage-{{ productFeaturedImage.id }}" class="form-control-file">
                         </div>
                     </div>
                 </div>
