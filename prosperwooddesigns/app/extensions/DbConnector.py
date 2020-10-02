@@ -433,7 +433,7 @@ class DbConnector:
         if name:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
-SELECT
+SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
     image.location, image.is_featured_img
 FROM product
@@ -467,7 +467,7 @@ WHERE product.is_featured_product='y'
         else:
             # return all product/images
             result = self.db.session.execute('''
-SELECT
+SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
     image.location, image.is_featured_img
 FROM product

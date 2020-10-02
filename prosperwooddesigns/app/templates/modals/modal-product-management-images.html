@@ -4,7 +4,7 @@ Michael Cole
 Modal for the Product Management images -->
 
 <!-- Main Modal -->
-<form method="POST" action="/admin/product-management/update/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
+<form method="POST" action="/admin/product-management/addImage/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="modal fade" id="modal-{{ productFeaturedImage.id }}-images" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -16,11 +16,31 @@ Modal for the Product Management images -->
             </button>
             </div>
             <div class="modal-body">
-                {% for productImage in productsImages %}
-                    {% if productImage.id == productFeaturedImage.id %}
-                        <img src="{{ productImage.location }}" alt="{{ productImage.location }}" class="thumbnail rounded">
-                    {% endif %}
-                {% endfor %}
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for productImage in productsImages %}
+                            {% if productImage.id == productFeaturedImage.id %}
+                                <img src="{{ productImage.location }}" alt="{{ productImage.location }}" class="thumbnail rounded">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Upload an Image</label>
+                            <input name="images[]" type="file" class="form-control-file" id="exampleFormControlFile1" multiple="true">
+                        </div>
+                    <div class="col-md-8">
+                        {% if filenames %}
+                            {% for filename in filenames %}
+                                <img src="{{ url_for('display_name', filename=filename) }}" alt="">
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

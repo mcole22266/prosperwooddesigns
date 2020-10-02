@@ -4,6 +4,8 @@
 # Defines all app's Admin routing logic
 # --------------------------------
 
+from datetime import datetime
+
 from flask import redirect, render_template, request, url_for
 
 from app.extensions.DbConnector import DbConnector
@@ -298,16 +300,34 @@ class RoutesAdmin:
             except KeyError:
                 is_featured_product = False
 
-            # download image file if there is one
-            # if request.files['imageFile']:
-            #     imageFile = request.files['imageFile']
-            #     imageFile.save(f'/prosperwooddesigns/{imageFile.filename}')
-
             # update product
             dbConn.updateProduct(
                 id=product_id, name=product_name,
                 description=product_description,
                 is_featured_product=is_featured_product)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/addImage/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_addImage_productid(product_id):
+            '''
+            Add a new image to a product
+            '''
+
+            images = request.files.getlist('images[]')
+            for image in images:
+                if image.filename:
+                    path = app.config['AWS_LOCAL_IMAGE_PATH']
+                    timestamp = helper.getTimestamp(datetime.now())
+                    filename = f'{timestamp}_{image.filename}'
+                    filelocation = f'{path}/{filename}'
+                    location = f'../static/images/{filename}'
+                    image.save(filelocation)
+                    dbConn.setImage(location, product_id)
+                    logger.log(f'Saving image {image.filename}')
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))
