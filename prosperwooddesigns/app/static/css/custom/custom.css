@@ -126,7 +126,12 @@ Custom CSS to overwrite any bootstrap CSS */
 }
 
 .thumbnail {
-    max-width: 200px;
+    max-width: 150px;
+    margin-left: 2px;
+}
+
+.deleteImage-input:checked + .deleteImage-label > .deleteImage-image {
+    border: 3px solid red;
 }
 
 body {

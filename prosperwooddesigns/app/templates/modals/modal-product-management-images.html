@@ -4,7 +4,7 @@ Michael Cole
 Modal for the Product Management images -->
 
 <!-- Main Modal -->
-<form method="POST" action="/admin/product-management/addImage/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
+<form method="POST" action="/admin/product-management/updateImages/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <div class="modal fade" id="modal-{{ productFeaturedImage.id }}-images" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -17,10 +17,14 @@ Modal for the Product Management images -->
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 deleteImage">
                         {% for productImage in productsImages %}
                             {% if productImage.id == productFeaturedImage.id %}
-                                <img src="{{ productImage.location }}" alt="{{ productImage.location }}" class="thumbnail rounded">
+                                <input class="deleteImage-input" type="checkbox" id="checkbox-{{ productImage.image_id }}"
+                                       name="deleteImages[]" value="{{ productImage.image_id }}" hidden>
+                                <label class="deleteImage-label" for="checkbox-{{ productImage.image_id }}">
+                                    <img src="{{ productImage.location }}" alt="{{ productImage.location }}" class="thumbnail rounded deleteImage-image">
+                                </label>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -30,7 +34,7 @@ Modal for the Product Management images -->
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleFormControlFile1">Upload an Image</label>
-                            <input name="images[]" type="file" class="form-control-file" id="exampleFormControlFile1" multiple="true">
+                            <input name="addImages[]" type="file" class="form-control-file" id="exampleFormControlFile1" multiple="true">
                         </div>
                     <div class="col-md-8">
                         {% if filenames %}

@@ -174,6 +174,17 @@ class DbConnector:
         logger.log(f'Created Image - {image}')
         return image
 
+    def deleteImage(self, id, commit=True):
+        '''
+        Delete an Image row by id
+        '''
+        image = self.getImage(id=id)
+
+        self.db.session.delete(image)
+        logger.log(f'Deleted Image - {image}')
+        if commit:
+            self.db.session.commit()
+
     def getProducts(self):
         '''
         Get all Product rows from the db
@@ -435,7 +446,7 @@ class DbConnector:
             result = self.db.session.execute(f'''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.name='{name}'
@@ -447,7 +458,7 @@ ORDER BY image.is_featured_img DESC
             result = self.db.session.execute('''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
@@ -458,7 +469,7 @@ ORDER BY product.name
             result = self.db.session.execute('''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.is_featured_product='y'
@@ -469,7 +480,7 @@ WHERE product.is_featured_product='y'
             result = self.db.session.execute('''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 ORDER BY product.name
@@ -479,7 +490,7 @@ ORDER BY product.name
             # return as a list of ProductImage objects
             # (defined in this file)
             productImage = ProductImage(item[0], item[1], item[2], item[3],
-                                        item[4], item[5])
+                                        item[4], item[5], item[6])
             productImages.append(productImage)
 
         return productImages
@@ -492,10 +503,11 @@ class ProductImage:
     '''
 
     def __init__(self, id, name, description, is_featured_product,
-                 location, is_featured_img):
+                 location, is_featured_img, image_id):
         self.id = id
         self.name = name
         self.description = description
         self.is_featured_product = is_featured_product
         self.location = location
         self.is_featured_img = is_featured_img
+        self.image_id = image_id

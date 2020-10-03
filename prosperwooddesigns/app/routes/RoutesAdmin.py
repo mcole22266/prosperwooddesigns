@@ -309,15 +309,16 @@ class RoutesAdmin:
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))
 
-        @app.route('/admin/product-management/addImage/<product_id>',
+        @app.route('/admin/product-management/updateImages/<product_id>',
                    methods=['POST'])
         @login_required
-        def admin_product_addImage_productid(product_id):
+        def admin_product_updateImages_productid(product_id):
             '''
-            Add a new image to a product
+            Add a new image to a product or delete images
             '''
 
-            images = request.files.getlist('images[]')
+            # add new images
+            images = request.files.getlist('addImages[]')
             for image in images:
                 if image.filename:
                     path = app.config['AWS_LOCAL_IMAGE_PATH']
@@ -328,6 +329,11 @@ class RoutesAdmin:
                     image.save(filelocation)
                     dbConn.setImage(location, product_id)
                     logger.log(f'Saving image {image.filename}')
+
+            # delete images
+            images = request.form.getlist('deleteImages[]')
+            for image in images:
+                dbConn.deleteImage(image)
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))
