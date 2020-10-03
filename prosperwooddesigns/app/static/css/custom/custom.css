@@ -139,6 +139,15 @@ Custom CSS to overwrite any bootstrap CSS */
     opacity: .8;
 }
 
+.replaceImage-input:checked + .replaceImage-label > .replaceImage-image {
+    border: 3px solid #4c7eeb;
+    opacity: .8;
+}
+
+.replaceImage-input:hover+ .replaceImage-label > .replaceImage-image {
+    opacity: .8;
+}
+
 body {
     background-color: #cccccc;
     font-family: 'Titillium Web', sans-serif;

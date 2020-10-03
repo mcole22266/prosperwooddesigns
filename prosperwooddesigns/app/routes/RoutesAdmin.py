@@ -6,12 +6,12 @@
 
 from datetime import datetime
 
-from flask import redirect, render_template, request, url_for
-
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
+from werkzeug.exceptions import BadRequestKeyError
 
 # instantiate variables
 logger = Logger()
@@ -334,6 +334,14 @@ class RoutesAdmin:
             images = request.form.getlist('deleteImages[]')
             for image in images:
                 dbConn.deleteImage(image)
+
+            # update Featured image
+            try:
+                image_id = request.form['replaceImage']
+                dbConn.makeFeaturedImage(image_id)
+            except BadRequestKeyError:
+                # ignore if user hasn't passed a replacement image
+                pass
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))

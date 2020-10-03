@@ -51,8 +51,8 @@ class DbConnector:
         '''
         Create an Admin row in the admin table
         '''
-        from app.models import Admin
         import flask_bcrypt
+        from app.models import Admin
 
         # Encrypt the given password before storing
         encrypted_password = flask_bcrypt.generate_password_hash(
@@ -173,6 +173,25 @@ class DbConnector:
             self.db.session.commit()
         logger.log(f'Created Image - {image}')
         return image
+
+    def updateImage(self, id, is_featured_img,
+                    commit=True):
+        '''
+        Update an Image row based on the following parameters:
+
+        is_featured_img (bool): Set to change the is_featured_img of the Image
+        '''
+        # get image
+        image = self.getImage(id=id)
+
+        # Set is_featured_img
+        image.is_featured_img = is_featured_img
+
+        logger.log(
+            f'Updated Image {image.id} - to {is_featured_img}'
+        )
+        if commit:
+            self.db.session.commit()
 
     def deleteImage(self, id, commit=True):
         '''
@@ -434,7 +453,7 @@ class DbConnector:
         '''
         Return all rows where image.product_id=product.id
 
-        name (bool): Set to only return all product/images by name
+        name (str): Set to only return all product/images by name
         featuredImages (bool): Set to only return all product/images with
             featured images
         featuredProducts (bool): Set to only return all product/images that
@@ -494,6 +513,27 @@ ORDER BY image.is_featured_img DESC, product.name
             productImages.append(productImage)
 
         return productImages
+
+    def makeFeaturedImage(self, image_id):
+        '''
+        Make the given image the featured image for it's product
+        '''
+        # get the image and associated product
+        image = self.getImage(id=image_id)
+        product = self.getProduct(id=image.product_id)
+
+        # get all featured images
+        productImages = self.getJoined_ProductImages(featuredImages=True)
+
+        # set the current product's featured image as False
+        for productImage in productImages:
+            if productImage.name == product.name:
+                # get the featured image
+                prevFeatured = self.getImage(id=productImage.image_id)
+                self.updateImage(prevFeatured.id, is_featured_img=False)
+
+        # make the new image a featured image
+        self.updateImage(image.id, is_featured_img=True)
 
 
 class ProductImage:

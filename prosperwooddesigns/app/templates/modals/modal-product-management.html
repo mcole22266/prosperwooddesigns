@@ -6,8 +6,8 @@ Modal for the Product Management products -->
 <!-- Main Modal -->
 <form method="POST" action="/admin/product-management/update/{{ productFeaturedImage.id }}" enctype="multipart/form-data">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="modal fade" id="modal-{{ productFeaturedImage.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="modal-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Edit {{ productFeaturedImage.name }}</h5>
@@ -44,7 +44,7 @@ Modal for the Product Management products -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#product-delete-{{ productFeaturedImage.id }}">Delete</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#product-delete-{{ loop.index }}">Delete</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
             </div>
         </div>
@@ -53,8 +53,8 @@ Modal for the Product Management products -->
 </form>
 
 <!-- Delete Modal -->
-<div class="modal" id="product-delete-{{ productFeaturedImage.id }}" tabindex="-1" role="dialog" aria-labelledby="product-delete-{{ productFeaturedImage.id }}-modal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal" id="product-delete-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="product-delete-{{ loop.index }}-modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <!-- Form -->
             <form action="/admin/product-management/delete/{{ productFeaturedImage.id }}" method="POST">
