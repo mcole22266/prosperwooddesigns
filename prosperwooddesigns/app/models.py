@@ -168,7 +168,7 @@ class Image(db.Model):
         primary_key=True
     )
     location = db.Column(
-        db.String(64),
+        db.String(512),
         unique=True,
         nullable=False
     )

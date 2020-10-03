@@ -29,6 +29,22 @@ class Helper:
         else:
             return 'It is very late'
 
+    def getTimestamp(self, to_convert):
+        '''
+        Returns a timestamp out of a datetime object. Timestamp will be in the
+        following format:
+        YYYY-MM-DD_HH-MM-SS
+        '''
+        year = to_convert.year
+        month = to_convert.month
+        day = to_convert.day
+        hour = to_convert.hour
+        minute = to_convert.minute
+        second = to_convert.second
+
+        formatted = f'{year}-{month}-{day}_{hour}-{minute}-{second}'
+        return formatted
+
     def getTime_tz(self, tz='America/Chicago'):
         '''
         Gets local time for a given timezone

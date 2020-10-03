@@ -4,12 +4,14 @@
 # Defines all app's Admin routing logic
 # --------------------------------
 
-from flask import redirect, render_template, request, url_for
+from datetime import datetime
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
+from werkzeug.exceptions import BadRequestKeyError
 
 # instantiate variables
 logger = Logger()
@@ -140,7 +142,7 @@ class RoutesAdmin:
                 dbConn.updateRequest(id=request_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_requests'))
 
         @app.route('/admin/request/delete/<request_id>', methods=['POST'])
         @login_required
@@ -151,7 +153,7 @@ class RoutesAdmin:
             dbConn.deleteRequest(request_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_requests'))
 
         @app.route('/admin/question/update/<question_id>', methods=['POST'])
         @login_required
@@ -169,7 +171,7 @@ class RoutesAdmin:
                 dbConn.updateQuestion(id=question_id, status=new_status)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_questions'))
 
         @app.route('/admin/question/delete/<question_id>', methods=['POST'])
         @login_required
@@ -180,7 +182,7 @@ class RoutesAdmin:
             dbConn.deleteQuestion(question_id)
 
             logger.log('Redirecting to admin page')
-            return redirect(url_for('admin_project_management'))
+            return redirect(url_for('admin_project_management_questions'))
 
         @app.route('/admin/data')
         @login_required
@@ -212,20 +214,189 @@ class RoutesAdmin:
                                    contacts=contacts,
                                    products=products)
 
-        @app.route('/admin/project-management')
+        @app.route('/admin/project-management/requests')
         @login_required
-        def admin_project_management():
+        def admin_project_management_requests():
             '''
-            Routes the user to the Admin Project Management page of the website
+            Routes the user to the Requests Management page of the website
             '''
             # get data to be used in page
             requests = dbConn.getRequests(order_id=True)
+
+            logger.log('Serving Project Management page')
+            return render_template('admin/project-management-requests.html',
+                                   title='Admin: Project Management',
+                                   requests=requests)
+
+        @app.route('/admin/project-management/questions')
+        @login_required
+        def admin_project_management_questions():
+            '''
+            Routes the user to the Questions Management page of the website
+            '''
+            # get data to be used in page
             questions = dbConn.getQuestions(order_id=True)
+
+            logger.log('Serving Project Management page')
+            return render_template('admin/project-management-questions.html',
+                                   title='Admin: Project Management',
+                                   questions=questions)
+
+        @app.route('/admin/project-management/contacts')
+        @login_required
+        def admin_project_management_contacts():
+            '''
+            Routes the user to the Contacts Management page of the website
+            '''
+            # get data to be used in page
             contacts = dbConn.getContacts(order_id=True)
 
-            logger.log('Serving admin page')
-            return render_template('admin/project-management.html',
+            logger.log('Serving Project Management page')
+            return render_template('admin/project-management-contacts.html',
                                    title='Admin: Project Management',
-                                   requests=requests,
-                                   questions=questions,
                                    contacts=contacts)
+
+        @app.route('/admin/product-management')
+        @login_required
+        def admin_product_management():
+            '''
+            Routes the user to the Admin Product Management page of the website
+            '''
+            # get data to be used in page
+            productsImages = dbConn.getJoined_ProductImages()
+            featuredProductsImages = dbConn.getJoined_ProductImages(
+                featuredProducts=True)
+            productsFeaturedImages = dbConn.getJoined_ProductImages(
+                featuredImages=True)
+
+            logger.log('Serving Product Management Page')
+            return render_template(
+                'admin/product-management.html',
+                title='Admin: Product Management',
+                productsImages=productsImages,
+                featuredProductsImages=featuredProductsImages,
+                productsFeaturedImages=productsFeaturedImages
+                )
+
+        @app.route('/admin/product-management/update/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_productid(product_id):
+            '''
+            Updated a Product's information based on modal input
+            '''
+            # get values from form
+            product_name = request.form[f'productName-{product_id}']
+            product_description = request.form[
+                f'productDescription-{product_id}'
+                ]
+            # try/except on is_featured_product because if toggle
+            # is off then no value will be posted
+            try:
+                is_featured_product = request.form[
+                    f'is_featured_product-{product_id}'
+                    ]
+                is_featured_product = True
+            except KeyError:
+                is_featured_product = False
+
+            # update product
+            dbConn.updateProduct(
+                id=product_id, name=product_name,
+                description=product_description,
+                is_featured_product=is_featured_product)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/updateImages/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_updateImages_productid(product_id):
+            '''
+            Add a new image to a product or delete images
+            '''
+
+            # add new images
+            images = request.files.getlist('addImages[]')
+            for image in images:
+                if image.filename:
+                    path = app.config['AWS_LOCAL_IMAGE_PATH']
+                    timestamp = helper.getTimestamp(datetime.now())
+                    filename = f'{timestamp}_{image.filename}'
+                    filelocation = f'{path}/{filename}'
+                    location = f'../static/images/{filename}'
+                    image.save(filelocation)
+                    dbConn.setImage(location, product_id)
+                    logger.log(f'Saving image {image.filename}')
+
+            # delete images
+            images = request.form.getlist('deleteImages[]')
+            for image in images:
+                dbConn.deleteImage(image)
+
+            # update Featured image
+            try:
+                image_id = request.form['replaceImage']
+                dbConn.makeFeaturedImage(image_id)
+            except BadRequestKeyError:
+                # ignore if user hasn't passed a replacement image
+                pass
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/delete/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_delete_productid(product_id):
+            '''
+            Delete a Product based on modal input
+            '''
+            # get product and associated images
+            product = dbConn.getProduct(id=product_id)
+            productImages = dbConn.getJoined_ProductImages(name=product.name)
+
+            # delete the images
+            for productImage in productImages:
+                dbConn.deleteImage(id=productImage.image_id)
+
+            # Delete the product
+            dbConn.deleteProduct(id=product_id)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/new-product',
+                   methods=['POST'])
+        @login_required
+        def admin_product_newproduct():
+            '''
+            Create a new product
+            '''
+
+            # get form data
+            name = request.form['productName']
+            description = request.form['productDescription']
+            image = request.files['featuredImage']
+
+            # handle is_featured_product
+            try:
+                is_featured_product = request.form['is_featured_product']
+                is_featured_product = True
+            except BadRequestKeyError:
+                is_featured_product = False
+
+            # add new product
+            product = dbConn.setProduct(name, description, is_featured_product)
+
+            # add image
+            path = app.config['AWS_LOCAL_IMAGE_PATH']
+            timestamp = helper.getTimestamp(datetime.now())
+            filename = f'{timestamp}_{image.filename}'
+            filelocation = f'{path}/{filename}'
+            location = f'../static/images/{filename}'
+            image.save(filelocation)
+            image = dbConn.setImage(location, product.id, is_featured_img=True)
+
+            return redirect(url_for('admin_product_management'))
