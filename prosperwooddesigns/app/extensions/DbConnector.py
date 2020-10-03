@@ -51,8 +51,8 @@ class DbConnector:
         '''
         Create an Admin row in the admin table
         '''
-        from app.models import Admin
         import flask_bcrypt
+        from app.models import Admin
 
         # Encrypt the given password before storing
         encrypted_password = flask_bcrypt.generate_password_hash(
@@ -173,6 +173,36 @@ class DbConnector:
             self.db.session.commit()
         logger.log(f'Created Image - {image}')
         return image
+
+    def updateImage(self, id, is_featured_img,
+                    commit=True):
+        '''
+        Update an Image row based on the following parameters:
+
+        is_featured_img (bool): Set to change the is_featured_img of the Image
+        '''
+        # get image
+        image = self.getImage(id=id)
+
+        # Set is_featured_img
+        image.is_featured_img = is_featured_img
+
+        logger.log(
+            f'Updated Image {image.id} - to {is_featured_img}'
+        )
+        if commit:
+            self.db.session.commit()
+
+    def deleteImage(self, id, commit=True):
+        '''
+        Delete an Image row by id
+        '''
+        image = self.getImage(id=id)
+
+        self.db.session.delete(image)
+        logger.log(f'Deleted Image - {image}')
+        if commit:
+            self.db.session.commit()
 
     def getProducts(self):
         '''
@@ -423,7 +453,7 @@ class DbConnector:
         '''
         Return all rows where image.product_id=product.id
 
-        name (bool): Set to only return all product/images by name
+        name (str): Set to only return all product/images by name
         featuredImages (bool): Set to only return all product/images with
             featured images
         featuredProducts (bool): Set to only return all product/images that
@@ -433,9 +463,9 @@ class DbConnector:
         if name:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
-SELECT
+SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.name='{name}'
@@ -447,18 +477,18 @@ ORDER BY image.is_featured_img DESC
             result = self.db.session.execute('''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
-ORDER BY product.name
+ORDER BY image.is_featured_img DESC, product.name
 ''')
         elif featuredProducts:
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE product.is_featured_product='y'
@@ -467,22 +497,43 @@ WHERE product.is_featured_product='y'
         else:
             # return all product/images
             result = self.db.session.execute('''
-SELECT
+SELECT DISTINCT
     product.id, product.name, product.description, product.is_featured_product,
-    image.location, image.is_featured_img
+    image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
-ORDER BY product.name
+ORDER BY image.is_featured_img DESC, product.name
 ''')
         productImages = []
         for item in result:
             # return as a list of ProductImage objects
             # (defined in this file)
             productImage = ProductImage(item[0], item[1], item[2], item[3],
-                                        item[4], item[5])
+                                        item[4], item[5], item[6])
             productImages.append(productImage)
 
         return productImages
+
+    def makeFeaturedImage(self, image_id):
+        '''
+        Make the given image the featured image for it's product
+        '''
+        # get the image and associated product
+        image = self.getImage(id=image_id)
+        product = self.getProduct(id=image.product_id)
+
+        # get all featured images
+        productImages = self.getJoined_ProductImages(featuredImages=True)
+
+        # set the current product's featured image as False
+        for productImage in productImages:
+            if productImage.name == product.name:
+                # get the featured image
+                prevFeatured = self.getImage(id=productImage.image_id)
+                self.updateImage(prevFeatured.id, is_featured_img=False)
+
+        # make the new image a featured image
+        self.updateImage(image.id, is_featured_img=True)
 
 
 class ProductImage:
@@ -492,10 +543,11 @@ class ProductImage:
     '''
 
     def __init__(self, id, name, description, is_featured_product,
-                 location, is_featured_img):
+                 location, is_featured_img, image_id):
         self.id = id
         self.name = name
         self.description = description
         self.is_featured_product = is_featured_product
         self.location = location
         self.is_featured_img = is_featured_img
+        self.image_id = image_id

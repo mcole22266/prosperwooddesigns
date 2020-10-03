@@ -4,12 +4,14 @@
 # Defines all app's Admin routing logic
 # --------------------------------
 
-from flask import redirect, render_template, request, url_for
+from datetime import datetime
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
+from werkzeug.exceptions import BadRequestKeyError
 
 # instantiate variables
 logger = Logger()
@@ -303,6 +305,43 @@ class RoutesAdmin:
                 id=product_id, name=product_name,
                 description=product_description,
                 is_featured_product=is_featured_product)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/updateImages/<product_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_product_updateImages_productid(product_id):
+            '''
+            Add a new image to a product or delete images
+            '''
+
+            # add new images
+            images = request.files.getlist('addImages[]')
+            for image in images:
+                if image.filename:
+                    path = app.config['AWS_LOCAL_IMAGE_PATH']
+                    timestamp = helper.getTimestamp(datetime.now())
+                    filename = f'{timestamp}_{image.filename}'
+                    filelocation = f'{path}/{filename}'
+                    location = f'../static/images/{filename}'
+                    image.save(filelocation)
+                    dbConn.setImage(location, product_id)
+                    logger.log(f'Saving image {image.filename}')
+
+            # delete images
+            images = request.form.getlist('deleteImages[]')
+            for image in images:
+                dbConn.deleteImage(image)
+
+            # update Featured image
+            try:
+                image_id = request.form['replaceImage']
+                dbConn.makeFeaturedImage(image_id)
+            except BadRequestKeyError:
+                # ignore if user hasn't passed a replacement image
+                pass
 
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_product_management'))

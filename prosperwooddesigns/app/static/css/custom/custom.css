@@ -116,9 +116,36 @@ Custom CSS to overwrite any bootstrap CSS */
     float: right;
 }
 
+.btn-row {
+    margin-left: 1rem;
+}
+
 .form-content {
     margin-top: 5rem;
     margin-bottom: 5rem;
+}
+
+.thumbnail {
+    max-width: 150px;
+    margin-left: 2px;
+}
+
+.deleteImage-input:checked + .deleteImage-label > .deleteImage-image {
+    border: 3px solid red;
+    opacity: .8;
+}
+
+.deleteImage-input:hover+ .deleteImage-label > .deleteImage-image {
+    opacity: .8;
+}
+
+.replaceImage-input:checked + .replaceImage-label > .replaceImage-image {
+    border: 3px solid #4c7eeb;
+    opacity: .8;
+}
+
+.replaceImage-input:hover+ .replaceImage-label > .replaceImage-image {
+    opacity: .8;
 }
 
 body {
