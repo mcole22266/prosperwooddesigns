@@ -132,6 +132,11 @@ Custom CSS to overwrite any bootstrap CSS */
 
 .deleteImage-input:checked + .deleteImage-label > .deleteImage-image {
     border: 3px solid red;
+    opacity: .8;
+}
+
+.deleteImage-input:hover+ .deleteImage-label > .deleteImage-image {
+    opacity: .8;
 }
 
 body {

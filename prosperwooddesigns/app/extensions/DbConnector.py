@@ -462,7 +462,7 @@ SELECT DISTINCT
 FROM product
     JOIN image ON image.product_id=product.id
 WHERE image.is_featured_img='y'
-ORDER BY product.name
+ORDER BY image.is_featured_img DESC, product.name
 ''')
         elif featuredProducts:
             # return only featured product/images
@@ -483,7 +483,7 @@ SELECT DISTINCT
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
-ORDER BY product.name
+ORDER BY image.is_featured_img DESC, product.name
 ''')
         productImages = []
         for item in result:

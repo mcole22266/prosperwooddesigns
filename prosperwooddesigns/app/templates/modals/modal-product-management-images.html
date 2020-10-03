@@ -19,7 +19,7 @@ Modal for the Product Management images -->
                 <div class="row">
                     <div class="col-md-12 deleteImage">
                         {% for productImage in productsImages %}
-                            {% if productImage.id == productFeaturedImage.id %}
+                            {% if productImage.id == productFeaturedImage.id and not productImage.is_featured_img %}
                                 <input class="deleteImage-input" type="checkbox" id="checkbox-{{ productImage.image_id }}"
                                        name="deleteImages[]" value="{{ productImage.image_id }}" hidden>
                                 <label class="deleteImage-label" for="checkbox-{{ productImage.image_id }}">
