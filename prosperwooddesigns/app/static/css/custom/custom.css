@@ -214,6 +214,6 @@ body {
     border-radius: 50%;
 }
 
-.container-info-card {
+.container-info-card .card {
     margin-top: 1rem;
 }
