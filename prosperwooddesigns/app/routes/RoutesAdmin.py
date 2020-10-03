@@ -353,8 +353,50 @@ class RoutesAdmin:
             '''
             Delete a Product based on modal input
             '''
+            # get product and associated images
+            product = dbConn.getProduct(id=product_id)
+            productImages = dbConn.getJoined_ProductImages(name=product.name)
+
+            # delete the images
+            for productImage in productImages:
+                dbConn.deleteImage(id=productImage.image_id)
+
             # Delete the product
             dbConn.deleteProduct(id=product_id)
 
             logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/product-management/new-product',
+                   methods=['POST'])
+        @login_required
+        def admin_product_newproduct():
+            '''
+            Create a new product
+            '''
+
+            # get form data
+            name = request.form['productName']
+            description = request.form['productDescription']
+            image = request.files['featuredImage']
+
+            # handle is_featured_product
+            try:
+                is_featured_product = request.form['is_featured_product']
+                is_featured_product = True
+            except BadRequestKeyError:
+                is_featured_product = False
+
+            # add new product
+            product = dbConn.setProduct(name, description, is_featured_product)
+
+            # add image
+            path = app.config['AWS_LOCAL_IMAGE_PATH']
+            timestamp = helper.getTimestamp(datetime.now())
+            filename = f'{timestamp}_{image.filename}'
+            filelocation = f'{path}/{filename}'
+            location = f'../static/images/{filename}'
+            image.save(filelocation)
+            image = dbConn.setImage(location, product.id, is_featured_img=True)
+
             return redirect(url_for('admin_product_management'))
