@@ -279,26 +279,28 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
-    def getLayouts(self):
+    def getLayouts(self, location=False):
         '''
         Get all Layout rows from the db
+
+        Parameters:
+            location (str): Pass to return only rows with pass location
         '''
         from app.models import Layout
+        if location:
+            return Layout.query.filter_by(location=location).all()
         return Layout.query.all()
 
-    def getLayout(self, id=False, location=False):
+    def getLayout(self, id=False):
         '''
         Get a single Layout row based on the following parameter:
 
         Parameters:
             id (int): Set to return a row based on id
-            location (str): Pass to return only rows with pass location
         '''
         from app.models import Layout
         if id:
             return Layout.query.filter_by(id=id).first()
-        if location:
-            return Layout.query.filter_by(location=location).first()
 
     def setLayout(self, location, name, content,
                   commit=True):

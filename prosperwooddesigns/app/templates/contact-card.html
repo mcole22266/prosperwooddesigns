@@ -13,19 +13,19 @@ Contact card to be used in conjunction with the footer -->
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12 justify-content-center">
-                    <h3 class="card-title text-center">John Manning</h3>
+                    <h3 class="card-title text-center">{{ contact_card_name }}</h3>
                 </div>
             </div>
             <div class="row">
                 <div class="container">
                     <div class="col-md-12">
-                        <p class="card-text"><strong>Phone: </strong>856-577-4087</p>
-                        <p class="card-text"><strong>Email: </strong>prosperwooddesigns@gmail.com</p>
+                        <p class="card-text"><strong>Phone: </strong>{{ contact_card_phone }}</p>
+                        <p class="card-text"><strong>Email: </strong>{{ contact_card_email }}</p>
                     </div>
                 </div>
             </div>
             <hr>
-            <a href="/questionform" class="btn btn-primary animated-button business-card-button">Ask a Question</a>
+            <a href="/questionform" class="btn btn-primary animated-button business-card-button">{{ contact_card_button }}</a>
         </div>
     </div>
 </div>
