@@ -6,9 +6,10 @@
 
 from datetime import datetime
 
-from app.extensions.Logger import Logger
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+
+from app.extensions.Logger import Logger
 
 # Instantiate variables
 logger = Logger()
@@ -208,13 +209,13 @@ class Layout(db.Model):
         db.Integer,
         primary_key=True
     )
-    endpoint = db.Column(
+    location = db.Column(
         db.String(64),
         unique=False,
         nullable=False
     )
-    content_name = db.Column(
-        db.String(80),
+    name = db.Column(
+        db.String(64),
         unique=False,
         nullable=False
     )
@@ -223,29 +224,16 @@ class Layout(db.Model):
         unique=False,
         nullable=False
     )
-    is_image = db.Column(
-        db.Boolean,
-        unique=False,
-        nullable=False
-    )
-    created_date = db.Column(
-        db.Date,
-        unique=False,
-        nullable=False
-    )
 
     def __init__(
-        self, endpoint, content_name, content,
-        is_image, created_date=datetime.now()
+        self, location, name, content
     ):
-        self.endpoint = endpoint
-        self.content_name = content_name
+        self.location = location
+        self.name = name
         self.content = content
-        self.is_image = is_image
-        self.created_date = created_date  # current date by default
 
     def __repr__(self):
-        return f'Layout: {self.endpoint} - {self.content_name}'
+        return f'Layout: {self.location} - {self.name}'
 
 
 class Question(db.Model):
