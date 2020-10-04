@@ -63,7 +63,7 @@ class ConfigDev:
     # None of the below will generate if GENERATE_FAKE_DATA==False
     GENERATE_FAKE_DATA_ADMIN = True     # generates mock admin upon startup
     GENERATE_FAKE_DATA_REQUEST = True   # generates mock request upon startup
-    GENERATE_FAKE_DATA_LAYOUT = True    # generates mock layout upon startup
+    GENERATE_FAKE_DATA_LAYOUT = False   # generates mock layout upon startup
     GENERATE_FAKE_DATA_QUESTION = True  # generates mock question upon startup
     GENERATE_FAKE_DATA_CONTACT = True   # generates mock contact upon startup
     GENERATE_FAKE_DATA_PRODUCT = False  # generates mock product upon startup

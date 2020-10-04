@@ -34,6 +34,66 @@ class Startup:
         data and layout data
         '''
 
+        # layout
+        # index page
+        self.dbConn.setLayout(
+            'Index Page',
+            'Cover Tag Line',
+            'Your one-stop-shop for your custom wood designs!'
+        )
+        self.dbConn.setLayout(
+            'Index Page',
+            'Featured Header',
+            'Featured Designs'
+        )
+        self.dbConn.setLayout(
+            'Index Page',
+            'Featured Buttons',
+            'Check it out!'
+        )
+        self.dbConn.setLayout(
+            'Index Page',
+            'Designs Page Alert Header',
+            'Check out the rest of our designs!'
+        )
+        self.dbConn.setLayout(
+            'Index Page',
+            'Designs Page Alert Button',
+            'Show me more!'
+        )
+        # Contact Card
+        self.dbConn.setLayout(
+            'Contact Card',
+            'Name',
+            'John Manning'
+        )
+        self.dbConn.setLayout(
+            'Contact Card',
+            'Phone',
+            '856-577-4087'
+        )
+        self.dbConn.setLayout(
+            'Contact Card',
+            'Email',
+            'prosperwooddesigns@gmail.com'
+        )
+        self.dbConn.setLayout(
+            'Contact Card',
+            'Button',
+            'Ask a Question'
+        )
+        # Designs Page
+        self.dbConn.setLayout(
+            'Designs Page',
+            'Header',
+            'Check out some of our designs!'
+        )
+        self.dbConn.setLayout(
+            'Designs Page',
+            'Buttons',
+            'See More'
+        )
+
         # products
         # cornhole football board
         cornhole_football_name = 'Cornhole Football Board'
