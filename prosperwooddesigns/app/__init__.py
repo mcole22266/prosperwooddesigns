@@ -5,13 +5,13 @@
 # ------------------------------------------------
 
 from flask import Flask
+from flask_bcrypt import Bcrypt
+from flask_wtf.csrf import CSRFProtect
 
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Logger import Logger
 from app.extensions.MockData import MockData
 from app.extensions.S3Connector import S3Connector
-from flask_bcrypt import Bcrypt
-from flask_wtf.csrf import CSRFProtect
 
 from .models import db, loginManager
 from .routes.Routes import Routes
@@ -84,14 +84,22 @@ def create_app():
             logger.log('Checking if fake data is present')
             if not mockData.hasData(db):
                 logger.log('Generating fake data')
-                mockData.loadAdmin(db)
-                mockData.loadRequest(db)
-                mockData.loadLayout(db)
-                mockData.loadQuestion(db)
-                mockData.loadContact(db)
-                mockData.loadJoined_ProductImage(db)
-                # mockData.loadProduct(db)  # uncomment to load
-                # mockData.loadImage(db)    # uncomment to load
+                if app.config['GENERATE_FAKE_DATA_ADMIN']:
+                    mockData.loadAdmin(db)
+                if app.config['GENERATE_FAKE_DATA_REQUEST']:
+                    mockData.loadRequest(db)
+                if app.config['GENERATE_FAKE_DATA_LAYOUT']:
+                    mockData.loadLayout(db)
+                if app.config['GENERATE_FAKE_DATA_QUESTION']:
+                    mockData.loadQuestion(db)
+                if app.config['GENERATE_FAKE_DATA_CONTACT']:
+                    mockData.loadContact(db)
+                if app.config['GENERATE_FAKE_DATA_PRODUCT']:
+                    mockData.loadProduct(db)
+                if app.config['GENERATE_FAKE_DATA_IMAGE']:
+                    mockData.loadImage(db)
+                if app.config['GENERATE_FAKE_DATA_JOINED_PRODUCTIMAGE']:
+                    mockData.loadJoined_ProductImage(db)
             else:
                 logger.log('Fake data already present')
 
