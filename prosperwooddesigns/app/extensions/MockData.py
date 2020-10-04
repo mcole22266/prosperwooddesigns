@@ -4,7 +4,6 @@
 # Generates MockData for the app -- especially in development mode
 # -----------------------------------------------------------------
 
-import os
 from datetime import datetime
 
 from .DbConnector import DbConnector
@@ -195,77 +194,3 @@ class MockData:
             self.dbConn.setContact(name, phonenumber, emailaddress)
 
         db.session.commit()
-
-    def loadJoined_ProductImage(self, db):
-        '''
-        Load Product and Image tables with hard-coded "real" data
-        '''
-
-        imageDir = '/prosperwooddesigns/app/static/images'
-        relimageDir = '../static/images'
-        for filename in os.listdir(imageDir):
-            path = f'{relimageDir}/{filename}'
-            if 'cornhole_football' in filename:
-                if '00' in filename:
-                    featured = True
-                else:
-                    featured = False
-                self.dbConn.setJoined_ProductImage(
-                    'Cornhole Football Board',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=featured,
-                    is_featured_product=True
-                    )
-            elif 'cornhole' in filename:
-                self.dbConn.setJoined_ProductImage(
-                    'Cornhole Board',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=True
-                )
-            elif 'cabinet' in filename:
-                self.dbConn.setJoined_ProductImage(
-                    'Custom Cabinet',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=True,
-                    is_featured_product=True
-                )
-            elif 'exercise' in filename:
-                self.dbConn.setJoined_ProductImage(
-                    'Exercise Box',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=True
-                )
-            elif 'decor_holiday' in filename:
-                if '00' in filename:
-                    featured = True
-                else:
-                    featured = False
-                self.dbConn.setJoined_ProductImage(
-                    'Customized Holiday Decor Board',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=featured,
-                    is_featured_product=True
-                )
-            elif 'decor_name' in filename:
-                if '00' in filename:
-                    featured = True
-                else:
-                    featured = False
-                self.dbConn.setJoined_ProductImage(
-                    'Customized Name Decor Board',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=featured
-                )
-            elif 'decor' in filename:
-                self.dbConn.setJoined_ProductImage(
-                    'Customized Decor Board',
-                    self.fakeDescription(),
-                    path,
-                    is_featured_img=True
-                )

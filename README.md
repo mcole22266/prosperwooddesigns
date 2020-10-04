@@ -34,20 +34,38 @@ The following configuration options are available in `./prosperwooddesigns/confi
 _Note: You'll find these options under the ConfigDev and ConfigProd classes_
 
 - General Config
-    - _**GENERATE_FAKE_DATA**_
-        - Set this to `True` in order for the app to automatically generate fake data for all tables in the db
     - _**DB_CREATE_ADMIN_USER**_
         - Set this to `True` in order for the app to automatically generate a default admin user defined by the following parameters in `prosperwoodesigns.env`:
             - DB_TEST_ADMIN_USERNAME
             - DB_TEST_ADMIN_PASSWORD
             - DB_TEST_ADMIN_FIRSTNAME
             - DB_TEST_ADMIN_LASTNAME
+    - _**DB_INIT_DATA**_
+        - Set this to `True` in order for the app to automatically initialize with data defined in `/prosperwooddesigns/app/extensions/Startup.py`
     - _**LOG_TO_STDOUT**_
         - Set this to `True` in order for all logs to be written to stdout _(can be used in conjunction with `LOG_TO_FILE`)_
     - _**LOG_TO_FILE**_
         - Set this to `True` in order for all logs to be written to logfiles _(can be used in conjunction with `LOG_TO_STDOUT`)_
     - _**ADMIN_AUTO_LOGIN**_
         - Set this to `True` in order to automatically be logged in as Admin upon arriving at index page
+- MockData Config
+    - _**GENERATE_FAKE_DATA**_
+        - Set this to `True` in order for the app to automatically generate fake data for all tables in the db
+        - _Note_: If This is set to `False`, all of the following Config options will be treated as `False`
+    - _**GENERATE_FAKE_DATA_ADMIN**_
+        - Set this to `True` in order for the app to automatically generate fake admin data
+    - _**GENERATE_FAKE_DATA_REQUEST**_
+        - Set this to `True` in order for the app to automatically generate fake request data
+    - _**GENERATE_FAKE_DATA_LAYOUT**_
+        - Set this to `True` in order for the app to automatically generate fake layout data
+    - _**GENERATE_FAKE_DATA_QUESTION**_
+        - Set this to `True` in order for the app to automatically generate fake question data
+    - _**GENERATE_FAKE_DATA_CONTACT**_
+        - Set this to `True` in order for the app to automatically generate fake contact data
+    - _**GENERATE_FAKE_DATA_PRODUCT**_
+        - Set this to `True` in order for the app to automatically generate fake product data
+    - _**GENERATE_FAKE_DATA_IMAGE**_
+        - Set this to `True` in order for the app to automatically generate fake image data
 - SQLAlchemy Config
     - _**SQLALCHEMY_ECHO**_
         - From the [source](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/): _"If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging."_
