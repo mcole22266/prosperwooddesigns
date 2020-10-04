@@ -58,7 +58,6 @@ class ConfigDev:
     LOG_TO_FILE = False                 # logs go to log files
     ADMIN_AUTO_LOGIN = True             # auto login as admin at index page
 
-
     # MockData Config
     GENERATE_FAKE_DATA = True           # generates mockdata upon startup
     # None of the below will generate if GENERATE_FAKE_DATA==False
