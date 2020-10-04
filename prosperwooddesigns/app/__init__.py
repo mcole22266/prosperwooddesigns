@@ -12,6 +12,7 @@ from app.extensions.DbConnector import DbConnector
 from app.extensions.Logger import Logger
 from app.extensions.MockData import MockData
 from app.extensions.S3Connector import S3Connector
+from app.extensions.Startup import Startup
 
 from .models import db, loginManager
 from .routes.Routes import Routes
@@ -25,6 +26,7 @@ routesAdmin = RoutesAdmin()
 logger = Logger()
 s3Conn = S3Connector()
 dbConn = DbConnector()
+startup = Startup()
 mockData = MockData()
 
 
@@ -98,10 +100,18 @@ def create_app():
                     mockData.loadProduct(db)
                 if app.config['GENERATE_FAKE_DATA_IMAGE']:
                     mockData.loadImage(db)
-                if app.config['GENERATE_FAKE_DATA_JOINED_PRODUCTIMAGE']:
-                    mockData.loadJoined_ProductImage(db)
             else:
                 logger.log('Fake data already present')
+
+        if app.config['DB_INIT_DATA']:
+            # by default, database will be initialized with
+            # default data
+            logger.log('Checking if initial data is present')
+            if not startup.hasData(db):
+                logger.log('Loading initial data')
+                startup.loadInitialData()
+            else:
+                logger.log('Initial data already present')
 
         if app.config['DB_CREATE_ADMIN_USER']:
             # by default, will create generic admin user

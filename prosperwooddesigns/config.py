@@ -53,9 +53,11 @@ class ConfigDev:
 
     # General Config
     DB_CREATE_ADMIN_USER = True         # creates dev admin user
+    DB_INIT_DATA = True                 # creates initial data
     LOG_TO_STDOUT = True                # logs go to stdout
     LOG_TO_FILE = False                 # logs go to log files
     ADMIN_AUTO_LOGIN = True             # auto login as admin at index page
+
 
     # MockData Config
     GENERATE_FAKE_DATA = True           # generates mockdata upon startup
@@ -67,8 +69,6 @@ class ConfigDev:
     GENERATE_FAKE_DATA_CONTACT = True   # generates mock contact upon startup
     GENERATE_FAKE_DATA_PRODUCT = False  # generates mock product upon startup
     GENERATE_FAKE_DATA_IMAGE = False    # generates mock image upon startup
-    # generates mock joined productimage upon startup
-    GENERATE_FAKE_DATA_JOINED_PRODUCTIMAGE = True
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False             # SQLAlchemy verbose output
@@ -99,8 +99,6 @@ class ConfigProd:
     GENERATE_FAKE_DATA_CONTACT = False  # generates mock contact upon startup
     GENERATE_FAKE_DATA_PRODUCT = False  # generates mock product upon startup
     GENERATE_FAKE_DATA_IMAGE = False    # generates mock image upon startup
-    # generates mock joined productimage upon startup
-    GENERATE_FAKE_DATA_JOINED_PRODUCTIMAGE = False
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False             # SQLAlchemy verbose output

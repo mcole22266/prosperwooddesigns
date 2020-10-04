@@ -40,6 +40,8 @@ _Note: You'll find these options under the ConfigDev and ConfigProd classes_
             - DB_TEST_ADMIN_PASSWORD
             - DB_TEST_ADMIN_FIRSTNAME
             - DB_TEST_ADMIN_LASTNAME
+    - _**DB_INIT_DATA**_
+        - Set this to `True` in order for the app to automatically initialize with data defined in `/prosperwooddesigns/app/extensions/Startup.py`
     - _**LOG_TO_STDOUT**_
         - Set this to `True` in order for all logs to be written to stdout _(can be used in conjunction with `LOG_TO_FILE`)_
     - _**LOG_TO_FILE**_
@@ -64,8 +66,6 @@ _Note: You'll find these options under the ConfigDev and ConfigProd classes_
         - Set this to `True` in order for the app to automatically generate fake product data
     - _**GENERATE_FAKE_DATA_IMAGE**_
         - Set this to `True` in order for the app to automatically generate fake image data
-    - _**GENERATE_FAKE_DATA_JOINED_PRODUCTIMAGE**_
-        - Set this to `True` in order for the app to automatically generate fake product-image data
 - SQLAlchemy Config
     - _**SQLALCHEMY_ECHO**_
         - From the [source](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/): _"If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging."_
