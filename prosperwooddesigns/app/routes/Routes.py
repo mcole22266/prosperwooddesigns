@@ -4,13 +4,12 @@
 # Defines all app's main routing logic
 # --------------------------------
 
-from flask import redirect, render_template, request, url_for
-from werkzeug.exceptions import BadRequestKeyError
-
 from app.extensions.DbConnector import DbConnector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
+from flask import redirect, render_template, request, url_for
 from flask_login import login_user
+from werkzeug.exceptions import BadRequestKeyError
 
 # instantiate variables
 logger = Logger()
@@ -52,10 +51,43 @@ class Routes:
             featuredProducts = dbConn.getJoined_ProductImages(
                 featuredProducts=True)
 
+            # get site content
+            layout = dbConn.getLayouts(location='Index Page')
+            for row in layout:
+                if row.name == 'Cover Tag Line':
+                    tagline = row.content
+                elif row.name == 'Featured Header':
+                    featured_header = row.content
+                elif row.name == 'Featured Buttons':
+                    featured_buttons = row.content
+                elif row.name == 'Designs Page Alert Header':
+                    designs_header = row.content
+                elif row.name == 'Designs Page Alert Button':
+                    designs_button = row.content
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             logger.log('Serving index page')
             return render_template('index.html',
                                    title='Home',
-                                   featuredProducts=featuredProducts)
+                                   featuredProducts=featuredProducts,
+                                   tagline=tagline,
+                                   featured_header=featured_header,
+                                   featured_buttons=featured_buttons,
+                                   designs_header=designs_header,
+                                   designs_button=designs_button,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         # CURRENTLY TABLED PENDING CLIENT'S THOUGHTS
         # @app.route('/about')
@@ -77,9 +109,35 @@ class Routes:
                 )
             # chunk into lists of no greater than 3
             joinedProductsImages = helper.chunk(joinedProductsImages, 3)
+
+            # get site content
+            layout = dbConn.getLayouts('Designs Page')
+            for row in layout:
+                if row.name == 'Header':
+                    designs_header = row.content
+                elif row.name == 'Buttons':
+                    designs_buttons = row.content
+
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             return render_template('designs.html',
                                    title='Designs',
-                                   joinedProductsImages=joinedProductsImages)
+                                   joinedProductsImages=joinedProductsImages,
+                                   designs_header=designs_header,
+                                   designs_buttons=designs_buttons,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/designs/<product_name>')
         def designs_product(product_name):
