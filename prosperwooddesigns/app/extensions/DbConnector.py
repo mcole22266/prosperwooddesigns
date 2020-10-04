@@ -286,24 +286,27 @@ class DbConnector:
         from app.models import Layout
         return Layout.query.all()
 
-    def getLayout(self, id=False):
+    def getLayout(self, id=False, location=False):
         '''
         Get a single Layout row based on the following parameter:
 
-        id (int): Set to return a row based on id
+        Parameters:
+            id (int): Set to return a row based on id
+            location (str): Pass to return only rows with pass location
         '''
         from app.models import Layout
         if id:
             return Layout.query.filter_by(id=id).first()
+        if location:
+            return Layout.query.filter_by(location=location).first()
 
-    def setLayout(self, endpoint, content_name, content, is_image,
-                  created_date, commit=True):
+    def setLayout(self, location, name, content,
+                  commit=True):
         '''
         Create a Layout row
         '''
         from app.models import Layout
-        layout = Layout(endpoint, content_name, content, is_image,
-                        created_date=datetime.now())
+        layout = Layout(location, name, content)
         self.db.session.add(layout)
         if commit:
             self.db.session.commit()

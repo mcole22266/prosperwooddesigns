@@ -149,14 +149,11 @@ class MockData:
 
         for i in range(num_rows):
             # fake some data
-            endpoint = self.fake.uri_path()
-            content_name = self.fake.word()
+            location = self.fake.word()
+            name = self.fake.word()
             content = self.fakeDescription(2, 3)
-            is_image = self.fake.boolean()
-            created_date = self.fakeDate()
 
-            self.dbConn.setLayout(endpoint, content_name, content,
-                                  is_image, created_date,
+            self.dbConn.setLayout(location, name, content,
                                   commit=False)
         db.session.commit()
 
