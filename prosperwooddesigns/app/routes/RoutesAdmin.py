@@ -400,3 +400,13 @@ class RoutesAdmin:
             image = dbConn.setImage(location, product.id, is_featured_img=True)
 
             return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/site-management')
+        @login_required
+        def admin_site():
+            '''
+            Routes a user to the Site Management part of the Admin Dashboard
+            '''
+
+            return render_template('admin/site-management.html',
+                                   title='Site Management')

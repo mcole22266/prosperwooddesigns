@@ -1,0 +1,90 @@
+<!-- admin/site-management.html
+Michael Cole
+
+Site Management Page for the Admins -->
+
+{% extends './admin/layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <!-- left side -->
+    <div class="col-md-9">
+        <div class="accordion" id="accordionExample">
+            <!-- {% for productFeaturedImage in productsFeaturedImages %}
+                <div class="card">
+                    <div class="card-header" id="heading-{{ loop.index }}">
+                        <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ productFeaturedImage.id }}">
+                            <img class='accordion-img' src="{{ productFeaturedImage.location }}" alt="{{ productFeaturedImage.name }}"> {{ productFeaturedImage.name }}
+                            {% if productFeaturedImage.is_featured_product %}
+                                <span class="badge badge-success"><i class="fas fa-trophy"></i> featured</span>
+                            {% endif %}
+                        </button>
+                        </h2>
+                    </div>
+                
+                    <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ productFeaturedImage.description }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ loop.index }}'>
+                                        <i class="fas fa-edit"></i> Edit Product
+                                    </button>
+                                    <button class="btn btn-secondary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ loop.index }}-images'>
+                                        <i class="fas fa-images"></i> Manage Images
+                                    </button>
+                                    {% include './modals/modal-product-management.html' %}
+                                    {% include './modals/modal-product-management-images.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %} -->
+        </div>
+    </div>
+    <!-- right side -->
+    <div class="col-md-3 animatedParent">
+        <!-- <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-primary mx-sm-1 p-3">
+                    <div class="card border-primary text-primary p-3 info-icon" ><span class="fas fa-box-open" aria-hidden="true"></span></div>
+                    <div class="text-primary text-center mt-3"><h4>Products</h4></div>
+                    <div class="text-primary text-center mt-2"><h1 class="display-4">{{ productsFeaturedImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-info mx-sm-1 p-3">
+                    <div class="card border-info text-info p-3 info-icon"><span class="fas fa-trophy" aria-hidden="true"></span></div>
+                    <div class="text-info text-center mt-3"><h4>Featured Products</h4></div>
+                    <div class="text-info text-center mt-2"><h1 class="display-4">{{ featuredProductsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-success mx-sm-1 p-3">
+                    <div class="card border-success text-success p-3 info-icon"><span class="fas fa-images" aria-hidden="true"></span></div>
+                    <div class="text-success text-center mt-3"><h4>Product Images</h4></div>
+                    <div class="text-success text-center mt-2"><h1 class="display-4">{{ productsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+{% include './modals/modal-new-product.html' %}
+
+{% endblock body %}
+
+
+
+
