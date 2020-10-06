@@ -10,43 +10,42 @@ Site Management Page for the Admins -->
 <div class="row">
     <!-- left side -->
     <div class="col-md-9">
-        <div class="accordion" id="accordionExample">
-            <!-- {% for productFeaturedImage in productsFeaturedImages %}
+        <div class="accordion" id="layout-accordion">
+            {% for location in locations %}
                 <div class="card">
-                    <div class="card-header" id="heading-{{ loop.index }}">
+                    <div class="card-header" id="header-{{ loop.index }}">
                         <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ productFeaturedImage.id }}">
-                            <img class='accordion-img' src="{{ productFeaturedImage.location }}" alt="{{ productFeaturedImage.name }}"> {{ productFeaturedImage.name }}
-                            {% if productFeaturedImage.is_featured_product %}
-                                <span class="badge badge-success"><i class="fas fa-trophy"></i> featured</span>
-                            {% endif %}
-                        </button>
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                                {% if location == 'Index Page' %}
+                                    <i class="fas fa-newspaper"></i>
+                                {% elif location == 'Designs Page' %}
+                                    <i class="fas fa-shopping-cart"></i>
+                                {% elif location == 'Contact Card' %}
+                                    <i class="fas fa-address-card"></i>
+                                {% endif %}
+                                {{ location }}
+                            </button>
                         </h2>
                     </div>
-                
-                    <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}" data-parent="#accordionExample">
+                    <div class="collapse" id="collapse-{{ loop.index }}" aria-labelledby="header-{{ loop.index }}" data-parent='#layout-accordion'>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {{ productFeaturedImage.description }}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button class="btn btn-primary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ loop.index }}'>
-                                        <i class="fas fa-edit"></i> Edit Product
-                                    </button>
-                                    <button class="btn btn-secondary btn-right btn-row" type='button' data-toggle='modal' data-target='#modal-{{ loop.index }}-images'>
-                                        <i class="fas fa-images"></i> Manage Images
-                                    </button>
-                                    {% include './modals/modal-product-management.html' %}
-                                    {% include './modals/modal-product-management-images.html' %}
-                                </div>
-                            </div>
+                            <ul class="list-unstyled">
+                                {% for layout in layouts %}
+                                    {% if layout.location == location %}
+                                        <li class="mb-1">
+                                            <button class="btn btn-sm btn-primary" type='button' data-toggle='modal' data-target='#modal-{{ layout.id }}'>
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            {{ layout.name }}: {{ layout.content }}
+                                        </li>
+                                        {% include './modals/modal-site-management.html' %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
-            {% endfor %} -->
+            {% endfor %}
         </div>
     </div>
     <!-- right side -->

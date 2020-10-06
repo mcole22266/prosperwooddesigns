@@ -315,6 +315,21 @@ class DbConnector:
         logger.log(f'Created Layout - {layout}')
         return layout
 
+    def updateLayout(self, id, content,
+                     commit=True):
+        '''
+        Update a Layout row based on the following parameters:
+
+        id (int): The id you want to update
+        '''
+        layout = self.getLayout(id=id)
+        layout.content = content
+        logger.log(
+            f'Updated Layout {layout.id} content'
+        )
+        if commit:
+            self.db.session.commit()
+
     def getQuestions(self, order_id=False):
         '''
         Get all Question rows
