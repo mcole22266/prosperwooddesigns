@@ -279,16 +279,19 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
-    def getLayouts(self, location=False):
+    def getLayouts(self, location=False, order_id=False):
         '''
         Get all Layout rows from the db
 
         Parameters:
             location (str): Pass to return only rows with pass location
+            order_id (bool): Set True to order rows by id
         '''
         from app.models import Layout
         if location:
             return Layout.query.filter_by(location=location).all()
+        if order_id:
+            return Layout.query.order_by(Layout.id).all()
         return Layout.query.all()
 
     def getLayout(self, id=False):

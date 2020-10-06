@@ -409,7 +409,7 @@ class RoutesAdmin:
             '''
 
             # get layout information
-            layouts = dbConn.getLayouts()
+            layouts = dbConn.getLayouts(order_id=True)
 
             # get locations for dynamic site rendering
             locations = list(set([layout.location for layout in layouts]))
