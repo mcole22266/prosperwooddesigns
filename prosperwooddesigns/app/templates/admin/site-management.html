@@ -1,0 +1,89 @@
+<!-- admin/site-management.html
+Michael Cole
+
+Site Management Page for the Admins -->
+
+{% extends './admin/layout.html' %}
+
+{% block body %}
+
+<div class="row">
+    <!-- left side -->
+    <div class="col-md-9">
+        <div class="accordion" id="layout-accordion">
+            {% for location in locations %}
+                <div class="card">
+                    <div class="card-header" id="header-{{ loop.index }}">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="true" aria-controls="collapse-{{ loop.index }}">
+                                {% if location == 'Index Page' %}
+                                    <i class="fas fa-newspaper"></i>
+                                {% elif location == 'Designs Page' %}
+                                    <i class="fas fa-shopping-cart"></i>
+                                {% elif location == 'Contact Card' %}
+                                    <i class="fas fa-address-card"></i>
+                                {% endif %}
+                                {{ location }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div class="collapse" id="collapse-{{ loop.index }}" aria-labelledby="header-{{ loop.index }}" data-parent='#layout-accordion'>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                {% for layout in layouts %}
+                                    {% if layout.location == location %}
+                                        <li class="mb-1">
+                                            <button class="btn btn-sm btn-primary" type='button' data-toggle='modal' data-target='#modal-{{ layout.id }}'>
+                                                <i class="far fa-edit"></i>
+                                            </button>
+                                            {{ layout.name }}: {{ layout.content }}
+                                        </li>
+                                        {% include './modals/modal-site-management.html' %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- right side -->
+    <div class="col-md-3 animatedParent">
+        <!-- <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-primary mx-sm-1 p-3">
+                    <div class="card border-primary text-primary p-3 info-icon" ><span class="fas fa-box-open" aria-hidden="true"></span></div>
+                    <div class="text-primary text-center mt-3"><h4>Products</h4></div>
+                    <div class="text-primary text-center mt-2"><h1 class="display-4">{{ productsFeaturedImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-info mx-sm-1 p-3">
+                    <div class="card border-info text-info p-3 info-icon"><span class="fas fa-trophy" aria-hidden="true"></span></div>
+                    <div class="text-info text-center mt-3"><h4>Featured Products</h4></div>
+                    <div class="text-info text-center mt-2"><h1 class="display-4">{{ featuredProductsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 container-info-card animated bounceInRight">
+                <div class="card shadow border-success mx-sm-1 p-3">
+                    <div class="card border-success text-success p-3 info-icon"><span class="fas fa-images" aria-hidden="true"></span></div>
+                    <div class="text-success text-center mt-3"><h4>Product Images</h4></div>
+                    <div class="text-success text-center mt-2"><h1 class="display-4">{{ productsImages | length }}</h1></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+
+{% include './modals/modal-new-product.html' %}
+
+{% endblock body %}
+
+
+
+

@@ -279,36 +279,59 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
-    def getLayouts(self):
+    def getLayouts(self, location=False, order_id=False):
         '''
         Get all Layout rows from the db
+
+        Parameters:
+            location (str): Pass to return only rows with pass location
+            order_id (bool): Set True to order rows by id
         '''
         from app.models import Layout
+        if location:
+            return Layout.query.filter_by(location=location).all()
+        if order_id:
+            return Layout.query.order_by(Layout.id).all()
         return Layout.query.all()
 
     def getLayout(self, id=False):
         '''
         Get a single Layout row based on the following parameter:
 
-        id (int): Set to return a row based on id
+        Parameters:
+            id (int): Set to return a row based on id
         '''
         from app.models import Layout
         if id:
             return Layout.query.filter_by(id=id).first()
 
-    def setLayout(self, endpoint, content_name, content, is_image,
-                  created_date, commit=True):
+    def setLayout(self, location, name, content,
+                  commit=True):
         '''
         Create a Layout row
         '''
         from app.models import Layout
-        layout = Layout(endpoint, content_name, content, is_image,
-                        created_date=datetime.now())
+        layout = Layout(location, name, content)
         self.db.session.add(layout)
         if commit:
             self.db.session.commit()
         logger.log(f'Created Layout - {layout}')
         return layout
+
+    def updateLayout(self, id, content,
+                     commit=True):
+        '''
+        Update a Layout row based on the following parameters:
+
+        id (int): The id you want to update
+        '''
+        layout = self.getLayout(id=id)
+        layout.content = content
+        logger.log(
+            f'Updated Layout {layout.id} content'
+        )
+        if commit:
+            self.db.session.commit()
 
     def getQuestions(self, order_id=False):
         '''

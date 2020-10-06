@@ -17,7 +17,7 @@ Content for the landing page -->
         <div class="col-md-6">
             <div class="row justify-content-around align-items-center text-center">
                 <div class="col-md-12 landing-tag animatedParent animateOnce">
-                    <h4 class="animated fadeInRightShort">Your one stop shop for your custom wood designs!</h4>
+                    <h4 class="animated fadeInRightShort">{{ tagline }}</h4>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@ Content for the landing page -->
 <div class="container page-content featured-products">
 
     <div class="featured-title animatedParent animateOnce">
-        <h1 class="display-4 text-center animated fadeIn">Featured Designs</h1>
+        <h1 class="display-4 text-center animated fadeIn">{{ featured_header }}</h1>
     </div>
 
     {% for product in featuredProducts %}
@@ -55,7 +55,7 @@ Content for the landing page -->
             </div>
             <div class="row featured-footer justify-content-center animatedParent animateOnce" data-appear-top-offset='400'>
                 <a href="/designs/{{ product.name }}" class="btn-link animated-button">
-                    <button class="btn btn-primary animated growIn delay-1000">Check it out!</button>
+                    <button class="btn btn-primary animated growIn delay-1000">{{ featured_buttons }}</button>
                 </a>
             </div>
         </div>
@@ -65,12 +65,12 @@ Content for the landing page -->
     <div class="featured-more-designs animatedParent animateOnce">
         <div class="row animated pulse delay-500">
             <div class="col-md-12">
-                <h1 class="display-4 text-center">Check out the rest of our designs!</h1>
+                <h1 class="display-4 text-center">{{ designs_header }}</h1>
             </div>
         </div>
         <div class="row featured-more-designs-button justify-content-center animated tada delay-1500">
             <a href="/designs" class="btn-link animated-button">
-                <button class="btn btn-primary">Show me more!</button>
+                <button class="btn btn-primary">{{ designs_button }}</button>
             </a>
         </div>
     </div>
