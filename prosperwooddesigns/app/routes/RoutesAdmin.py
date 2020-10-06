@@ -400,3 +400,35 @@ class RoutesAdmin:
             image = dbConn.setImage(location, product.id, is_featured_img=True)
 
             return redirect(url_for('admin_product_management'))
+
+        @app.route('/admin/site-management')
+        @login_required
+        def admin_site_management():
+            '''
+            Routes a user to the Site Management part of the Admin Dashboard
+            '''
+
+            # get layout information
+            layouts = dbConn.getLayouts()
+
+            # get locations for dynamic site rendering
+            locations = list(set([layout.location for layout in layouts]))
+
+            return render_template('admin/site-management.html',
+                                   title='Site Management',
+                                   layouts=layouts,
+                                   locations=locations)
+
+        @app.route('/admin/site-management/update-layout/<layout_id>',
+                   methods=['POST'])
+        @login_required
+        def admin_site_management_update(layout_id):
+            '''
+            Update the layout content at the given layout id
+            '''
+
+            # get form data and update the layout content
+            content = request.form['layout-content']
+            dbConn.updateLayout(layout_id, content)
+
+            return redirect(url_for('admin_site_management'))
