@@ -209,14 +209,16 @@ class MockData:
             date2 = self.fakeDate()
             first_visit_date = min([date1, date2])
             most_recent_visit_date = max([date1, date2])
+            num_visits = self.fake.random.randint(2, 50)
 
             # some will be one-time visitors
             if self.fake.random.random() <= 0.4:
                 most_recent_visit_date = first_visit_date
+                num_visits = 1
 
             self.dbConn.setVisitor(
                 ipaddress, first_visit_date, most_recent_visit_date,
-                commit=False
+                num_visits, commit=False
                 )
 
         db.session.commit()
