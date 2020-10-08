@@ -400,18 +400,24 @@ class Visitor(db.Model):
         unique=False,
         nullable=False
     )
+    is_admin = db.Column(
+        db.Boolean,
+        unique=False,
+        nullable=False
+    )
 
     def __init__(
         self, ipaddress,
         first_visit_date=datetime.now(),
         most_recent_visit_date=datetime.now(),
-        num_visits=1
+        num_visits=1, is_admin=False
     ):
         self.ipaddress = ipaddress
         # first_visit and most_recent_visit are current by default
         self.first_visit_date = first_visit_date
         self.most_recent_visit_date = most_recent_visit_date
         self.num_visits = num_visits
+        self.is_admin = is_admin
 
     def __repr__(self):
         return f'Visitor: {self.ipaddress} ({self.num_visits} visits)'

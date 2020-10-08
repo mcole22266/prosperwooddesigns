@@ -46,6 +46,8 @@ class Routes:
                     )
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
 
             # get all featured products
             featuredProducts = dbConn.getJoined_ProductImages(

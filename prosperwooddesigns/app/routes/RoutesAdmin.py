@@ -74,6 +74,8 @@ class RoutesAdmin:
                 logger.log(f'Logging in {current_user}')
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
                 next = request.args.get('next')  # get next-page location
 
                 logger.log('Redirecting to next or admin page')
@@ -109,6 +111,8 @@ class RoutesAdmin:
                 # go ahead and log user in
                 login_user(admin)
                 logger.log(f'{admin.username} logged in')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
 
                 logger.log('Redirecting to admin page')
                 return redirect(url_for('admin'))
