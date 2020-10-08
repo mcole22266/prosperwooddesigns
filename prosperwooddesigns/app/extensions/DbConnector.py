@@ -483,7 +483,7 @@ class DbConnector:
 
     def setVisitor(self, ipaddress, first_visit_date=datetime.now(),
                    most_recent_visit_date=datetime.now(), num_visits=1,
-                   commit=True):
+                   is_admin=False, commit=True):
         '''
         Create a Visitor row
         '''
@@ -495,11 +495,14 @@ class DbConnector:
         if visitor:
             visitor.most_recent_visit_date = datetime.now()
             visitor.num_visits += 1
+            # change don't touch is_admin if it is True
+            if not visitor.is_admin:
+                visitor.is_admin = is_admin
         # if visitor does not exist, create a new one
         else:
             visitor = Visitor(
                 ipaddress, first_visit_date, most_recent_visit_date,
-                num_visits
+                num_visits, is_admin
                 )
             self.db.session.add(visitor)
 

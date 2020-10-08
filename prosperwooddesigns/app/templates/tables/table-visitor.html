@@ -12,6 +12,7 @@ Content for the Visitor Table -->
         <th>first_visit_date</th>
         <th>most_recent_visit_date</th>
         <th>num_visits</th>
+        <th>is_admin</th>
     </tr>
 {% endblock %}
 
@@ -23,6 +24,7 @@ Content for the Visitor Table -->
             <td>{{ visitor.first_visit_date }}</td>
             <td>{{ visitor.most_recent_visit_date }}</td>
             <td>{{ visitor.num_visits }}</td>
+            <td>{{ visitor.is_admin }}</td>
         </tr>
     {% endfor %}
 {% endblock %}
