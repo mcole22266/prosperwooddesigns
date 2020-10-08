@@ -75,7 +75,8 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
-            logger.log('Serving index page')
+            logger.log(f'Serving index page to {request.remote_addr}')
+
             return render_template('index.html',
                                    title='Home',
                                    featuredProducts=featuredProducts,
@@ -95,6 +96,8 @@ class Routes:
         #     '''
         #     Routes the user to the About Page of the website
         #     '''
+        #     logger.log(f'Serving about page to {request.remote_addr}')
+        #
         #     return render_template('about.html',
         #                            title='About')
 
@@ -103,7 +106,6 @@ class Routes:
             '''
             Routes the user to the Designs Page of the website
             '''
-            logger.log('Serving designs page')
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 featuredImages=True
                 )
@@ -129,6 +131,8 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
+            logger.log(f'Serving designs page to {request.remote_addr}')
+
             return render_template('designs.html',
                                    title='Designs',
                                    joinedProductsImages=joinedProductsImages,
@@ -144,10 +148,13 @@ class Routes:
             '''
             Routes the user to the Product Page of a chosen design
             '''
-            logger.log(f'Serving {product_name} product page')
 
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 name=product_name)
+
+            logger.log(
+                f'Serving {product_name} product page to {request.remote_addr}'
+                )
 
             return render_template('designs_product.html',
                                    title=f'{product_name}',
@@ -184,7 +191,8 @@ class Routes:
             except BadRequestKeyError:
                 product = None
 
-            logger.log('Serving request form page')
+            logger.log(f'Serving request form page to {request.remote_addr}')
+
             return render_template('requestform.html',
                                    title='Request Form',
                                    requestform=requestform,
@@ -196,7 +204,9 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             request form
             '''
-            logger.log('Serving request form success page')
+            logger.log(
+                f'Serving request form success page to {request.remote_addr}'
+                )
             return render_template('requestform_success.html',
                                    title='Request Success')
 
@@ -227,7 +237,8 @@ class Routes:
             except BadRequestKeyError:
                 product = None
 
-            logger.log('Serving question form page')
+            logger.log(f'Serving question form page to {request.remote_addr}')
+
             return render_template('questionform.html',
                                    title='Question Form',
                                    questionform=questionform,
@@ -239,6 +250,8 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             question form
             '''
-            logger.log('Serving question form success page')
+            logger.log(
+                f'Serving question form success page to {request.remote_addr}'
+                )
             return render_template('questionform_success.html',
                                    title='Question Success')

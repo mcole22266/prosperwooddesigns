@@ -83,8 +83,9 @@ class ConfigProd:
 
     # General Config
     DB_CREATE_ADMIN_USER = False        # creates dev admin user
-    LOG_TO_STDOUT = False               # logs go to stdout
-    LOG_TO_FILE = True                  # logs go to log files
+    DB_INIT_DATA = True                 # creates initial data
+    LOG_TO_STDOUT = True                # logs go to stdout
+    LOG_TO_FILE = False                 # logs go to log files
     ADMIN_AUTO_LOGIN = False            # auto login as admin at index page
 
     # MockData Config
