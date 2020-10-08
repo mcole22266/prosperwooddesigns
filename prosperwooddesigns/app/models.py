@@ -371,3 +371,40 @@ class Request(db.Model):
         return f'Request: {self.name} - {self.emailaddress} ({self.status})'
 
 
+class Visitor(db.Model):
+    '''
+    Data model for Visitor
+    '''
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+    ipaddress = db.Column(
+        db.String(64),
+        unique=True,
+        nullable=False
+    )
+    first_visit_date = db.Column(
+        db.Date,
+        unique=False,
+        nullable=False
+    )
+    most_recent_visit_date = db.Column(
+        db.Date,
+        unique=False,
+        nullable=False
+    )
+
+    def __init__(
+        self, ipaddress,
+        first_visit_date=datetime.now(),
+        most_recent_visit_date=datetime.now()
+    ):
+        self.ipaddress = ipaddress
+        # first_visit and most_recent_visit are current by default
+        self.first_visit_date = first_visit_date
+        self.most_recent_visit_date = most_recent_visit_date
+
+    def __repr__(self):
+        return f'Visitor: {self.ipaddress}'

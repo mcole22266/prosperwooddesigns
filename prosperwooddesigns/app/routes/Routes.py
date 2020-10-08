@@ -75,6 +75,10 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
+            # add visitor if they are first time visitors
+            # else update their most_recent_visit_date
+            dbConn.setVisitor(request.remote_addr)
+
             logger.log(f'Serving index page to {request.remote_addr}')
 
             return render_template('index.html',

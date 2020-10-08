@@ -68,6 +68,7 @@ class ConfigDev:
     GENERATE_FAKE_DATA_CONTACT = True   # generates mock contact upon startup
     GENERATE_FAKE_DATA_PRODUCT = False  # generates mock product upon startup
     GENERATE_FAKE_DATA_IMAGE = False    # generates mock image upon startup
+    GENERATE_FAKE_DATA_VISITOR = True   # generates mock visitor upon startup
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False             # SQLAlchemy verbose output
@@ -99,6 +100,7 @@ class ConfigProd:
     GENERATE_FAKE_DATA_CONTACT = False  # generates mock contact upon startup
     GENERATE_FAKE_DATA_PRODUCT = False  # generates mock product upon startup
     GENERATE_FAKE_DATA_IMAGE = False    # generates mock image upon startup
+    GENERATE_FAKE_DATA_VISITOR = False  # generates mock visitor upon startup
 
     # SQLAlchemy Config
     SQLALCHEMY_ECHO = False             # SQLAlchemy verbose output

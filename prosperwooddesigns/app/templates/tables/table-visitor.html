@@ -1,0 +1,26 @@
+<!-- table-visitor.html
+Michael Cole
+
+Content for the Visitor Table -->
+
+{% extends './tables/table.html' %}
+
+{% block tableheader %}
+    <tr>
+        <th>id</th>
+        <th>ipaddress</th>
+        <th>first_visit_date</th>
+        <th>most_recent_visit_date</th>
+    </tr>
+{% endblock %}
+
+{% block tabledata %}
+    {% for visitor in visitors %}
+        <tr>
+            <td>{{ visitor.id }}</td>
+            <td>{{ visitor.ipaddress }}</td>
+            <td>{{ visitor.first_visit_date }}</td>
+            <td>{{ visitor.most_recent_visit_date }}</td>
+        </tr>
+    {% endfor %}
+{% endblock %}
