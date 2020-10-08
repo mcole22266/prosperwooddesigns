@@ -192,6 +192,18 @@ class Routes:
                 logger.log('Redirecting to request form success page')
                 return redirect(url_for('requestform_success'))
 
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             try:
                 product = request.args['product']
             except BadRequestKeyError:
@@ -202,7 +214,11 @@ class Routes:
             return render_template('requestform.html',
                                    title='Request Form',
                                    requestform=requestform,
-                                   product=product)
+                                   product=product,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/requestform/success')
         def requestform_success():
@@ -210,11 +226,28 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             request form
             '''
+
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             logger.log(
                 f'Serving request form success page to {request.remote_addr}'
                 )
             return render_template('requestform_success.html',
-                                   title='Request Success')
+                                   title='Request Success',
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/questionform', methods=['GET', 'POST'])
         def questionform():
@@ -238,6 +271,18 @@ class Routes:
                 logger.log('Redirecting to question form success page')
                 return redirect(url_for('questionform_success'))
 
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             try:
                 product = request.args['product']
             except BadRequestKeyError:
@@ -248,7 +293,11 @@ class Routes:
             return render_template('questionform.html',
                                    title='Question Form',
                                    questionform=questionform,
-                                   product=product)
+                                   product=product,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/questionform/success')
         def questionform_success():
@@ -256,8 +305,24 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             question form
             '''
+
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
             logger.log(
                 f'Serving question form success page to {request.remote_addr}'
                 )
             return render_template('questionform_success.html',
-                                   title='Question Success')
+                                   title='Question Success',
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
