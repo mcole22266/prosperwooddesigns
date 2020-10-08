@@ -66,6 +66,8 @@ _Note: You'll find these options under the ConfigDev and ConfigProd classes_
         - Set this to `True` in order for the app to automatically generate fake product data
     - _**GENERATE_FAKE_DATA_IMAGE**_
         - Set this to `True` in order for the app to automatically generate fake image data
+    - _**GENERATE_FAKE_DATA_VISITOR**_
+        - Set this to `True` in order for the app to automatically generate fake visitor data
 - SQLAlchemy Config
     - _**SQLALCHEMY_ECHO**_
         - From the [source](https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/): _"If set to True SQLAlchemy will log all the statements issued to stderr which can be useful for debugging."_

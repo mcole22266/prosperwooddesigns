@@ -210,6 +210,7 @@ class RoutesAdmin:
             questions = dbConn.getQuestions()
             contacts = dbConn.getContacts()
             products = dbConn.getProducts()
+            visitors = dbConn.getVisitors()
 
             logger.log('Serving admin data page')
             return render_template('admin/data.html',
@@ -221,6 +222,7 @@ class RoutesAdmin:
                                    questions=questions,
                                    contacts=contacts,
                                    products=products,
+                                   visitors=visitors,
                                    unreadRequests=unreadRequests,
                                    unreadQuestions=unreadQuestions)
 

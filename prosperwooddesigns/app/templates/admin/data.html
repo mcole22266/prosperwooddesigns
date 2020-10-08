@@ -29,6 +29,9 @@ Content for the Data Tables -->
         <li class="nav-item">
           <a class="nav-link" id="request-tab" data-toggle="tab" href="#request" role="tab" aria-controls="request" aria-selected="false">Request</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" id="visitor-tab" data-toggle="tab" href="#visitor" role="tab" aria-controls="visitor" aria-selected="false">Visitor</a>
+        </li>
     </ul>
 
     <div class="tab-content" id="myTabContent">
@@ -39,6 +42,7 @@ Content for the Data Tables -->
         <div class="tab-pane fade show" id="product" role="tabpanel" aria-labelledby="product-tab">{% include './tables/table-product.html' %}</div>
         <div class="tab-pane fade show" id="question" role="tabpanel" aria-labelledby="question-tab">{% include './tables/table-question.html' %}</div>
         <div class="tab-pane fade show" id="request" role="tabpanel" aria-labelledby="request-tab">{% include './tables/table-request.html' %}</div>
+        <div class="tab-pane fade show" id="visitor" role="tabpanel" aria-labelledby="visitor-tab">{% include './tables/table-visitor.html' %}</div>
     </div>
 
 {% endblock %}

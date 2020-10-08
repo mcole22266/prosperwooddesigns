@@ -100,6 +100,8 @@ def create_app():
                     mockData.loadProduct(db)
                 if app.config['GENERATE_FAKE_DATA_IMAGE']:
                     mockData.loadImage(db)
+                if app.config['GENERATE_FAKE_DATA_VISITOR']:
+                    mockData.loadVisitor(db)
             else:
                 logger.log('Fake data already present')
 

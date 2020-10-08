@@ -452,6 +452,62 @@ class DbConnector:
         logger.log(f'Created Contact - {contact}')
         return contact
 
+    def getVisitors(self, order_id=False, order_num_visits=False):
+        '''
+        Get all Visitor rows
+
+        order_id (bool): Set True to "order by id desc"
+        order_num_visits (bool): Set True to "order by num_visits desc"
+        '''
+        from app.models import Visitor
+        if order_id:
+            # order by id desc
+            return Visitor.query.order_by(Visitor.id.desc()).all()
+        if order_num_visits:
+            # order by num_visits desc
+            return Visitor.query.order_by(Visitor.num_visits.desc()).all()
+        else:
+            return Visitor.query.all()
+
+    def getVisitor(self, id=False, ipaddress=False):
+        '''
+        Get a single Visitor row based on the following parameter:
+
+        id (int): Set to get row by id
+        '''
+        from app.models import Visitor
+        if id:
+            return Visitor.query.filter_by(id=id).first()
+        if ipaddress:
+            return Visitor.query.filter_by(ipaddress=ipaddress).first()
+
+    def setVisitor(self, ipaddress, first_visit_date=datetime.now(),
+                   most_recent_visit_date=datetime.now(), num_visits=1,
+                   commit=True):
+        '''
+        Create a Visitor row
+        '''
+        from app.models import Visitor
+
+        # if visitor already exists, update most_recent_visit_date and
+        # num_visits
+        visitor = self.getVisitor(ipaddress=ipaddress)
+        if visitor:
+            visitor.most_recent_visit_date = datetime.now()
+            visitor.num_visits += 1
+        # if visitor does not exist, create a new one
+        else:
+            visitor = Visitor(
+                ipaddress, first_visit_date, most_recent_visit_date,
+                num_visits
+                )
+            self.db.session.add(visitor)
+
+        if commit:
+            self.db.session.commit()
+        logger.log(f'Created Visitor - {visitor}')
+        return visitor
+
     def setJoined_ProductImage(self, product_name, product_description,
                                image_location, is_featured_product=False,
                                is_featured_img=False,
