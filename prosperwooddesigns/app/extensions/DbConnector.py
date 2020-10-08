@@ -65,16 +65,21 @@ class DbConnector:
         logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self, order_id=False):
+    def getRequests(self, order_id=False, unread=False):
         '''
         Get all Request rows from the database.
 
         order_id (bool): Set True to "order by id desc"
+        unread (bool): Set True to only return unread requests
         '''
         from app.models import Request
         if order_id:
             # order by id desc
             return Request.query.order_by(Request.id.desc())
+        elif unread:
+            return Request.query.filter_by(
+                status='unread', is_archived=False
+                ).all()
         else:
             return Request.query.all()
 
@@ -333,16 +338,21 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
-    def getQuestions(self, order_id=False):
+    def getQuestions(self, order_id=False, unread=False):
         '''
         Get all Question rows
 
         order_id (bool): Set True to "order by id desc"
+        unread (bool): Set True to get only unread questions
         '''
         from app.models import Question
         if order_id:
             # order by id desc
             return Question.query.order_by(Question.id.desc())
+        elif unread:
+            return Question.query.filter_by(
+                status='unread', is_archived=False
+                ).all()
         else:
             return Question.query.all()
 
