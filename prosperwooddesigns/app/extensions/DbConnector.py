@@ -458,6 +458,17 @@ class DbConnector:
         logger.log(f'Created Contact - {contact}')
         return contact
 
+    def deleteContact(self, id, commit=True):
+        '''
+        Delete a Contact from the DB
+        '''
+        contact = self.getContact(id=id)
+
+        self.db.session.delete(contact)
+        logger.log(f'Deleted Contact - {contact}')
+        if commit:
+            self.db.session.commit()
+
     def getVisitors(self, order_id=False, order_num_visits=False,
                     exclude_admins=False):
         '''

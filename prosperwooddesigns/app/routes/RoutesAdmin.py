@@ -245,6 +245,18 @@ class RoutesAdmin:
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_project_management_questions'))
 
+        # removed contacts
+        # @app.route('/admin/contact/delete/<contact_id>', methods=['POST'])
+        # @login_required
+        # def admin_contact_delete_contact_id(contact_id):
+        #     '''
+        #     Delete a contact based on modal input
+        #     '''
+        #     dbConn.deleteContact(contact_id)
+
+        #     logger.log('Redirecting to admin page')
+        #     return redirect(url_for('admin_project_management_contacts'))
+
         @app.route('/admin/data')
         @login_required
         def data():
@@ -322,26 +334,27 @@ class RoutesAdmin:
                                    unreadRequests=unreadRequests,
                                    unreadQuestions=unreadQuestions)
 
-        @app.route('/admin/project-management/contacts')
-        @login_required
-        def admin_project_management_contacts():
-            '''
-            Routes the user to the Contacts Management page of the website
-            '''
+        # removed contacts
+        # @app.route('/admin/project-management/contacts')
+        # @login_required
+        # def admin_project_management_contacts():
+        #     '''
+        #     Routes the user to the Contacts Management page of the website
+        #     '''
 
-            # get unread messages
-            unreadRequests = dbConn.getRequests(unread=True)
-            unreadQuestions = dbConn.getQuestions(unread=True)
+        #     # get unread messages
+        #     unreadRequests = dbConn.getRequests(unread=True)
+        #     unreadQuestions = dbConn.getQuestions(unread=True)
 
-            # get data to be used in page
-            contacts = dbConn.getContacts(order_id=True)
+        #     # get data to be used in page
+        #     contacts = dbConn.getContacts(order_id=True)
 
-            logger.log('Serving Project Management page')
-            return render_template('admin/project-management-contacts.html',
-                                   title='Admin: Project Management',
-                                   contacts=contacts,
-                                   unreadRequests=unreadRequests,
-                                   unreadQuestions=unreadQuestions)
+        #     logger.log('Serving Project Management page')
+        #     return render_template('admin/project-management-contacts.html',
+        #                            title='Admin: Project Management',
+        #                            contacts=contacts,
+        #                            unreadRequests=unreadRequests,
+        #                            unreadQuestions=unreadQuestions)
 
         @app.route('/admin/product-management')
         @login_required
