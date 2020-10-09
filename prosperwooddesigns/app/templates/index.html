@@ -38,10 +38,10 @@ Content for the landing page -->
                 {% if loop.index is odd %}
                 <div class="col-md-7 animated fadeInLeft delay-250">
                 {% else %}
-                <div class="col-md-7 order-md-2 text-right animated fadeInRight delay-250">
+                <div class="col-md-7 order-md-2 text-right rtl animated fadeInRight delay-250">
                 {% endif %}
                     <h1 class="featured-heading">{{ product.name }}</h1>
-                    <div>
+                    <div class="featured-description">
                         {{ product.description_html|safe }}
                     </div>
 

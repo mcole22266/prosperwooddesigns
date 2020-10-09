@@ -42,6 +42,10 @@ Custom CSS to overwrite any bootstrap CSS */
   letter-spacing: -.05rem;
 }
 
+.rtl ul {
+    direction: rtl;
+}
+
 .featured-more-designs-button {
     margin-top: 3rem;
 }
