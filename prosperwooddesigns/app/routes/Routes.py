@@ -155,6 +155,17 @@ class Routes:
             Routes the user to the Product Page of a chosen design
             '''
 
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 name=product_name)
 
@@ -164,7 +175,11 @@ class Routes:
 
             return render_template('designs_product.html',
                                    title=f'{product_name}',
-                                   joinedProductsImages=joinedProductsImages)
+                                   joinedProductsImages=joinedProductsImages,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/requestform', methods=['GET', 'POST'])
         def requestform():
