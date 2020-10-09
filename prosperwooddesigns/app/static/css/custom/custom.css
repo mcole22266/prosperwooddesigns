@@ -46,6 +46,11 @@ Custom CSS to overwrite any bootstrap CSS */
     direction: rtl;
 }
 
+.markdown {
+    font-size: smaller;
+    margin-left: 2px;
+}
+
 .featured-more-designs-button {
     margin-top: 3rem;
 }

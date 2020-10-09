@@ -66,8 +66,8 @@ class Admin(db.Model):
     ):
         self.username = username
         self.password = password
-        self.firstname = firstname
-        self.lastname = lastname
+        self.firstname = firstname.title()
+        self.lastname = lastname.title()
         self.created_date = created_date  # current time by default
 
     def __repr__(self):

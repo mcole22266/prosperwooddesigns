@@ -83,7 +83,7 @@ class DbConnector:
         elif unread:
             return Request.query.filter_by(
                 status='unread', is_archived=False
-                ).all()
+                ).order_by(Request.created_date.desc()).all()
         elif complete:
             return Request.query.filter_by(
                 status='complete'
@@ -216,6 +216,8 @@ class DbConnector:
         logger.log(f'Deleted Image - {image}')
         if commit:
             self.db.session.commit()
+
+        return image
 
     def getProducts(self):
         '''
@@ -362,7 +364,7 @@ class DbConnector:
         elif unread:
             return Question.query.filter_by(
                 status='unread', is_archived=False
-                ).all()
+                ).order_by(Question.created_date.desc()).all()
         else:
             return Question.query.all()
 
@@ -705,11 +707,18 @@ WITH
         FROM question
     )
 SELECT
-    how_hear,
+    CASE
+        WHEN how_hear IN (
+            'Facebook', 'Instagram', 'Ad',
+            'No Response', 'Word of Mouth'
+        )
+        THEN how_hear
+        ELSE 'Other'
+    END AS source,
     count(*) AS num
 FROM results
-GROUP BY how_hear
-ORDER BY how_hear
+GROUP BY source
+ORDER BY source
 ''')
 
         marketingStats = []
