@@ -28,13 +28,22 @@ services:
 
   postgres:
     container_name: db
-    image: postgres:13-alpine
+    image: postgres:10.4-alpine
     restart: always
     env_file:
       - ./prosperwooddesigns.env
       - ./prosperwooddesigns.secrets.env
     volumes:
       - data_prod:/var/lib/postgresql/data/
+
+  pgbackups3:
+    container_name: db_backups
+    image: schickling/postgres-backup-s3
+    links:
+      - postgres
+    env_file:
+      - ./prosperwooddesigns.env
+      - ./prosperwooddesigns.secrets.env
 
   nginx:
     container_name: server

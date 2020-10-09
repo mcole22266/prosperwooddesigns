@@ -12,6 +12,10 @@ _still in development_
         - You can get these from your AWS Console: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys
         - _**AWS_ACCESS_KEY_ID**_
         - _**AWS_SECRET_ACCESS_KEY**_
+    - Postgres Backups Credentials:
+        - These are simply the same AWS Credentials as above but with a different naming convention defined in the postgres-backups-s3 container
+        - _**S3_ACCESS_KEY_ID**_
+        - _**S3_SECRET_ACCESS_KEY**_
     - Postgres Credentials:
         - This is the username and password that will be used in the Postgres container
         - _**POSTGRES_USER**_
