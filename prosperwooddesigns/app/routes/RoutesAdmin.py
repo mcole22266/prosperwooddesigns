@@ -245,6 +245,17 @@ class RoutesAdmin:
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_project_management_questions'))
 
+        @app.route('/admin/contact/delete/<contact_id>', methods=['POST'])
+        @login_required
+        def admin_contact_delete_contact_id(contact_id):
+            '''
+            Delete a contact based on modal input
+            '''
+            dbConn.deleteContact(contact_id)
+
+            logger.log('Redirecting to admin page')
+            return redirect(url_for('admin_project_management_contacts'))
+
         @app.route('/admin/data')
         @login_required
         def data():
