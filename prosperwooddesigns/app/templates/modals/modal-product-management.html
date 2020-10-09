@@ -27,7 +27,9 @@ Modal for the Product Management products -->
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="productDescription-{{ productFeaturedImage.id }}">Product Description</label>
+                            <label for="productDescription-{{ productFeaturedImage.id }}">
+                                Product Description <a href="https://commonmark.org/help/" class="markdown text-muted" target="_blank"> Markdown Guide</a>
+                            </label>
                             <textarea name="productDescription-{{ productFeaturedImage.id }}" id="productDescription-{{ productFeaturedImage.id }}" cols="30" rows="10" class="form-control">{{ productFeaturedImage.description }}</textarea>
                         </div>
                     </div>
