@@ -5,22 +5,46 @@ Footer to be used on all pages -->
 
 <footer>
 
-    {% if 'Admin' not in title %}
-        {% include 'contact-card.html' %}
-    {% endif %}
+{% if 'Admin' not in title %}
+<div class="bg-dark">
+    {% include 'contact-card.html' %}
+</div>
+{% endif %}
 
-    <nav class="navbar navbar-dark bg-dark footer">
-        <ul class="navbar-nav ml-auto text-right">
-            <li class="nav-item"> 
-                <a href="/admin" class="nav-link">Admin</a>
-            </li>
-            <li class="nav-item"> 
-                <a href="/questionform" class="nav-link">Questions?</a>
-            </li>
-            <!-- CURRENTLY TABLED PENDING CLIENT'S FEEDBACK -->
-            <!-- <li class="nav-item">
-                <a href="/about#faq" class="nav-link">FAQ</a>
-            </li> -->
-        </ul>
-    </nav>
+<!-- Site footer -->
+<footer class="site-footer bg-dark">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 ml-auto text-right">
+                <ul class="footer-links">
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/questionform">Questions?</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container-fluid">
+        <hr>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4 text-muted">
+            Site Created by Michael Cole
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <a href="http://github.com/mcole22266" target="_blank" rel="noopener noreferrer" class="mr-1">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="http://linkedin.com/in/mcole22266" target="_blank" rel="noopener noreferrer" class="mr-1">
+                <i class="fab fa-linkedin"></i>
+              </a>
+          </div>
+      </div>
+    </div>
 </footer>
