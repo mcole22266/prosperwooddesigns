@@ -83,7 +83,7 @@ class DbConnector:
         elif unread:
             return Request.query.filter_by(
                 status='unread', is_archived=False
-                ).all()
+                ).order_by(Request.created_date.desc()).all()
         elif complete:
             return Request.query.filter_by(
                 status='complete'
@@ -362,7 +362,7 @@ class DbConnector:
         elif unread:
             return Question.query.filter_by(
                 status='unread', is_archived=False
-                ).all()
+                ).order_by(Question.created_date.desc()).all()
         else:
             return Question.query.all()
 
