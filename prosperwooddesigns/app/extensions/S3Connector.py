@@ -59,3 +59,25 @@ class S3Connector:
                     f'{self.LocalImagePath}/{filename}')
                 logger.log(f'**Downloaded {filename} from S3**')
         logger.log('Done')
+
+    def uploadImage(self, imageName):
+        '''
+        Upload a single image into the S3 bucket
+        '''
+        logger = Logger()
+        self.s3Client.upload_file(
+            f'{self.LocalImagePath}/{imageName}',
+            self.S3ImageBucket,
+            f'{self.S3ImageFolder}{imageName}'
+        )
+        logger.log(f'**Uploaded {imageName} to S3**')
+
+    def deleteImage(self, imageName):
+        '''
+        Delete a single image from the S3 bucket
+        '''
+        logger = Logger()
+        self.s3Resource.Object(
+            self.S3ImageBucket, f'images/{imageName}'
+            ).delete()
+        logger.log(f'**Deleted {imageName} from S3**')

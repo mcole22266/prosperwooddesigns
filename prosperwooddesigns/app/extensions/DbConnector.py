@@ -217,6 +217,8 @@ class DbConnector:
         if commit:
             self.db.session.commit()
 
+        return image
+
     def getProducts(self):
         '''
         Get all Product rows from the db

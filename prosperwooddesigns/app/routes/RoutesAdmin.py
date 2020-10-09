@@ -7,6 +7,7 @@
 from datetime import datetime
 
 from app.extensions.DbConnector import DbConnector
+from app.extensions.S3Connector import S3Connector
 from app.extensions.Helper import Helper
 from app.extensions.Logger import Logger
 from flask import redirect, render_template, request, url_for
@@ -16,6 +17,7 @@ from werkzeug.exceptions import BadRequestKeyError
 # instantiate variables
 logger = Logger()
 dbConn = DbConnector()
+s3Conn = S3Connector()
 helper = Helper()
 
 
@@ -436,11 +438,18 @@ class RoutesAdmin:
                     image.save(filelocation)
                     dbConn.setImage(location, product_id)
                     logger.log(f'Saving image {image.filename}')
+                    if app.config['AWS_UPLOAD_IMAGES']:
+                        # upload images if True in config.py
+                        s3Conn.uploadImage(filename)
 
             # delete images
             images = request.form.getlist('deleteImages[]')
             for image in images:
-                dbConn.deleteImage(image)
+                deletedImage = dbConn.deleteImage(image)
+                imageName = deletedImage.location.split('/')[-1]
+                if app.config['AWS_DELETE_IMAGES']:
+                    # delete image if True in config.py
+                    s3Conn.deleteImage(imageName)
 
             # update Featured image
             try:
