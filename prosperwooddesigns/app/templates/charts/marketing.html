@@ -1,17 +1,34 @@
+<!-- marketing.html
+Michael Cole
+
+Note: This file is mostly just a copy of the example chart from sb-admin-2
+This chart shows the results of the "How Did You Hear About Us" Questions -->
+
+<script>
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
 // Pie Chart Example
-var ctx = document.getElementById("myPieChart");
+var ctx = document.getElementById("marketingPie");
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: ["Direct", "Referral", "Social"],
+    //labels: ["Direct", "Referral", "Social"],
+    labels: [
+        {% for label in marketingStats_labels %}
+          "{{ label }}",
+        {% endfor %}
+    ],
     datasets: [{
-      data: [55, 30, 15],
-      backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-      hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+      // data: [55, 30, 15],
+      data: [
+        {% for data in marketingStats_data %}
+          "{{ data }}",
+        {% endfor %}
+      ],
+      backgroundColor: ['#db9625', '#3b5998', '#833ab4', '#acb4bd', '#009c53'],
+      hoverBackgroundColor: ['#dbb645', '#3b79b8', '#835ad4', '#acd4dd', '#00bc73'],
       hoverBorderColor: "rgba(234, 236, 244, 1)",
     }],
   },
@@ -28,8 +45,10 @@ var myPieChart = new Chart(ctx, {
       caretPadding: 10,
     },
     legend: {
-      display: false
+      display: true,
+      position: 'bottom'
     },
     cutoutPercentage: 80,
   },
 });
+</script>

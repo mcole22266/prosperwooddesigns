@@ -65,12 +65,14 @@ class DbConnector:
         logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self, order_id=False, unread=False):
+    def getRequests(self, order_id=False, unread=False,
+                    complete=False):
         '''
         Get all Request rows from the database.
 
         order_id (bool): Set True to "order by id desc"
         unread (bool): Set True to only return unread requests
+        complete (bool): Set True to only return completed requests
         '''
         from app.models import Request
         if order_id:
@@ -80,6 +82,10 @@ class DbConnector:
             return Request.query.filter_by(
                 status='unread', is_archived=False
                 ).all()
+        elif complete:
+            return Request.query.filter_by(
+                status='complete'
+            ).all()
         else:
             return Request.query.all()
 
@@ -661,6 +667,39 @@ ORDER BY year, month
                 )
 
         return visitorsPerMonth
+
+    def getMarketingStats(self):
+        '''
+        Returns the how_hear count from both the Request Form and
+        Question Form
+        '''
+
+        results = self.db.session.execute('''
+WITH
+    results AS (
+        SELECT
+            how_hear
+        FROM request
+        UNION ALL
+        SELECT
+            how_hear
+        FROM question
+    )
+SELECT
+    how_hear,
+    count(*) AS num
+FROM results
+GROUP BY how_hear
+ORDER BY how_hear
+''')
+
+        marketingStats = []
+        for how_hear, num in results:
+            marketingStats.append(
+                (how_hear, num)
+            )
+
+        return marketingStats
 
 
 class ProductImage:
