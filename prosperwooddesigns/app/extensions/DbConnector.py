@@ -705,11 +705,18 @@ WITH
         FROM question
     )
 SELECT
-    how_hear,
+    CASE
+        WHEN how_hear IN (
+            'Facebook', 'Instagram', 'Ad',
+            'No Response', 'Word of Mouth'
+        )
+        THEN how_hear
+        ELSE 'Other'
+    END AS source,
     count(*) AS num
 FROM results
-GROUP BY how_hear
-ORDER BY how_hear
+GROUP BY source
+ORDER BY source
 ''')
 
         marketingStats = []
