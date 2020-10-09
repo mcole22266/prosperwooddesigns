@@ -76,6 +76,10 @@ _Note: You'll find these options under the ConfigDev and ConfigProd classes_
         - Set this to `True` in order for the app to download all images from the S3 bucket upon initialization. S3 Bucket information is defined by:
             - AWS_PROJECT_BUCKET
             - AWS_PROJECT_BUCKET_IMAGE_DIR
+    - _**AWS_UPLOAD_IMAGES**_
+        - Set this to `True` in order for the app to upload images to S3 as they're added
+    - _**AWS_DELETE_IMAGES**_
+        - Set this to `True` in order for the app to delete images from S3 as they're deleted
 
 ## Developer Information
 

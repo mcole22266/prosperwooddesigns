@@ -75,6 +75,8 @@ class ConfigDev:
 
     # AWS Config
     AWS_DOWNLOAD_IMAGES = False         # download images from S3 bucket
+    AWS_UPLOAD_IMAGES = False           # upload new images to S3 bucket
+    AWS_DELETE_IMAGES = False           # delete images in S3 bucket
 
 
 class ConfigProd:
@@ -107,3 +109,5 @@ class ConfigProd:
 
     # AWS Config
     AWS_DOWNLOAD_IMAGES = True          # download images from S3 bucket
+    AWS_UPLOAD_IMAGES = True            # upload new images to S3 bucket
+    AWS_DELETE_IMAGES = True            # delete images in S3 bucket
