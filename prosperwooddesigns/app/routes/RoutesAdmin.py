@@ -41,15 +41,30 @@ class RoutesAdmin:
             Routes the user to the Admin Page of the website
             '''
 
+            # get Chart Info
+            uniqueVisitors = dbConn.getVisitorsPerMonth(exclude_admins=True)
+            # only show a maximum of 12 months
+            if len(uniqueVisitors) > 12:
+                uniqueVisitors = uniqueVisitors[-12:]
+            uniqueVisitors_labels = []
+            uniqueVisitors_data = []
+            for label, data in uniqueVisitors:
+                uniqueVisitors_labels.append(label)
+                uniqueVisitors_data.append(data)
+
             # get unread messages
             unreadRequests = dbConn.getRequests(unread=True)
             unreadQuestions = dbConn.getQuestions(unread=True)
 
             logger.log('Serving admin page')
-            return render_template('admin/dashboard.html',
-                                   title='Admin: Dashboard',
-                                   unreadRequests=unreadRequests,
-                                   unreadQuestions=unreadQuestions)
+            return render_template(
+                'admin/dashboard.html',
+                title='Admin: Dashboard',
+                uniqueVisitors_labels=uniqueVisitors_labels,
+                uniqueVisitors_data=uniqueVisitors_data,
+                unreadRequests=unreadRequests,
+                unreadQuestions=unreadQuestions
+                )
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():

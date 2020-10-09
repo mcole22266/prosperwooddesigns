@@ -452,12 +452,14 @@ class DbConnector:
         logger.log(f'Created Contact - {contact}')
         return contact
 
-    def getVisitors(self, order_id=False, order_num_visits=False):
+    def getVisitors(self, order_id=False, order_num_visits=False,
+                    exclude_admins=False):
         '''
         Get all Visitor rows
 
         order_id (bool): Set True to "order by id desc"
         order_num_visits (bool): Set True to "order by num_visits desc"
+        exclude_admins (bool): Set True to ignore all admin visitors
         '''
         from app.models import Visitor
         if order_id:
@@ -466,6 +468,8 @@ class DbConnector:
         if order_num_visits:
             # order by num_visits desc
             return Visitor.query.order_by(Visitor.num_visits.desc()).all()
+        if exclude_admins:
+            return Visitor.query.filter_by(is_admin=False).all()
         else:
             return Visitor.query.all()
 
@@ -626,6 +630,37 @@ ORDER BY image.is_featured_img DESC, product.name
 
         # make the new image a featured image
         self.updateImage(image.id, is_featured_img=True)
+
+    def getVisitorsPerMonth(self, exclude_admins=False):
+        '''
+        Returns the number of unique visitors per month
+        '''
+
+        if exclude_admins:
+            where_clause = "WHERE is_admin='f'"
+        else:
+            where_clause = ''
+
+        result = self.db.session.execute(f'''
+SELECT
+    DATE_PART('year', most_recent_visit_date) AS year,
+    DATE_PART('month', most_recent_visit_date) AS month,
+    COUNT(ipaddress) AS num_visitors
+FROM visitor
+{where_clause}
+GROUP BY year, month
+ORDER BY year, month
+''')
+        visitorsPerMonth = []
+        for item in result:
+            # return as a list of tuples
+            year, month, num_visitors = item
+            date = datetime(int(year), int(month), 1).strftime('%b %Y')
+            visitorsPerMonth.append(
+                (date, num_visitors)
+                )
+
+        return visitorsPerMonth
 
 
 class ProductImage:
