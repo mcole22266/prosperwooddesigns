@@ -119,16 +119,18 @@ Just tell me what you'd like on-em if you already have a design in mind.
         self.featured_products.append(cabinet_name)
         cabinet_image = 'cabinet00.jpeg'
         cabinet_description = '''
-Display what you'd like and hide the rest in this stunning cabinet! Goes perfectly
-in the bathroom or even in the kitchen. Or, hang one in your family room as a beautiful decorative
+Display what you'd like and hide the rest in this stunning cabinet!
+Goes perfectly in the bathroom or even in the kitchen. Or, hang one
+in your family room as a beautiful decorative
 and functional piece.
 '''
         # exercise box
         exercise_box_name = 'Exercise Box'
         exercise_box_image = 'exercisebox00.jpeg'
         exercise_box_description = '''
-No home gym is complete without the complete workout tool available today! Sit up, push up, jump up,
-and **step up you game** with this amazing workout tool.
+No home gym is complete without the complete workout tool available today!
+Sit up, push up, jump up, and **step up your game** with
+this amazing workout tool.
 
 It comes in 4 sizes _(Width x Height x Depth)_:
 
