@@ -100,53 +100,75 @@ class Startup:
         self.featured_products.append(cornhole_football_name)
         cornhole_football_image = 'cornhole_football00.jpeg'
         cornhole_football_description = '''
-# Wow!
+### First to throw for 100 yards wins!
 
-This Cornhole Boards isn't just _any_ old Cornole Board.
-**It's got football involved!**
-Choose from a variety of teams:
+Customize them for your favorite NFL, College, or High School Team and be the envy
+of the neighborhood.
 
-- Space Jam
-- [Google](https://google.com)
-- Another Sports Team
-
+Oh, and check out the "Beverage" holders at the top of the goal posts. No more
+spilling your drink on the lawn while you're throwing the winning shot!
 '''
         # cornhole board
         cornhole_name = 'Cornhole Board'
         cornhole_image = 'cornhole00.jpeg'
         cornhole_description = '''
-Custom Cornhole Board Description
+Just tell me what you'd like on-em if you already have a design in mind.
 '''
         # cabinet
         cabinet_name = 'Custom Cabinet'
         self.featured_products.append(cabinet_name)
         cabinet_image = 'cabinet00.jpeg'
         cabinet_description = '''
-Custom-Designed Cabinet Description
+Display what you'd like and hide the rest in this stunning cabinet! Goes perfectly
+in the bathroom or even in the kitchen. Or, hang one in your family room as a beautiful decorative
+and functional piece.
 '''
         # exercise box
         exercise_box_name = 'Exercise Box'
         exercise_box_image = 'exercisebox00.jpeg'
         exercise_box_description = '''
-Exercise Box Description
+No home gym is complete without the complete workout tool available today! Sit up, push up, jump up,
+and **step up you game** with this amazing workout tool.
+
+It comes in 4 sizes _(Width x Height x Depth)_:
+
+- Small - 16x14x12
+- Medium - 20x18x16
+- Large - 24x20x16
+- X-Large - 30x24x20
 '''
         # holiday decor
         holiday_decor_name = 'Customized Holiday Decor Board'
         holidary_decor_image = 'decor_holiday00.jpeg'
         holiday_decor_description = '''
-Custom Holiday Decor Description
+These can be made to fit your size needs and customized in any way you'd like with or without handles
+
+- Holidays
+- Memoralize a Special Event
+- Show off your team, town, or ISD spirit
+- You dream it and I'll build it!
 '''
         # name decor
         name_decor_name = 'Customized Name Decor Board'
         name_decor_image = 'decor_name00.jpeg'
         name_decor_description = '''
-Custom Name Decor Description
+These can be made to fit your size needs and customized in any way you'd like with or without handles
+
+- Holidays
+- Memoralize a Special Event
+- Show off your team, town, or ISD spirit
+- You dream it and I'll build it!
 '''
         # decor
         decor_name = 'Customized Decor Board'
         decor_image = 'decor_board00.jpeg'
         decor_description = '''
-Custom Decor Description
+These can be made to fit your size needs and customized in any way you'd like with or without handles
+
+- Holidays
+- Memoralize a Special Event
+- Show off your team, town, or ISD spirit
+- You dream it and I'll build it!
 '''
         imageDir = '/prosperwooddesigns/app/static/images'
         relimageDir = '../static/images'
