@@ -184,6 +184,8 @@ class Routes:
                 contact_method = request.form['contact_method']
                 description = request.form['description']
                 how_hear = request.form['how_hear']
+                if how_hear == '':
+                    how_hear = 'No Response'
 
                 dbConn.setRequest(
                     email, phone, name, contact_method, description, how_hear
@@ -265,6 +267,8 @@ class Routes:
                 email = request.form['email']
                 content = request.form['content']
                 how_hear = request.form['how_hear']
+                if how_hear == '':
+                    how_hear = 'No Response'
 
                 dbConn.setQuestion(email, name, content, how_hear)
 

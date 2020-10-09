@@ -51,7 +51,9 @@ class RoutesAdmin:
                 totalUniqueVisitors += data
 
             #  Get average visitors per month
-            averageVisitorsPerMonth = totalUniqueVisitors / len(uniqueVisitors)
+            averageVisitorsPerMonth = round(
+                totalUniqueVisitors / len(uniqueVisitors),
+                2)
 
             # Get Data for the Dashboard Graph
             # only show a maximum of 12 months on the Dashboard Graph
@@ -62,6 +64,14 @@ class RoutesAdmin:
             for label, data in uniqueVisitors:
                 uniqueVisitors_labels.append(label)
                 uniqueVisitors_data.append(data)
+
+            # get data for the Dashboard Pie Chart
+            marketingStats = dbConn.getMarketingStats()
+            marketingStats_labels = []
+            marketingStats_data = []
+            for label, data in marketingStats:
+                marketingStats_labels.append(label)
+                marketingStats_data.append(data)
 
             # get total number of products
             products = dbConn.getProducts()
@@ -85,6 +95,8 @@ class RoutesAdmin:
                 numCompletedRequests=numCompletedRequests,
                 uniqueVisitors_labels=uniqueVisitors_labels,
                 uniqueVisitors_data=uniqueVisitors_data,
+                marketingStats_labels=marketingStats_labels,
+                marketingStats_data=marketingStats_data,
                 unreadRequests=unreadRequests,
                 unreadQuestions=unreadQuestions
                 )

@@ -668,6 +668,39 @@ ORDER BY year, month
 
         return visitorsPerMonth
 
+    def getMarketingStats(self):
+        '''
+        Returns the how_hear count from both the Request Form and
+        Question Form
+        '''
+
+        results = self.db.session.execute('''
+WITH
+    results AS (
+        SELECT
+            how_hear
+        FROM request
+        UNION ALL
+        SELECT
+            how_hear
+        FROM question
+    )
+SELECT
+    how_hear,
+    count(*) AS num
+FROM results
+GROUP BY how_hear
+ORDER BY how_hear
+''')
+
+        marketingStats = []
+        for how_hear, num in results:
+            marketingStats.append(
+                (how_hear, num)
+            )
+
+        return marketingStats
+
 
 class ProductImage:
     '''
