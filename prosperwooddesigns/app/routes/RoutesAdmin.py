@@ -41,9 +41,20 @@ class RoutesAdmin:
             Routes the user to the Admin Page of the website
             '''
 
-            # get Chart Info
+            # get Unique Visitors info
             uniqueVisitors = dbConn.getVisitorsPerMonth(exclude_admins=True)
-            # only show a maximum of 12 months
+
+            # Get total visitor count
+            totalUniqueVisitors = 0
+            for label, data in uniqueVisitors:
+                # increments total unique visitors
+                totalUniqueVisitors += data
+
+            #  Get average visitors per month
+            averageVisitorsPerMonth = totalUniqueVisitors / len(uniqueVisitors)
+
+            # Get Data for the Dashboard Graph
+            # only show a maximum of 12 months on the Dashboard Graph
             if len(uniqueVisitors) > 12:
                 uniqueVisitors = uniqueVisitors[-12:]
             uniqueVisitors_labels = []
@@ -51,6 +62,14 @@ class RoutesAdmin:
             for label, data in uniqueVisitors:
                 uniqueVisitors_labels.append(label)
                 uniqueVisitors_data.append(data)
+
+            # get total number of products
+            products = dbConn.getProducts()
+            numProducts = len(products)
+
+            # get number of completed requests
+            completedRequests = dbConn.getRequests(complete=True)
+            numCompletedRequests = len(completedRequests)
 
             # get unread messages
             unreadRequests = dbConn.getRequests(unread=True)
@@ -60,6 +79,10 @@ class RoutesAdmin:
             return render_template(
                 'admin/dashboard.html',
                 title='Admin: Dashboard',
+                totalUniqueVisitors=totalUniqueVisitors,
+                averageVisitorsPerMonth=averageVisitorsPerMonth,
+                numProducts=numProducts,
+                numCompletedRequests=numCompletedRequests,
                 uniqueVisitors_labels=uniqueVisitors_labels,
                 uniqueVisitors_data=uniqueVisitors_data,
                 unreadRequests=unreadRequests,
