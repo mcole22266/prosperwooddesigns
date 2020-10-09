@@ -100,7 +100,16 @@ class Startup:
         self.featured_products.append(cornhole_football_name)
         cornhole_football_image = 'cornhole_football00.jpeg'
         cornhole_football_description = '''
-Custom Cornhole Football Board Description
+# Wow!
+
+This Cornhole Boards isn't just _any_ old Cornole Board.
+**It's got football involved!**
+Choose from a variety of teams:
+
+- Space Jam
+- [Google](https://google.com)
+- Another Sports Team
+
 '''
         # cornhole board
         cornhole_name = 'Cornhole Board'

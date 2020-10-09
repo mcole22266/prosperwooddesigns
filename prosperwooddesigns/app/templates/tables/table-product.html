@@ -10,6 +10,7 @@ Content for the Product Table -->
         <th>id</th>
         <th>name</th>
         <th>description</th>
+        <th>description_html</th>
         <th>is_featured_product</th>
         <th>created_date</th>
     </tr>
@@ -21,6 +22,7 @@ Content for the Product Table -->
             <td>{{ product.id }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product.description[:50] }} {% if product.description|length > 50 %}...{% endif %}</td>
+            <td>{{ product.description_html[:50] }} {% if product.description_html|length > 50 %}...{% endif %}</td>
             <th>{{ product.is_featured_product }}</th>
             <td>{{ product.created_date }}</td>
         </tr>

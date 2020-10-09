@@ -11,6 +11,7 @@ Content for the Layout Table -->
         <th>location</th>
         <th>name</th>
         <th>content</th>
+        <th>content_html</th>
     </tr>
 {% endblock %}
 
@@ -21,6 +22,7 @@ Content for the Layout Table -->
             <td>{{ layout.location }}</td>
             <td>{{ layout.name }}</td>
             <td>{{ layout.content[:50] }} {% if layout.content|length > 50 %}...{% endif %}</td>
+            <td>{{ layout.content_html[:50] }} {% if layout.content_html|length > 50 %}...{% endif %}</td>
         </tr>
     {% endfor %}
 {% endblock %}

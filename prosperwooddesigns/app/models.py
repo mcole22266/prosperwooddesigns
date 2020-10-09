@@ -10,11 +10,13 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from app.extensions.Logger import Logger
+from app.extensions.Helper import Helper
 
 # Instantiate variables
 logger = Logger()
 db = SQLAlchemy()
 loginManager = LoginManager()
+helper = Helper()
 
 
 # User Loader used by flask_login
@@ -184,6 +186,11 @@ class Layout(db.Model):
         unique=False,
         nullable=False
     )
+    content_html = db.Column(
+        db.Text,
+        unique=False,
+        nullable=False
+    )
 
     def __init__(
         self, location, name, content
@@ -191,6 +198,7 @@ class Layout(db.Model):
         self.location = location
         self.name = name
         self.content = content
+        self.content_html = helper.to_html(content)
 
     def __repr__(self):
         return f'Layout: {self.location} - {self.name}'
@@ -215,6 +223,11 @@ class Product(db.Model):
         unique=False,
         nullable=True
     )
+    description_html = db.Column(
+        db.Text,
+        unique=False,
+        nullable=True
+    )
     is_featured_product = db.Column(
         db.Boolean,
         nullable=False
@@ -229,6 +242,7 @@ class Product(db.Model):
                  created_date=datetime.now()):
         self.name = name
         self.description = description
+        self.description_html = helper.to_html(description)
         self.is_featured_product = is_featured_product
         self.created_date = created_date
 
@@ -256,6 +270,11 @@ class Question(db.Model):
         nullable=False
     )
     content = db.Column(
+        db.Text,
+        unique=False,
+        nullable=True
+    )
+    content_html = db.Column(
         db.Text,
         unique=False,
         nullable=True
@@ -288,6 +307,7 @@ class Question(db.Model):
         self.emailaddress = emailaddress
         self.name = name
         self.content = content
+        self.content_html = helper.to_html(content)
         self.how_hear = how_hear
         self.status = status
         self.is_archived = is_archived  # false by default
@@ -331,6 +351,11 @@ class Request(db.Model):
         unique=False,
         nullable=True
     )
+    description_html = db.Column(
+        db.Text,
+        unique=False,
+        nullable=True
+    )
     how_hear = db.Column(
         db.String(80),
         unique=False,
@@ -362,6 +387,7 @@ class Request(db.Model):
         self.name = name
         self.contactmethod = contactmethod
         self.description = description
+        self.description_html = helper.to_html(description)
         self.how_hear = how_hear
         self.status = status
         self.is_archived = is_archived  # False by default
