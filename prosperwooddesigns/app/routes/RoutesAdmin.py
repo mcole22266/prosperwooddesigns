@@ -490,6 +490,18 @@ class RoutesAdmin:
             Routes a user to the Site Management part of the Admin Dashboard
             '''
 
+            # get unique visitors per month
+            visitorsPerMonth = dbConn.getVisitorsPerMonth(exclude_admins=True)
+
+            # total number of unique Visitors and only this month's
+            date = datetime.now().strftime('%b %Y')
+            totalVisitors = 0
+            totalVisitorsThisMonth = 0
+            for label, data in visitorsPerMonth:
+                totalVisitors += data
+                if label == date:
+                    totalVisitorsThisMonth = data
+
             # get unread messages
             unreadRequests = dbConn.getRequests(unread=True)
             unreadQuestions = dbConn.getQuestions(unread=True)
@@ -500,12 +512,16 @@ class RoutesAdmin:
             # get locations for dynamic site rendering
             locations = list(set([layout.location for layout in layouts]))
 
-            return render_template('admin/site-management.html',
-                                   title='Site Management',
-                                   layouts=layouts,
-                                   locations=locations,
-                                   unreadRequests=unreadRequests,
-                                   unreadQuestions=unreadQuestions)
+            return render_template(
+                'admin/site-management.html',
+                title='Site Management',
+                layouts=layouts,
+                locations=locations,
+                totalVisitors=totalVisitors,
+                totalVisitorsThisMonth=totalVisitorsThisMonth,
+                unreadRequests=unreadRequests,
+                unreadQuestions=unreadQuestions
+                )
 
         @app.route('/admin/site-management/update-layout/<layout_id>',
                    methods=['POST'])
