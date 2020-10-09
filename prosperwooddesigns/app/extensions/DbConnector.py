@@ -7,9 +7,11 @@
 from datetime import datetime
 
 from .Logger import Logger
+from app.extensions.Helper import Helper
 
 # Instantiate variables
 logger = Logger()
+helper = Helper()
 
 
 class DbConnector:
@@ -267,6 +269,7 @@ class DbConnector:
             )
         if description:
             product.description = description
+            product.description_html = helper.to_html(description)
             logger.log(
                 f'Updated Product {product.id} description to {description}'
             )
@@ -338,6 +341,7 @@ class DbConnector:
         '''
         layout = self.getLayout(id=id)
         layout.content = content
+        layout.content_html = helper.to_html(content)
         logger.log(
             f'Updated Layout {layout.id} content'
         )
@@ -577,7 +581,8 @@ class DbConnector:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -589,7 +594,8 @@ ORDER BY image.is_featured_img DESC
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -600,7 +606,8 @@ ORDER BY image.is_featured_img DESC, product.name
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -611,7 +618,8 @@ WHERE product.is_featured_product='y'
             # return all product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -622,7 +630,7 @@ ORDER BY image.is_featured_img DESC, product.name
             # return as a list of ProductImage objects
             # (defined in this file)
             productImage = ProductImage(item[0], item[1], item[2], item[3],
-                                        item[4], item[5], item[6])
+                                        item[4], item[5], item[6], item[7])
             productImages.append(productImage)
 
         return productImages
@@ -719,11 +727,13 @@ class ProductImage:
     getJoined_ProductImages. Allow for easier use
     '''
 
-    def __init__(self, id, name, description, is_featured_product,
-                 location, is_featured_img, image_id):
+    def __init__(self, id, name, description, description_html,
+                 is_featured_product, location, is_featured_img,
+                 image_id):
         self.id = id
         self.name = name
         self.description = description
+        self.description_html = description_html
         self.is_featured_product = is_featured_product
         self.location = location
         self.is_featured_img = is_featured_img

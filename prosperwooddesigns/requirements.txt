@@ -22,3 +22,4 @@ boto3==1.14.33              # AWS package
 # Other dependencies
 faker==4.1.1                # used to generate fake data during development
 pytz==2020.1                # used for timezone formatting
+markdown2==2.3.9            # used for converting form input into html
