@@ -46,6 +46,8 @@ class Routes:
                     )
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
 
             # get all featured products
             featuredProducts = dbConn.getJoined_ProductImages(
@@ -75,7 +77,12 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
-            logger.log('Serving index page')
+            # add visitor if they are first time visitors
+            # else update their most_recent_visit_date
+            dbConn.setVisitor(request.remote_addr)
+
+            logger.log(f'Serving index page to {request.remote_addr}')
+
             return render_template('index.html',
                                    title='Home',
                                    featuredProducts=featuredProducts,
@@ -95,6 +102,8 @@ class Routes:
         #     '''
         #     Routes the user to the About Page of the website
         #     '''
+        #     logger.log(f'Serving about page to {request.remote_addr}')
+        #
         #     return render_template('about.html',
         #                            title='About')
 
@@ -103,7 +112,6 @@ class Routes:
             '''
             Routes the user to the Designs Page of the website
             '''
-            logger.log('Serving designs page')
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 featuredImages=True
                 )
@@ -129,6 +137,8 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
+            logger.log(f'Serving designs page to {request.remote_addr}')
+
             return render_template('designs.html',
                                    title='Designs',
                                    joinedProductsImages=joinedProductsImages,
@@ -144,10 +154,13 @@ class Routes:
             '''
             Routes the user to the Product Page of a chosen design
             '''
-            logger.log(f'Serving {product_name} product page')
 
             joinedProductsImages = dbConn.getJoined_ProductImages(
                 name=product_name)
+
+            logger.log(
+                f'Serving {product_name} product page to {request.remote_addr}'
+                )
 
             return render_template('designs_product.html',
                                    title=f'{product_name}',
@@ -171,6 +184,8 @@ class Routes:
                 contact_method = request.form['contact_method']
                 description = request.form['description']
                 how_hear = request.form['how_hear']
+                if how_hear == '':
+                    how_hear = 'No Response'
 
                 dbConn.setRequest(
                     email, phone, name, contact_method, description, how_hear
@@ -179,16 +194,33 @@ class Routes:
                 logger.log('Redirecting to request form success page')
                 return redirect(url_for('requestform_success'))
 
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             try:
                 product = request.args['product']
             except BadRequestKeyError:
                 product = None
 
-            logger.log('Serving request form page')
+            logger.log(f'Serving request form page to {request.remote_addr}')
+
             return render_template('requestform.html',
                                    title='Request Form',
                                    requestform=requestform,
-                                   product=product)
+                                   product=product,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/requestform/success')
         def requestform_success():
@@ -196,9 +228,28 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             request form
             '''
-            logger.log('Serving request form success page')
+
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
+            logger.log(
+                f'Serving request form success page to {request.remote_addr}'
+                )
             return render_template('requestform_success.html',
-                                   title='Request Success')
+                                   title='Request Success',
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/questionform', methods=['GET', 'POST'])
         def questionform():
@@ -216,22 +267,41 @@ class Routes:
                 email = request.form['email']
                 content = request.form['content']
                 how_hear = request.form['how_hear']
+                if how_hear == '':
+                    how_hear = 'No Response'
 
                 dbConn.setQuestion(email, name, content, how_hear)
 
                 logger.log('Redirecting to question form success page')
                 return redirect(url_for('questionform_success'))
 
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+
             try:
                 product = request.args['product']
             except BadRequestKeyError:
                 product = None
 
-            logger.log('Serving question form page')
+            logger.log(f'Serving question form page to {request.remote_addr}')
+
             return render_template('questionform.html',
                                    title='Question Form',
                                    questionform=questionform,
-                                   product=product)
+                                   product=product,
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)
 
         @app.route('/questionform/success')
         def questionform_success():
@@ -239,6 +309,24 @@ class Routes:
             Routes the user to a confirmation page after submitting a
             question form
             '''
-            logger.log('Serving question form success page')
+
+            # get info for contact card
+            contact_card = dbConn.getLayouts('Contact Card')
+            for row in contact_card:
+                if row.name == 'Name':
+                    contact_card_name = row.content
+                elif row.name == 'Phone':
+                    contact_card_phone = row.content
+                elif row.name == 'Email':
+                    contact_card_email = row.content
+                elif row.name == 'Button':
+                    contact_card_button = row.content
+            logger.log(
+                f'Serving question form success page to {request.remote_addr}'
+                )
             return render_template('questionform_success.html',
-                                   title='Question Success')
+                                   title='Question Success',
+                                   contact_card_name=contact_card_name,
+                                   contact_card_phone=contact_card_phone,
+                                   contact_card_email=contact_card_email,
+                                   contact_card_button=contact_card_button)

@@ -42,6 +42,10 @@ Custom CSS to overwrite any bootstrap CSS */
   letter-spacing: -.05rem;
 }
 
+.rtl ul {
+    direction: rtl;
+}
+
 .featured-more-designs-button {
     margin-top: 3rem;
 }
@@ -216,4 +220,8 @@ body {
 
 .container-info-card .card {
     margin-top: 1rem;
+}
+
+.admin-alerts-dropdown:hover {
+    background-color: rgb(199, 199, 199);
 }

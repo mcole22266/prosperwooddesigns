@@ -96,7 +96,7 @@ class MockData:
             ])
             description = self.fakeDescription()
             how_hear = self.fake.random_element([
-                'Facebook', 'Instagram', 'Ad', 'Word of Mouth'
+                'Facebook', 'Instagram', 'Ad', 'Word of Mouth', 'No Response'
             ])
             status = self.fake.random_element([
                 'unread', 'read', 'in progress', 'ready to deliver', 'complete'
@@ -167,7 +167,7 @@ class MockData:
             name = self.fake.name()
             content = self.fakeDescription()
             how_hear = self.fake.random_element([
-                'Facebook', 'Instagram', 'Ad', 'Word of Mouth'
+                'Facebook', 'Instagram', 'Ad', 'Word of Mouth', 'No Response'
             ])
             status = self.fake.random_element([
                 'unread', 'read',
@@ -191,6 +191,34 @@ class MockData:
             phonenumber = self.fake.phone_number()
             emailaddress = self.fake.email()
 
-            self.dbConn.setContact(name, phonenumber, emailaddress)
+            self.dbConn.setContact(name, phonenumber, emailaddress,
+                                   commit=False)
+
+        db.session.commit()
+
+    def loadVisitor(self, db, num_rows=50):
+        '''
+        Load Visitor table with fake data
+        '''
+
+        for i in range(num_rows):
+            # fake some data
+            ipaddress = self.fake.ipv4_private()
+            # fake 2 dates -- min is first visit, max is most recent visit
+            date1 = self.fakeDate()
+            date2 = self.fakeDate()
+            first_visit_date = min([date1, date2])
+            most_recent_visit_date = max([date1, date2])
+            num_visits = self.fake.random.randint(2, 50)
+
+            # some will be one-time visitors
+            if self.fake.random.random() <= 0.4:
+                most_recent_visit_date = first_visit_date
+                num_visits = 1
+
+            self.dbConn.setVisitor(
+                ipaddress, first_visit_date, most_recent_visit_date,
+                num_visits, commit=False
+                )
 
         db.session.commit()

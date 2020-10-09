@@ -7,11 +7,15 @@
 
 from datetime import datetime
 
+from markdown2 import Markdown
+
 
 class Helper:
     '''
     Helper Class that provides minor helper methods
     '''
+
+    markdowner = Markdown()
 
     def getGreeting(self):
         '''
@@ -64,3 +68,9 @@ class Helper:
         '''
         for idx in range(0, len(thelist), maxNumElements):
             yield thelist[idx:idx + maxNumElements]
+
+    def to_html(self, string):
+        '''
+        Converts markdown strings to HTML
+        '''
+        return self.markdowner.convert(string)

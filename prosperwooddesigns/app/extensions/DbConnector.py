@@ -7,9 +7,11 @@
 from datetime import datetime
 
 from .Logger import Logger
+from app.extensions.Helper import Helper
 
 # Instantiate variables
 logger = Logger()
+helper = Helper()
 
 
 class DbConnector:
@@ -65,16 +67,27 @@ class DbConnector:
         logger.log(f'Created admin - {admin}')
         return admin
 
-    def getRequests(self, order_id=False):
+    def getRequests(self, order_id=False, unread=False,
+                    complete=False):
         '''
         Get all Request rows from the database.
 
         order_id (bool): Set True to "order by id desc"
+        unread (bool): Set True to only return unread requests
+        complete (bool): Set True to only return completed requests
         '''
         from app.models import Request
         if order_id:
             # order by id desc
             return Request.query.order_by(Request.id.desc())
+        elif unread:
+            return Request.query.filter_by(
+                status='unread', is_archived=False
+                ).all()
+        elif complete:
+            return Request.query.filter_by(
+                status='complete'
+            ).all()
         else:
             return Request.query.all()
 
@@ -256,6 +269,7 @@ class DbConnector:
             )
         if description:
             product.description = description
+            product.description_html = helper.to_html(description)
             logger.log(
                 f'Updated Product {product.id} description to {description}'
             )
@@ -327,22 +341,28 @@ class DbConnector:
         '''
         layout = self.getLayout(id=id)
         layout.content = content
+        layout.content_html = helper.to_html(content)
         logger.log(
             f'Updated Layout {layout.id} content'
         )
         if commit:
             self.db.session.commit()
 
-    def getQuestions(self, order_id=False):
+    def getQuestions(self, order_id=False, unread=False):
         '''
         Get all Question rows
 
         order_id (bool): Set True to "order by id desc"
+        unread (bool): Set True to get only unread questions
         '''
         from app.models import Question
         if order_id:
             # order by id desc
             return Question.query.order_by(Question.id.desc())
+        elif unread:
+            return Question.query.filter_by(
+                status='unread', is_archived=False
+                ).all()
         else:
             return Question.query.all()
 
@@ -442,6 +462,80 @@ class DbConnector:
         logger.log(f'Created Contact - {contact}')
         return contact
 
+    def deleteContact(self, id, commit=True):
+        '''
+        Delete a Contact from the DB
+        '''
+        contact = self.getContact(id=id)
+
+        self.db.session.delete(contact)
+        logger.log(f'Deleted Contact - {contact}')
+        if commit:
+            self.db.session.commit()
+
+    def getVisitors(self, order_id=False, order_num_visits=False,
+                    exclude_admins=False):
+        '''
+        Get all Visitor rows
+
+        order_id (bool): Set True to "order by id desc"
+        order_num_visits (bool): Set True to "order by num_visits desc"
+        exclude_admins (bool): Set True to ignore all admin visitors
+        '''
+        from app.models import Visitor
+        if order_id:
+            # order by id desc
+            return Visitor.query.order_by(Visitor.id.desc()).all()
+        if order_num_visits:
+            # order by num_visits desc
+            return Visitor.query.order_by(Visitor.num_visits.desc()).all()
+        if exclude_admins:
+            return Visitor.query.filter_by(is_admin=False).all()
+        else:
+            return Visitor.query.all()
+
+    def getVisitor(self, id=False, ipaddress=False):
+        '''
+        Get a single Visitor row based on the following parameter:
+
+        id (int): Set to get row by id
+        '''
+        from app.models import Visitor
+        if id:
+            return Visitor.query.filter_by(id=id).first()
+        if ipaddress:
+            return Visitor.query.filter_by(ipaddress=ipaddress).first()
+
+    def setVisitor(self, ipaddress, first_visit_date=datetime.now(),
+                   most_recent_visit_date=datetime.now(), num_visits=1,
+                   is_admin=False, commit=True):
+        '''
+        Create a Visitor row
+        '''
+        from app.models import Visitor
+
+        # if visitor already exists, update most_recent_visit_date and
+        # num_visits
+        visitor = self.getVisitor(ipaddress=ipaddress)
+        if visitor:
+            visitor.most_recent_visit_date = datetime.now()
+            visitor.num_visits += 1
+            # change don't touch is_admin if it is True
+            if not visitor.is_admin:
+                visitor.is_admin = is_admin
+        # if visitor does not exist, create a new one
+        else:
+            visitor = Visitor(
+                ipaddress, first_visit_date, most_recent_visit_date,
+                num_visits, is_admin
+                )
+            self.db.session.add(visitor)
+
+        if commit:
+            self.db.session.commit()
+        logger.log(f'Created Visitor - {visitor}')
+        return visitor
+
     def setJoined_ProductImage(self, product_name, product_description,
                                image_location, is_featured_product=False,
                                is_featured_img=False,
@@ -487,7 +581,8 @@ class DbConnector:
             # return only product/images where product_name=name
             result = self.db.session.execute(f'''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -499,7 +594,8 @@ ORDER BY image.is_featured_img DESC
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -510,7 +606,8 @@ ORDER BY image.is_featured_img DESC, product.name
             # return only featured product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -521,7 +618,8 @@ WHERE product.is_featured_product='y'
             # return all product/images
             result = self.db.session.execute('''
 SELECT DISTINCT
-    product.id, product.name, product.description, product.is_featured_product,
+    product.id, product.name, product.description, product.description_html,
+    product.is_featured_product,
     image.location, image.is_featured_img, image.id AS image_id
 FROM product
     JOIN image ON image.product_id=product.id
@@ -532,7 +630,7 @@ ORDER BY image.is_featured_img DESC, product.name
             # return as a list of ProductImage objects
             # (defined in this file)
             productImage = ProductImage(item[0], item[1], item[2], item[3],
-                                        item[4], item[5], item[6])
+                                        item[4], item[5], item[6], item[7])
             productImages.append(productImage)
 
         return productImages
@@ -558,6 +656,70 @@ ORDER BY image.is_featured_img DESC, product.name
         # make the new image a featured image
         self.updateImage(image.id, is_featured_img=True)
 
+    def getVisitorsPerMonth(self, exclude_admins=False):
+        '''
+        Returns the number of unique visitors per month
+        '''
+
+        if exclude_admins:
+            where_clause = "WHERE is_admin='f'"
+        else:
+            where_clause = ''
+
+        result = self.db.session.execute(f'''
+SELECT
+    DATE_PART('year', most_recent_visit_date) AS year,
+    DATE_PART('month', most_recent_visit_date) AS month,
+    COUNT(ipaddress) AS num_visitors
+FROM visitor
+{where_clause}
+GROUP BY year, month
+ORDER BY year, month
+''')
+        visitorsPerMonth = []
+        for item in result:
+            # return as a list of tuples
+            year, month, num_visitors = item
+            date = datetime(int(year), int(month), 1).strftime('%b %Y')
+            visitorsPerMonth.append(
+                (date, num_visitors)
+                )
+
+        return visitorsPerMonth
+
+    def getMarketingStats(self):
+        '''
+        Returns the how_hear count from both the Request Form and
+        Question Form
+        '''
+
+        results = self.db.session.execute('''
+WITH
+    results AS (
+        SELECT
+            how_hear
+        FROM request
+        UNION ALL
+        SELECT
+            how_hear
+        FROM question
+    )
+SELECT
+    how_hear,
+    count(*) AS num
+FROM results
+GROUP BY how_hear
+ORDER BY how_hear
+''')
+
+        marketingStats = []
+        for how_hear, num in results:
+            marketingStats.append(
+                (how_hear, num)
+            )
+
+        return marketingStats
+
 
 class ProductImage:
     '''
@@ -565,11 +727,13 @@ class ProductImage:
     getJoined_ProductImages. Allow for easier use
     '''
 
-    def __init__(self, id, name, description, is_featured_product,
-                 location, is_featured_img, image_id):
+    def __init__(self, id, name, description, description_html,
+                 is_featured_product, location, is_featured_img,
+                 image_id):
         self.id = id
         self.name = name
         self.description = description
+        self.description_html = description_html
         self.is_featured_product = is_featured_product
         self.location = location
         self.is_featured_img = is_featured_img

@@ -40,9 +40,66 @@ class RoutesAdmin:
             '''
             Routes the user to the Admin Page of the website
             '''
+
+            # get Unique Visitors info
+            uniqueVisitors = dbConn.getVisitorsPerMonth(exclude_admins=True)
+
+            # Get total visitor count
+            totalUniqueVisitors = 0
+            for label, data in uniqueVisitors:
+                # increments total unique visitors
+                totalUniqueVisitors += data
+
+            #  Get average visitors per month
+            averageVisitorsPerMonth = round(
+                totalUniqueVisitors / len(uniqueVisitors),
+                2)
+
+            # Get Data for the Dashboard Graph
+            # only show a maximum of 12 months on the Dashboard Graph
+            if len(uniqueVisitors) > 12:
+                uniqueVisitors = uniqueVisitors[-12:]
+            uniqueVisitors_labels = []
+            uniqueVisitors_data = []
+            for label, data in uniqueVisitors:
+                uniqueVisitors_labels.append(label)
+                uniqueVisitors_data.append(data)
+
+            # get data for the Dashboard Pie Chart
+            marketingStats = dbConn.getMarketingStats()
+            marketingStats_labels = []
+            marketingStats_data = []
+            for label, data in marketingStats:
+                marketingStats_labels.append(label)
+                marketingStats_data.append(data)
+
+            # get total number of products
+            products = dbConn.getProducts()
+            numProducts = len(products)
+
+            # get number of completed requests
+            completedRequests = dbConn.getRequests(complete=True)
+            numCompletedRequests = len(completedRequests)
+
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
+
             logger.log('Serving admin page')
-            return render_template('admin/dashboard.html',
-                                   title='Admin: Dashboard')
+            return render_template(
+                'admin/dashboard.html',
+                title='Admin: Dashboard',
+                totalUniqueVisitors=totalUniqueVisitors,
+                averageVisitorsPerMonth=averageVisitorsPerMonth,
+                numProducts=numProducts,
+                numCompletedRequests=numCompletedRequests,
+                uniqueVisitors_labels=uniqueVisitors_labels,
+                uniqueVisitors_data=uniqueVisitors_data,
+                marketingStats_labels=marketingStats_labels,
+                marketingStats_data=marketingStats_data,
+                unreadRequests=unreadRequests,
+                unreadQuestions=unreadQuestions
+                )
 
         @app.route('/admin/log-in', methods=['GET', 'POST'])
         def admin_login():
@@ -67,6 +124,8 @@ class RoutesAdmin:
                 logger.log(f'Logging in {current_user}')
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
                 next = request.args.get('next')  # get next-page location
 
                 logger.log('Redirecting to next or admin page')
@@ -102,6 +161,8 @@ class RoutesAdmin:
                 # go ahead and log user in
                 login_user(admin)
                 logger.log(f'{admin.username} logged in')
+                # set Visitor.is_admin to True
+                dbConn.setVisitor(request.remote_addr, is_admin=True)
 
                 logger.log('Redirecting to admin page')
                 return redirect(url_for('admin'))
@@ -184,15 +245,28 @@ class RoutesAdmin:
             logger.log('Redirecting to admin page')
             return redirect(url_for('admin_project_management_questions'))
 
+        # removed contacts
+        # @app.route('/admin/contact/delete/<contact_id>', methods=['POST'])
+        # @login_required
+        # def admin_contact_delete_contact_id(contact_id):
+        #     '''
+        #     Delete a contact based on modal input
+        #     '''
+        #     dbConn.deleteContact(contact_id)
+
+        #     logger.log('Redirecting to admin page')
+        #     return redirect(url_for('admin_project_management_contacts'))
+
         @app.route('/admin/data')
         @login_required
         def data():
             '''
             Routes the user to the Data Page of the website
             '''
-            from app.extensions.DbConnector import DbConnector
 
-            dbConn = DbConnector()
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
 
             # get data for front-end presentation
             admins = dbConn.getAdmins()
@@ -202,6 +276,7 @@ class RoutesAdmin:
             questions = dbConn.getQuestions()
             contacts = dbConn.getContacts()
             products = dbConn.getProducts()
+            visitors = dbConn.getVisitors()
 
             logger.log('Serving admin data page')
             return render_template('admin/data.html',
@@ -212,7 +287,10 @@ class RoutesAdmin:
                                    layouts=layouts,
                                    questions=questions,
                                    contacts=contacts,
-                                   products=products)
+                                   products=products,
+                                   visitors=visitors,
+                                   unreadRequests=unreadRequests,
+                                   unreadQuestions=unreadQuestions)
 
         @app.route('/admin/project-management/requests')
         @login_required
@@ -220,13 +298,20 @@ class RoutesAdmin:
             '''
             Routes the user to the Requests Management page of the website
             '''
+
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
+
             # get data to be used in page
             requests = dbConn.getRequests(order_id=True)
 
             logger.log('Serving Project Management page')
             return render_template('admin/project-management-requests.html',
                                    title='Admin: Project Management',
-                                   requests=requests)
+                                   requests=requests,
+                                   unreadRequests=unreadRequests,
+                                   unreadQuestions=unreadQuestions)
 
         @app.route('/admin/project-management/questions')
         @login_required
@@ -234,27 +319,42 @@ class RoutesAdmin:
             '''
             Routes the user to the Questions Management page of the website
             '''
+
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
+
             # get data to be used in page
             questions = dbConn.getQuestions(order_id=True)
 
             logger.log('Serving Project Management page')
             return render_template('admin/project-management-questions.html',
                                    title='Admin: Project Management',
-                                   questions=questions)
+                                   questions=questions,
+                                   unreadRequests=unreadRequests,
+                                   unreadQuestions=unreadQuestions)
 
-        @app.route('/admin/project-management/contacts')
-        @login_required
-        def admin_project_management_contacts():
-            '''
-            Routes the user to the Contacts Management page of the website
-            '''
-            # get data to be used in page
-            contacts = dbConn.getContacts(order_id=True)
+        # removed contacts
+        # @app.route('/admin/project-management/contacts')
+        # @login_required
+        # def admin_project_management_contacts():
+        #     '''
+        #     Routes the user to the Contacts Management page of the website
+        #     '''
 
-            logger.log('Serving Project Management page')
-            return render_template('admin/project-management-contacts.html',
-                                   title='Admin: Project Management',
-                                   contacts=contacts)
+        #     # get unread messages
+        #     unreadRequests = dbConn.getRequests(unread=True)
+        #     unreadQuestions = dbConn.getQuestions(unread=True)
+
+        #     # get data to be used in page
+        #     contacts = dbConn.getContacts(order_id=True)
+
+        #     logger.log('Serving Project Management page')
+        #     return render_template('admin/project-management-contacts.html',
+        #                            title='Admin: Project Management',
+        #                            contacts=contacts,
+        #                            unreadRequests=unreadRequests,
+        #                            unreadQuestions=unreadQuestions)
 
         @app.route('/admin/product-management')
         @login_required
@@ -262,6 +362,11 @@ class RoutesAdmin:
             '''
             Routes the user to the Admin Product Management page of the website
             '''
+
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
+
             # get data to be used in page
             productsImages = dbConn.getJoined_ProductImages()
             featuredProductsImages = dbConn.getJoined_ProductImages(
@@ -275,7 +380,9 @@ class RoutesAdmin:
                 title='Admin: Product Management',
                 productsImages=productsImages,
                 featuredProductsImages=featuredProductsImages,
-                productsFeaturedImages=productsFeaturedImages
+                productsFeaturedImages=productsFeaturedImages,
+                unreadRequests=unreadRequests,
+                unreadQuestions=unreadQuestions
                 )
 
         @app.route('/admin/product-management/update/<product_id>',
@@ -408,16 +515,38 @@ class RoutesAdmin:
             Routes a user to the Site Management part of the Admin Dashboard
             '''
 
+            # get unique visitors per month
+            visitorsPerMonth = dbConn.getVisitorsPerMonth(exclude_admins=True)
+
+            # total number of unique Visitors and only this month's
+            date = datetime.now().strftime('%b %Y')
+            totalVisitors = 0
+            totalVisitorsThisMonth = 0
+            for label, data in visitorsPerMonth:
+                totalVisitors += data
+                if label == date:
+                    totalVisitorsThisMonth = data
+
+            # get unread messages
+            unreadRequests = dbConn.getRequests(unread=True)
+            unreadQuestions = dbConn.getQuestions(unread=True)
+
             # get layout information
             layouts = dbConn.getLayouts(order_id=True)
 
             # get locations for dynamic site rendering
             locations = list(set([layout.location for layout in layouts]))
 
-            return render_template('admin/site-management.html',
-                                   title='Site Management',
-                                   layouts=layouts,
-                                   locations=locations)
+            return render_template(
+                'admin/site-management.html',
+                title='Site Management',
+                layouts=layouts,
+                locations=locations,
+                totalVisitors=totalVisitors,
+                totalVisitorsThisMonth=totalVisitorsThisMonth,
+                unreadRequests=unreadRequests,
+                unreadQuestions=unreadQuestions
+                )
 
         @app.route('/admin/site-management/update-layout/<layout_id>',
                    methods=['POST'])
