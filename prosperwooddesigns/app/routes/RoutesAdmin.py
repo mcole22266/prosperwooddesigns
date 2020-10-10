@@ -53,9 +53,12 @@ class RoutesAdmin:
                 totalUniqueVisitors += data
 
             #  Get average visitors per month
-            averageVisitorsPerMonth = round(
-                totalUniqueVisitors / len(uniqueVisitors),
-                2)
+            try:
+                averageVisitorsPerMonth = round(
+                    totalUniqueVisitors / len(uniqueVisitors),
+                    2)
+            except ZeroDivisionError:
+                averageVisitorsPerMonth = 0
 
             # Get Data for the Dashboard Graph
             # only show a maximum of 12 months on the Dashboard Graph
@@ -127,7 +130,7 @@ class RoutesAdmin:
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
                 # set Visitor.is_admin to True
-                dbConn.setVisitor(request.remote_addr, is_admin=True)
+                dbConn.setVisitor(helper.getIP(request), is_admin=True)
                 next = request.args.get('next')  # get next-page location
 
                 logger.log('Redirecting to next or admin page')
@@ -164,7 +167,7 @@ class RoutesAdmin:
                 login_user(admin)
                 logger.log(f'{admin.username} logged in')
                 # set Visitor.is_admin to True
-                dbConn.setVisitor(request.remote_addr, is_admin=True)
+                dbConn.setVisitor(helper.getIP(request), is_admin=True)
 
                 logger.log('Redirecting to admin page')
                 return redirect(url_for('admin'))

@@ -47,7 +47,7 @@ class Routes:
                 login_user(admin)
                 logger.log(f'Logged in {current_user}')
                 # set Visitor.is_admin to True
-                dbConn.setVisitor(request.remote_addr, is_admin=True)
+                dbConn.setVisitor(helper.getIP(request), is_admin=True)
 
             # get all featured products
             featuredProducts = dbConn.getJoined_ProductImages(
@@ -79,9 +79,9 @@ class Routes:
 
             # add visitor if they are first time visitors
             # else update their most_recent_visit_date
-            dbConn.setVisitor(request.remote_addr)
+            dbConn.setVisitor(helper.getIP(request))
 
-            logger.log(f'Serving index page to {request.remote_addr}')
+            logger.log(f'Serving index page to {helper.getIP(request)}')
 
             return render_template('index.html',
                                    title='Home',
@@ -102,7 +102,7 @@ class Routes:
         #     '''
         #     Routes the user to the About Page of the website
         #     '''
-        #     logger.log(f'Serving about page to {request.remote_addr}')
+        #     logger.log(f'Serving about page to {helper.getIP(request)}')
         #
         #     return render_template('about.html',
         #                            title='About')
@@ -137,7 +137,7 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
 
-            logger.log(f'Serving designs page to {request.remote_addr}')
+            logger.log(f'Serving designs page to {helper.getIP(request)}')
 
             return render_template('designs.html',
                                    title='Designs',
@@ -170,7 +170,7 @@ class Routes:
                 name=product_name)
 
             logger.log(
-                f'Serving {product_name} product page to {request.remote_addr}'
+                f'Serving {product_name} product page to {helper.getIP(request)}'
                 )
 
             return render_template('designs_product.html',
@@ -226,7 +226,7 @@ class Routes:
             except BadRequestKeyError:
                 product = None
 
-            logger.log(f'Serving request form page to {request.remote_addr}')
+            logger.log(f'Serving request form page to {helper.getIP(request)}')
 
             return render_template('requestform.html',
                                    title='Request Form',
@@ -257,7 +257,7 @@ class Routes:
                     contact_card_button = row.content
 
             logger.log(
-                f'Serving request form success page to {request.remote_addr}'
+                f'Serving request form success page to {helper.getIP(request)}'
                 )
             return render_template('requestform_success.html',
                                    title='Request Success',
@@ -307,7 +307,7 @@ class Routes:
             except BadRequestKeyError:
                 product = None
 
-            logger.log(f'Serving question form page to {request.remote_addr}')
+            logger.log(f'Serving question form page to {helper.getIP(request)}')
 
             return render_template('questionform.html',
                                    title='Question Form',
@@ -337,7 +337,7 @@ class Routes:
                 elif row.name == 'Button':
                     contact_card_button = row.content
             logger.log(
-                f'Serving question form success page to {request.remote_addr}'
+                f'Serving question form success page to {helper.getIP(request)}'
                 )
             return render_template('questionform_success.html',
                                    title='Question Success',

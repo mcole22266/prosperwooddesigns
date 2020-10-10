@@ -74,3 +74,14 @@ class Helper:
         Converts markdown strings to HTML
         '''
         return self.markdowner.convert(string)
+    
+    def getIP(self, request):
+        '''
+        Gets IP of user whether there is a proxy or not
+        '''
+        if request.headers.getlist("X-Forwarded-For"):
+            ip = request.headers.getlist("X-Forwarded-For")[0]
+        else:
+            ip = request.remote_addr
+
+        return ip
