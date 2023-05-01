@@ -6,7 +6,7 @@
 
 boto3==1.14.33              # AWS package
 
-flask==1.1.2                # base flask package
+flask==2.3.2                # base flask package
 flask_wtf==0.14.3           # flask forms for simplifying forms
 wtforms[email]==2.3.3       # email_validator used in flask forms
 flask_bcrypt==0.7.1         # used for encryption
